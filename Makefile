@@ -6,11 +6,11 @@
 #    By: cattouma <cattouma@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/06/02 16:30:48 by cattouma          #+#    #+#              #
-#    Updated: 2016/08/05 00:05:07 by cattouma         ###   ########.fr        #
+#    Updated: 2016/08/05 01:32:51 by cattouma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME 		= ft_printf
+NAME 		= libftprintf.a
 CC 			= clang
 LIB 		= libft/libft.a
 FLAGS 		= -Wall -Werror -Wextra
@@ -18,6 +18,7 @@ INCLUDES 	= -I include -I libft/includes
 INC			= include/ft_printf.h include/dict.h
 OBJDIR		= obj
 OBJS 		= $(OBJDIR)/ft_printf.o\
+
 
 .PHONY: all clean fclean re
 
