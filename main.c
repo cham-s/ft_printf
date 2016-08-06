@@ -5,11 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: cattouma <cattouma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/08/03 22:55:25 by cattouma          #+#    #+#             */
-/*   Updated: 2016/08/03 22:59:32 by cattouma         ###   ########.fr       */
+/*   Created: 2016/08/05 22:44:46 by cattouma          #+#    #+#             */
+/*   Updated: 2016/08/06 03:14:13 by cattouma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_printf.h"
+#include "libft.h"
+
 int main(int ac, char **av)
 {
+	ft_putnbr(ft_printf("hello"));
 }

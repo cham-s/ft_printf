@@ -6,12 +6,15 @@
 /*   By: cattouma <cattouma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/03 22:45:45 by cattouma          #+#    #+#             */
-/*   Updated: 2016/08/03 22:46:13 by cattouma         ###   ########.fr       */
+/*   Updated: 2016/08/06 03:07:39 by cattouma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF
 # define FT_PRINTF
 
+# include "libft.h"
+
+int		ft_printf(const char *format, ...);
 
 #endif

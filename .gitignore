@@ -33,6 +33,6 @@
 *.su
 
 # binary name
-ft_printfi.a
+libftprintf.a
 
 .nfs*

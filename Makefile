@@ -6,7 +6,7 @@
 #    By: cattouma <cattouma@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/06/02 16:30:48 by cattouma          #+#    #+#              #
-#    Updated: 2016/08/05 01:32:51 by cattouma         ###   ########.fr        #
+#    Updated: 2016/08/06 04:21:21 by cattouma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,17 +17,20 @@ FLAGS 		= -Wall -Werror -Wextra
 INCLUDES 	= -I include -I libft/includes
 INC			= include/ft_printf.h include/dict.h
 OBJDIR		= obj
+AR			= ar r
 OBJS 		= $(OBJDIR)/ft_printf.o\
 
 
 .PHONY: all clean fclean re
 
-VPATH = src/ft_printf:src/cd:src/dict
+VPATH = src/ft_printf:src/dict
 
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIB)
-	$(CC) $(FLAGS) $(INCLUDES) $(OBJS) $(LIB) -o $(NAME)
+	$(AR) $(LIB) $(OBJS)
+	mv $(LIB) .
+	mv libft.a $(NAME)
 
 $(LIB):
 	make -C libft/
