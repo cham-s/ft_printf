@@ -13,7 +13,7 @@
 #include "ft_printf.h"
 #include "libft.h"
 
-int main(int ac, char **av)
+int main(void)
 {
 	ft_putnbr(ft_printf("hello"));
 }

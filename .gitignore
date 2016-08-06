@@ -34,5 +34,6 @@
 
 # binary name
 libftprintf.a
+ft_printf
 
 .nfs*

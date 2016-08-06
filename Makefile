@@ -47,3 +47,6 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
+	
+test:
+	gcc -Wall -Werror -Wextra main.c libftprintf.a -I include -I libft/includes -o ft_printf
