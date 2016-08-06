@@ -6,7 +6,7 @@
 #    By: cattouma <cattouma@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/06/02 16:30:48 by cattouma          #+#    #+#              #
-#    Updated: 2016/08/06 04:21:21 by cattouma         ###   ########.fr        #
+#    Updated: 2016/08/07 01:19:04 by cattouma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,13 +28,11 @@ VPATH = src/ft_printf:src/dict
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIB)
+$(NAME): $(OBJS)
+	make -C libft/
 	$(AR) $(LIB) $(OBJS)
 	mv $(LIB) .
 	mv libft.a $(NAME)
-
-$(LIB):
-	make -C libft/
 
 $(OBJDIR)/%.o : %.c $(INC)
 	@mkdir -p $(OBJDIR)
@@ -50,4 +48,4 @@ fclean: clean
 re: fclean all
 	
 test:
-	gcc -Wall -Werror -Wextra main.c libftprintf.a -I include -I libft/includes -o ft_printf
+	gcc main.c libftprintf.a -I include -I libft/includes -o printf

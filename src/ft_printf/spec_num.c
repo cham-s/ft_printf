@@ -1,31 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   spec_num.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cattouma <cattouma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/08/05 22:44:46 by cattouma          #+#    #+#             */
-/*   Updated: 2016/08/07 01:15:02 by cattouma         ###   ########.fr       */
+/*   Created: 2016/08/06 23:14:37 by cattouma          #+#    #+#             */
+/*   Updated: 2016/08/07 01:29:24 by cattouma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-//printf
-#include <stdio.h>
 
-int main(void)
+void	spec_d(va_list pa, int *ret)
 {
-	int n1, n2;
+	int n;
 
-	ft_putendl("====== ft_printf ======");
-	n1 = ft_printf("%s", 0);
-	ft_putstr("\nret: ");
-	ft_putnbr(n1);
-	ft_putendl("");
-	ft_putendl("====== printf ======");
-	n2 = printf("%s", 0);
-	ft_putstr("\nret: ");
-	ft_putnbr(n2);
-	ft_putendl("");
+	n = va_arg(pa, int);
+	ft_putnbr(n);
+	*ret += ft_strlen(ft_itoa(n));
+}
+
+void	spec_s(va_list pa, int *ret)
+{
+	char *s;
+
+	s = va_arg(pa, char*);
+	if (!s)
+	{
+		ft_putstr("(null)");
+		*ret += NULL_LEN;
+		return ;
+	}
+	ft_putstr(s);
+	*ret += ft_strlen(s);
 }
