@@ -30,11 +30,12 @@ int	ft_printf(const char *format, ...)
 
 	while (*cur_arg)
 	{
+		int v_int = va_arg(pa, int);
 		if (*cur_arg == '%')
 		{
 			cur_arg++;
 			if (*cur_arg == 'd')
-				spec_d(va_arg(pa, int), &ret);
+				spec_d(&v_int, &ret);
 		}
 		ft_putchar(*cur_arg);
 		++cur_arg;

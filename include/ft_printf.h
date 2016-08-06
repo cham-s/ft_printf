@@ -25,6 +25,7 @@ typedef struct	s_functs_spec
 }				t_functs_spec;
 
 int		ft_printf(const char *format, ...);
-void	spec_d(int n, int *ret);
+void	spec_d(void *p, int *ret);
+void	spec_s(void *p, int *ret);
 
 #endif
