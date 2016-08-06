@@ -16,6 +16,6 @@
 
 int main(void)
 {
-	ft_printf("hello, %d\n", 5);
-	printf("hello, %d\n", 5);
+	ft_printf("hello, %s\n", "world");
+	printf("hello, %s\n", "world");
 }

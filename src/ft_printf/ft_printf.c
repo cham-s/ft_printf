@@ -30,12 +30,20 @@ int	ft_printf(const char *format, ...)
 
 	while (*cur_arg)
 	{
-		int v_int = va_arg(pa, int);
 		if (*cur_arg == '%')
 		{
-			cur_arg++;
-			if (*cur_arg == 'd')
-				spec_d(&v_int, &ret);
+			++cur_arg;
+			//int vint = va_arg(pa, int);
+			char *v_str = va_arg(pa, char*);
+			//if (*cur_arg == 'd')
+				//spec_d(&vint, &ret);
+			if (*cur_arg == 's')
+			{
+				ft_putstr(v_str);
+				exit(3);
+				spec_s(v_str, &ret);
+			}
+			++cur_arg;
 		}
 		ft_putchar(*cur_arg);
 		++cur_arg;
