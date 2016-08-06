@@ -11,9 +11,11 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include "libft.h"
+//printf
+#include <stdio.h>
 
 int main(void)
 {
-	ft_putnbr(ft_printf("hello"));
+	ft_printf("hello\n");
+	printf("hello\n");
 }

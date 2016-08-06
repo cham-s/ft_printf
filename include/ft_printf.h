@@ -13,8 +13,18 @@
 #ifndef FT_PRINTF
 # define FT_PRINTF
 
+# include <stdarg.h>
 # include "libft.h"
 
+# define NULL_LEN 6
+
+typedef struct	s_functs_spec
+{
+	char	spec;
+	void	(*f)(int n, int *ret);
+}				t_functs_spec;
+
 int		ft_printf(const char *format, ...);
+void	spec_d(int n, int *ret);
 
 #endif
