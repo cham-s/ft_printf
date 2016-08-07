@@ -38,9 +38,21 @@ void	spec_s(va_list pa, int *ret)
 
 void	spec_p(va_list pa, int *ret)
 {
-	void *n;
+	void				*n;
+	unsigned long long	addr;
+	char				*output;
+	char				*s;
 
 	n = va_arg(pa, void*);
-	ft_putnbr((unsigned long)n);
-	*ret += 3;
+	addr = (unsigned long long)n;
+	output = ft_ltoa_base(addr, 16);
+	s = output;
+	while (*s)
+	{
+		*s = ft_tolower(*s);
+		s++;
+	}
+	ft_putstr("0x");
+	ft_putstr(output);
+	*ret += ft_strlen(output) + 2;
 }

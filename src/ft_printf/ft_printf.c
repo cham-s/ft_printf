@@ -34,6 +34,8 @@ int	ft_printf(const char *format, ...)
 		if (*cur_arg == '%')
 		{
 			++cur_arg;
+			if (*cur_arg == '%')
+				ft_putchar(*cur_arg);
 			if (*cur_arg == 'd' || *cur_arg == 'i')
 				spec_d(pa, &ret);
 			if (*cur_arg == 's')

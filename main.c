@@ -17,14 +17,15 @@
 int main(void)
 {
 	int n1, n2;
+	char *s = "hello";
 
 	ft_putendl("====== ft_printf ======");
-	n1 = ft_printf("%p", "hhhhhh");
+	n1 = ft_printf("%p", s);
 	ft_putstr("\nret: ");
 	ft_putnbr(n1);
 	ft_putendl("");
 	ft_putendl("====== printf ======");
-	n2 = printf("%s", 0);
+	n2 = printf("%p", s);
 	ft_putstr("\nret: ");
 	ft_putnbr(n2);
 	ft_putendl("");

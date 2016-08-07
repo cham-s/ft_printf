@@ -85,6 +85,8 @@ char				*ft_strnjoin(char const *s1, char const *s2, size_t n);
 char				*ft_strtrim(char const *s);
 char				**ft_strsplit(char const *s, char c);
 char				*ft_itoa(int n);
+char				*ft_itoa_base(int n, int base);
+char				*ft_ltoa_base(long long n, unsigned long long base);
 t_list				*ft_lstnew(void const *content, size_t content_size);
 void				ft_lstdelone(t_list **alst, void (*del)(void*, size_t));
 void				ft_lstdel(t_list **alst, void (*del)(void *, size_t));
