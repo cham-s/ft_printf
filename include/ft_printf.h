@@ -6,7 +6,7 @@
 /*   By: cattouma <cattouma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/03 22:45:45 by cattouma          #+#    #+#             */
-/*   Updated: 2016/08/07 01:25:40 by cattouma         ###   ########.fr       */
+/*   Updated: 2016/08/07 01:33:55 by cattouma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ typedef struct	s_functs_spec
 int		ft_printf(const char *format, ...);
 void	spec_d(va_list pa, int *ret);
 void	spec_s(va_list pa, int *ret);
+void	spec_p(va_list pa, int *ret);
 
 #endif

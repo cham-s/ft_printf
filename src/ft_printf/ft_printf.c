@@ -6,7 +6,7 @@
 /*   By: cattouma <cattouma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/03 22:50:07 by cattouma          #+#    #+#             */
-/*   Updated: 2016/08/07 01:30:33 by cattouma         ###   ########.fr       */
+/*   Updated: 2016/08/07 02:59:57 by cattouma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_printf(const char *format, ...)
 	ret = 0;
 	const char *cur_arg = format;
 
-	if (format == NULL || format == 0)
+	if (!format)
 	{
 		ft_putstr("(null)");
 		return (NULL_LEN);
@@ -34,12 +34,12 @@ int	ft_printf(const char *format, ...)
 		if (*cur_arg == '%')
 		{
 			++cur_arg;
-			if (*cur_arg == 'd')
+			if (*cur_arg == 'd' || *cur_arg == 'i')
 				spec_d(pa, &ret);
 			if (*cur_arg == 's')
-			{
 				spec_s(pa, &ret);
-			}
+			if (*cur_arg == 'p')
+				spec_p(pa, &ret);
 			++cur_arg;
 		}
 		else
