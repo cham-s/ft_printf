@@ -34,14 +34,29 @@ int	ft_printf(const char *format, ...)
 		if (*cur_arg == '%')
 		{
 			++cur_arg;
-			if (*cur_arg == '%')
+			if (!*cur_arg)
+				return (ret);
+			if (*cur_arg == '%' || (*(cur_arg - 1) == ' ' && *cur_arg == '%'))
+			{
 				ft_putchar(*cur_arg);
-			if (*cur_arg == 'd' || *cur_arg == 'i')
+				++ret;
+			}
+			else if (*cur_arg == 'd' || *cur_arg == 'i')
 				spec_d(pa, &ret);
-			if (*cur_arg == 's')
+			else if (*cur_arg == 's')
 				spec_s(pa, &ret);
-			if (*cur_arg == 'p')
+			else if (*cur_arg == 'p')
 				spec_p(pa, &ret);
+			else if (*cur_arg == ' ')
+			{
+				++cur_arg;
+				continue ;
+			}
+			else
+			{
+				ft_putchar(*cur_arg);
+				++ret;
+			}
 			++cur_arg;
 		}
 		else

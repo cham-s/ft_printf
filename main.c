@@ -20,12 +20,12 @@ int main(void)
 	char *s = "hello";
 
 	ft_putendl("====== ft_printf ======");
-	n1 = ft_printf("%p", s);
+	n1 = ft_printf("{% %}");
 	ft_putstr("\nret: ");
 	ft_putnbr(n1);
 	ft_putendl("");
 	ft_putendl("====== printf ======");
-	n2 = printf("%p", s);
+	n2 = printf("{% %}");
 	ft_putstr("\nret: ");
 	ft_putnbr(n2);
 	ft_putendl("");
