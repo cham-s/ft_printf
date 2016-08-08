@@ -6,12 +6,11 @@
 /*   By: cattouma <cattouma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/03 22:50:07 by cattouma          #+#    #+#             */
-/*   Updated: 2016/08/07 02:59:57 by cattouma         ###   ########.fr       */
+/*   Updated: 2016/08/08 03:31:21 by cattouma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
 
 int	ft_printf(const char *format, ...)
 {
@@ -36,7 +35,7 @@ int	ft_printf(const char *format, ...)
 			++cur_arg;
 			if (!*cur_arg)
 				return (ret);
-			if (*cur_arg == '%' || (*(cur_arg - 1) == ' ' && *cur_arg == '%'))
+			if (*cur_arg == '%')
 			{
 				ft_putchar(*cur_arg);
 				++ret;
@@ -50,6 +49,14 @@ int	ft_printf(const char *format, ...)
 			else if (*cur_arg == ' ')
 			{
 				++cur_arg;
+				while (*cur_arg == ' ')
+					++cur_arg;
+				if (*cur_arg)
+				{
+					ft_putchar(*cur_arg);
+					++ret;
+					++cur_arg;
+				}
 				continue ;
 			}
 			else
