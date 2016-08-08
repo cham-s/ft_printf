@@ -21,6 +21,15 @@ void	spec_d(va_list pa, int *ret)
 	*ret += ft_strlen(ft_itoa(n));
 }
 
+void	spec_u(va_list pa, int *ret)
+{
+	unsigned int n;
+
+	n = va_arg(pa, unsigned int);
+	ft_putnbr(n);
+	*ret += ft_strlen(ft_itoa(n));
+}
+
 void	spec_g_d(va_list pa, int *ret)
 {
 	long long n;
@@ -40,6 +49,15 @@ void	spec_c(va_list pa, int *ret)
 }
 
 void	spec_o(va_list pa, int *ret)
+{
+	char *s;
+
+	s = ft_itoa_base(va_arg(pa, unsigned int), 8);
+	ft_putstr(s);
+	*ret += ft_strlen(s);
+}
+
+void	spec_g_o(va_list pa, int *ret)
 {
 	char *s;
 
@@ -82,4 +100,29 @@ void	spec_p(va_list pa, int *ret)
 	ft_putstr("0x");
 	ft_putstr(output);
 	*ret += ft_strlen(output) + 2;
+}
+
+void	spec_x(va_list pa, int *ret)
+{
+	char *s;
+	char *output;
+
+	output = ft_ltoa_base(va_arg(pa, unsigned int), 16);
+	s = output;
+	while (*s)
+	{
+		*s = ft_tolower(*s);
+		s++;
+	}
+	ft_putstr(output);
+	*ret += ft_strlen(output);
+}
+
+void	spec_g_x(va_list pa, int *ret)
+{
+	char *output;
+
+	output = ft_ltoa_base(va_arg(pa, unsigned int), 16);
+	ft_putstr(output);
+	*ret += ft_strlen(output);
 }

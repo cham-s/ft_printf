@@ -31,5 +31,9 @@ void	spec_p(va_list pa, int *ret);
 void	spec_c(va_list pa, int *ret);
 void	spec_g_d(va_list pa, int *ret);
 void	spec_o(va_list pa, int *ret);
+void	spec_g_o(va_list pa, int *ret);
+void	spec_u(va_list pa, int *ret);
+void	spec_x(va_list pa, int *ret);
+void	spec_g_x(va_list pa, int *ret);
 
 #endif

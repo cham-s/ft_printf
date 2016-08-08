@@ -52,6 +52,14 @@ int	ft_printf(const char *format, ...)
 				spec_p(pa, &ret);
 			else if (*cur_arg == 'o')
 				spec_o(pa, &ret);
+			else if (*cur_arg == 'O')
+				spec_g_o(pa, &ret);
+			else if (*cur_arg == 'u')
+				spec_u(pa, &ret);
+			else if (*cur_arg == 'x')
+				spec_x(pa, &ret);
+			else if (*cur_arg == 'X')
+				spec_g_x(pa, &ret);
 			else if (*cur_arg == ' ')
 			{
 				++cur_arg;
