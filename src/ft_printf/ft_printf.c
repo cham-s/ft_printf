@@ -6,7 +6,7 @@
 /*   By: cattouma <cattouma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/03 22:50:07 by cattouma          #+#    #+#             */
-/*   Updated: 2016/08/08 03:31:21 by cattouma         ###   ########.fr       */
+/*   Updated: 2016/08/08 04:14:46 by cattouma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,12 @@ int	ft_printf(const char *format, ...)
 			}
 			else if (*cur_arg == 'd' || *cur_arg == 'i')
 				spec_d(pa, &ret);
+			else if (*cur_arg == 'D')
+				spec_g_d(pa, &ret);
 			else if (*cur_arg == 's')
 				spec_s(pa, &ret);
+			else if (*cur_arg == 'c')
+				spec_c(pa, &ret);
 			else if (*cur_arg == 'p')
 				spec_p(pa, &ret);
 			else if (*cur_arg == ' ')
