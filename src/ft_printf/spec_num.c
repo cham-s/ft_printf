@@ -23,11 +23,11 @@ void	spec_d(va_list pa, int *ret)
 
 void	spec_g_d(va_list pa, int *ret)
 {
-	long n;
+	long long n;
 
-	n = va_arg(pa, long);
+	n = va_arg(pa, long long);
 	ft_putnbr(n);
-	*ret += ft_strlen(ft_ltoa(n));
+	*ret += ft_strlen(ft_ltoa_base(n, 10));
 }
 
 void	spec_c(va_list pa, int *ret)
@@ -37,6 +37,15 @@ void	spec_c(va_list pa, int *ret)
 	c = va_arg(pa, int);
 	ft_putchar(c);
 	*ret += 1;
+}
+
+void	spec_o(va_list pa, int *ret)
+{
+	char *s;
+
+	s = ft_itoa_base(va_arg(pa, unsigned int), 8);
+	ft_putstr(s);
+	*ret += ft_strlen(s);
 }
 
 void	spec_s(va_list pa, int *ret)

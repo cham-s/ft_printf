@@ -50,6 +50,8 @@ int	ft_printf(const char *format, ...)
 				spec_c(pa, &ret);
 			else if (*cur_arg == 'p')
 				spec_p(pa, &ret);
+			else if (*cur_arg == 'o')
+				spec_o(pa, &ret);
 			else if (*cur_arg == ' ')
 			{
 				++cur_arg;
