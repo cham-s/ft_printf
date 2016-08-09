@@ -6,7 +6,7 @@
 /*   By: cattouma <cattouma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/06 23:14:37 by cattouma          #+#    #+#             */
-/*   Updated: 2016/08/08 04:14:13 by cattouma         ###   ########.fr       */
+/*   Updated: 2016/08/09 02:01:20 by cattouma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	spec_g_o(va_list pa, int *ret)
 {
 	char *s;
 
-	s = ft_itoa_base(va_arg(pa, unsigned int), 8);
+	s = ft_ltoa_base(va_arg(pa, unsigned long), 8);
 	ft_putstr(s);
 	*ret += ft_strlen(s);
 }

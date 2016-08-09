@@ -6,7 +6,7 @@
 /*   By: cattouma <cattouma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/05 22:44:46 by cattouma          #+#    #+#             */
-/*   Updated: 2016/08/08 04:05:12 by cattouma         ###   ########.fr       */
+/*   Updated: 2016/08/09 01:40:31 by cattouma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ int main(void)
 	char *s = "hello";
 
 	ft_putendl("====== ft_printf ======");
-	n1 = ft_printf("%o", 42);
+	n1 = ft_printf("%D", LONG_MIN);
 	ft_putstr("\nret: ");
 	ft_putnbr(n1);
 	ft_putendl("");
 	ft_putendl("====== printf ======");
-	n2 = printf("%o", 42);
+	n2 = printf("%D", LONG_MIN);
 	ft_putstr("\nret: ");
 	ft_putnbr(n2);
 	ft_putendl("");

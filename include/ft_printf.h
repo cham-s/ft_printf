@@ -6,7 +6,7 @@
 /*   By: cattouma <cattouma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/03 22:45:45 by cattouma          #+#    #+#             */
-/*   Updated: 2016/08/08 04:14:20 by cattouma         ###   ########.fr       */
+/*   Updated: 2016/08/09 01:41:51 by cattouma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define FT_PRINTF
 
 # include <stdarg.h>
+# include <limits.h>
 # include "libft.h"
 
 # define NULL_LEN 6

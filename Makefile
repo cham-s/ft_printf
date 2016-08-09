@@ -6,7 +6,7 @@
 #    By: cattouma <cattouma@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/06/02 16:30:48 by cattouma          #+#    #+#              #
-#    Updated: 2016/08/07 01:19:04 by cattouma         ###   ########.fr        #
+#    Updated: 2016/08/09 01:41:31 by cattouma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,6 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
-	
+
 test:
 	gcc main.c libftprintf.a -I include -I libft/includes -o printf
