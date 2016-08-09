@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa_base.c                                     :+:      :+:    :+:   */
+/*   ft_ultoa_base.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cattouma <cattouma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/08/07 03:07:10 by cattouma          #+#    #+#             */
-/*   Updated: 2016/08/09 02:27:22 by cattouma         ###   ########.fr       */
+/*   Created: 2016/08/09 02:33:16 by cattouma          #+#    #+#             */
+/*   Updated: 2016/08/09 03:08:32 by cattouma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	conv(int n)
+static long long	conv(unsigned long long n)
 {
 	if (n >= 10)
 		return (n - 10 + 'A');
@@ -20,21 +20,12 @@ static int	conv(int n)
 		return (n + '0');
 }
 
-char	*ft_itoa_base(int value, int base)
+char	*ft_ultoa_base(unsigned long long value, unsigned long long base)
 {
-	int i;
-	int is_neg;
-	int tmp;
+	unsigned long long i;
+	unsigned long long tmp;
 	char *s;
 
-	if (value == -2147483648 && base == 10)
-		return ("-2147483648");
-	if (base == 10 && value < 0)
-		is_neg = 1;
-	else
-		is_neg = 0;
-	if (value < 0)
-		value = -value;
 	tmp = value;
 	i = 0;
 	while (tmp >= base)
@@ -42,21 +33,12 @@ char	*ft_itoa_base(int value, int base)
 		tmp /= base;
 		i++;
 	}
-	if (is_neg)
-	{
-		i++;
-		s = (char *)malloc(sizeof(char) * i + 1);
-	}
-	else
-		s = (char *)malloc(sizeof(char) * i + 1);
+	s = (char *)malloc(sizeof(char) * i + 1);
 	s[i + 1] = '\0';
-	while (i >= 0)
+	while (i != 0)
 	{
 		tmp = value % base;
-		if (is_neg && i == 0)
-			s[i] = '-';
-		else
-			s[i] = conv(tmp);
+		s[i] = conv(tmp);
 		value /= base;
 		i--;
 	}

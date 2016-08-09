@@ -6,7 +6,7 @@
 /*   By: cattouma <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/30 15:57:54 by cattouma          #+#    #+#             */
-/*   Updated: 2016/08/09 01:46:15 by cattouma         ###   ########.fr       */
+/*   Updated: 2016/08/09 04:28:29 by cattouma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,11 @@ char				*ft_strnjoin(char const *s1, char const *s2, size_t n);
 char				*ft_strtrim(char const *s);
 char				**ft_strsplit(char const *s, char c);
 char				*ft_itoa(int n);
+char				*ft_uitoa(unsigned int n);
 char				*ft_itoa_base(int n, int base);
+char				*ft_uitoa_base(unsigned int value, unsigned int base);
 char				*ft_ltoa_base(long long n, unsigned long long base);
+char				*ft_ultoa_base(unsigned long long n, unsigned long long base);
 t_list				*ft_lstnew(void const *content, size_t content_size);
 void				ft_lstdelone(t_list **alst, void (*del)(void*, size_t));
 void				ft_lstdel(t_list **alst, void (*del)(void *, size_t));

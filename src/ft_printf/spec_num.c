@@ -6,7 +6,7 @@
 /*   By: cattouma <cattouma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/06 23:14:37 by cattouma          #+#    #+#             */
-/*   Updated: 2016/08/09 02:01:20 by cattouma         ###   ########.fr       */
+/*   Updated: 2016/08/09 04:28:45 by cattouma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	spec_u(va_list pa, int *ret)
 
 	n = va_arg(pa, unsigned int);
 	ft_putnbr(n);
-	*ret += ft_strlen(ft_itoa(n));
+	*ret += ft_strlen(ft_uitoa(n));
 }
 
 void	spec_g_d(va_list pa, int *ret)
