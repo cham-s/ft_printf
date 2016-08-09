@@ -35,8 +35,8 @@ void	spec_g_u(va_list pa, int *ret)
 	unsigned long n;
 
 	n = va_arg(pa, unsigned long);
-	ft_putnbr(n);
-	*ret += ft_strlen(ft_ltoa_base(n, 10));
+	ft_putulong(n);
+	*ret += ft_strlen(ft_ultoa_base(n, 10));
 }
 
 void	spec_g_d(va_list pa, int *ret)
@@ -142,7 +142,7 @@ void	spec_x(va_list pa, int *ret)
 	char *s;
 	char *output;
 
-	output = ft_ltoa_base(va_arg(pa, unsigned int), 16);
+	output = ft_uitoa_base(va_arg(pa, unsigned int), 16);
 	s = output;
 	while (*s)
 	{

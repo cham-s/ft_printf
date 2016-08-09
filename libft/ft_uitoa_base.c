@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-static int	conv(unsigned int n)
+static unsigned int	conv(unsigned int n)
 {
 	if (n >= 10)
 		return (n - 10 + 'A');
@@ -20,27 +20,36 @@ static int	conv(unsigned int n)
 		return (n + '0');
 }
 
-char	*ft_uitoa_base(unsigned int value, unsigned int base)
+static	unsigned int		ft_size(unsigned int n, unsigned int base)
 {
-	unsigned int i;
-	unsigned int tmp;
-	char *s;
+	unsigned int		s;
 
-	tmp = value;
-	i = 0;
-	while (tmp >= base)
+	s = 0;
+	while (n)
 	{
-		tmp /= base;
-		i++;
-	}
-	s = (char *)malloc(sizeof(char) * i + 1);
-	s[i + 1] = '\0';
-	while (i != 0)
-	{
-		tmp = value % base;
-		s[i] = conv(tmp);
-		value /= base;
-		i--;
+		s++;
+		n /= base;
 	}
 	return (s);
+}
+
+char			*ft_uitoa_base(unsigned int n, unsigned int base)
+{
+	unsigned int		s;
+	unsigned int		tmp;
+	char	*new;
+
+	if (n == 0)
+		s = 1;
+	else
+		s = ft_size(n, base);
+	if (!(new = ft_strnew(s)))
+		return (NULL);
+	while (s--)
+	{
+		tmp = n % base;
+		new[s] = conv(tmp);
+		n /= base;
+	}
+	return (new);
 }

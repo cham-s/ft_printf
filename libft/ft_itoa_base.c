@@ -20,45 +20,65 @@ static int	conv(int n)
 		return (n + '0');
 }
 
-char	*ft_itoa_base(int value, int base)
+static	int		ft_size(int n, int base)
 {
-	int i;
-	int is_neg;
-	int tmp;
-	char *s;
+	int		s;
 
-	if (value == -2147483648 && base == 10)
-		return ("-2147483648");
-	if (base == 10 && value < 0)
-		is_neg = 1;
-	else
-		is_neg = 0;
-	if (value < 0)
-		value = -value;
-	tmp = value;
-	i = 0;
-	while (tmp >= base)
+	s = 0;
+	while (n)
 	{
-		tmp /= base;
-		i++;
-	}
-	if (is_neg)
-	{
-		i++;
-		s = (char *)malloc(sizeof(char) * i + 1);
-	}
-	else
-		s = (char *)malloc(sizeof(char) * i + 1);
-	s[i + 1] = '\0';
-	while (i >= 0)
-	{
-		tmp = value % base;
-		if (is_neg && i == 0)
-			s[i] = '-';
-		else
-			s[i] = conv(tmp);
-		value /= base;
-		i--;
+		s++;
+		n /= base;
 	}
 	return (s);
+}
+
+static	char	*ft_ismaxint_or_zero(int n, int base)
+{
+	char	*ret;
+
+	ret = NULL;
+	if (n == -2147483648 && base == 10)
+	{
+		ret = ft_strnew(ft_strlen("-2147483648"));
+		if (!ret)
+			return (NULL);
+		ft_memcpy(ret, "-2147483648", ft_strlen("-2147483648"));
+	}
+	else
+	{
+		ret = ft_strnew(ft_strlen("0"));
+		if (!ret)
+			return (NULL);
+		ft_memcpy(ret, "0", ft_strlen("0"));
+	}
+	return (ret);
+}
+
+char			*ft_itoa_base(int n, int base)
+{
+	int		s;
+	int		t;
+	int		tmp;
+	char	*new;
+
+	s = ft_size(n, base);
+	t = n;
+	if (n == 0 || n == -2147483648)
+		return (ft_ismaxint_or_zero(n, base));
+	if (n < 0)
+	{
+		n = -n;
+		s++;
+	}
+	if (!(new = ft_strnew(s)))
+		return (NULL);
+	while (s--)
+	{
+		tmp = n % base;
+		new[s] = conv(tmp);
+		n /= base;
+	}
+	new[0] = (t < 0 ? '-' : new[0]);
+	return (new);
 }

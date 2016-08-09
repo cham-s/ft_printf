@@ -115,5 +115,6 @@ char				**ft_splitspaces(char const *s);
 size_t				ft_tablen(char **tab);
 int 				ft_putunicode(const unsigned int cp);
 int					ft_putstruni(const unsigned int* str);
+void				ft_putulong(unsigned long n);
 
 #endif

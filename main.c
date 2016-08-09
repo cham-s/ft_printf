@@ -20,12 +20,12 @@ int main(void)
 	char *s = "hello";
 
 	ft_putendl("====== ft_printf ======");
-	n1 = ft_printf("ab%uc%ud",55555, 100000);
+	n1 = ft_printf("a%ob%oc%od", 0, 55555, 100000);
 	ft_putstr("\nret: ");
 	ft_putnbr(n1);
 	ft_putendl("");
 	ft_putendl("====== printf ======");
-	n2 = printf("ab%uc%ud", 55555, 100000);
+	n2 = printf("a%ob%oc%od", 0, 55555, 100000);
 	ft_putstr("\nret: ");
 	ft_putnbr(n2);
 	ft_putendl("");

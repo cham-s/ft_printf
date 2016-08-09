@@ -28,14 +28,12 @@ static	unsigned int		ft_size(unsigned int n)
 char			*ft_uitoa(unsigned int n)
 {
 	unsigned int		s;
-	unsigned int		t;
 	char	*new;
 
 	if (!n)
 		s = 1;
 	else
 		s = ft_size(n);
-	t = n;
 	if (!(new = ft_strnew(s)))
 		return (NULL);
 	while (s--)
