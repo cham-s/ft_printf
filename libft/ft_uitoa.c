@@ -31,7 +31,10 @@ char			*ft_uitoa(unsigned int n)
 	unsigned int		t;
 	char	*new;
 
-	s = ft_size(n);
+	if (!n)
+		s = 1;
+	else
+		s = ft_size(n);
 	t = n;
 	if (!(new = ft_strnew(s)))
 		return (NULL);

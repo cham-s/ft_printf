@@ -30,6 +30,15 @@ void	spec_u(va_list pa, int *ret)
 	*ret += ft_strlen(ft_uitoa(n));
 }
 
+void	spec_g_u(va_list pa, int *ret)
+{
+	unsigned long n;
+
+	n = va_arg(pa, unsigned long);
+	ft_putnbr(n);
+	*ret += ft_strlen(ft_ltoa_base(n, 10));
+}
+
 void	spec_g_d(va_list pa, int *ret)
 {
 	long long n;
@@ -41,11 +50,21 @@ void	spec_g_d(va_list pa, int *ret)
 
 void	spec_c(va_list pa, int *ret)
 {
-	int c;
+	wchar_t c;
 
-	c = va_arg(pa, int);
+	c = va_arg(pa, wchar_t);
 	ft_putchar(c);
 	*ret += 1;
+}
+
+void	spec_g_c(va_list pa, int *ret)
+{
+	unsigned int	c;
+	int				size;
+
+	c = va_arg(pa, unsigned int);
+	size = ft_putunicode(c);
+	*ret += size;
 }
 
 void	spec_o(va_list pa, int *ret)
@@ -79,6 +98,22 @@ void	spec_s(va_list pa, int *ret)
 	}
 	ft_putstr(s);
 	*ret += ft_strlen(s);
+}
+
+void	spec_g_s(va_list pa, int *ret)
+{
+	unsigned int	*s;
+	int				size;
+
+	s = va_arg(pa, unsigned int*);
+	if (!s)
+	{
+		ft_putstr("(null)");
+		*ret += NULL_LEN;
+		return ;
+	}
+	size = ft_putstruni(s);
+	*ret += size;
 }
 
 void	spec_p(va_list pa, int *ret)

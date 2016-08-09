@@ -113,5 +113,7 @@ t_bool				ft_stronlyhas(const char *s, char c);
 size_t				size_to_allocate(const char *s, char c);
 char				**ft_splitspaces(char const *s);
 size_t				ft_tablen(char **tab);
+int 				ft_putunicode(const unsigned int cp);
+int					ft_putstruni(const unsigned int* str);
 
 #endif
