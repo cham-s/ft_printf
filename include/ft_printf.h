@@ -17,6 +17,7 @@
 # include <limits.h>
 # include <wchar.h>
 # include "libft.h"
+# include "dict.h"
 
 # define NULL_LEN 6
 
@@ -26,7 +27,20 @@ typedef struct	s_functs_spec
 	void	(*f)(int n, int *ret);
 }				t_functs_spec;
 
+typedef struct	s_options
+{
+	int		has_flags;
+	int		has_width;
+	int		has_precision;
+	int		has_length;
+}				t_options;
+
 int		ft_printf(const char *format, ...);
+
+void	init_options(t_options *opt);
+
+int		is_specifier(char c);
+
 void	spec_d(va_list pa, int *ret);
 void	spec_s(va_list pa, int *ret);
 void	spec_g_s(va_list pa, int *ret);

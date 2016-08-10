@@ -16,17 +16,5 @@
 
 int main(void)
 {
-	int n1, n2;
-	char *s = "hello";
-
-	ft_putendl("====== ft_printf ======");
-	n1 = ft_printf("a%ob%oc%od", 0, 55555, 100000);
-	ft_putstr("\nret: ");
-	ft_putnbr(n1);
-	ft_putendl("");
-	ft_putendl("====== printf ======");
-	n2 = printf("a%ob%oc%od", 0, 55555, 100000);
-	ft_putstr("\nret: ");
-	ft_putnbr(n2);
-	ft_putendl("");
+	printf("%-1.1\n", 12);
 }
