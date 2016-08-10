@@ -11,10 +11,9 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-//printf
 #include <stdio.h>
 
 int main(void)
 {
-	printf("%-1.1\n", 12);
+	ft_printf("Hello les amis %d bonjour les gars");
 }

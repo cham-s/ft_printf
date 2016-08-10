@@ -27,6 +27,14 @@ typedef struct	s_functs_spec
 	void	(*f)(int n, int *ret);
 }				t_functs_spec;
 
+typedef struct	s_info
+{
+	va_list	args;
+	int		ret;
+	t_str	*reg;
+	t_str	*spe;
+}				t_info;
+
 typedef struct	s_options
 {
 	int		has_flags;
@@ -38,8 +46,11 @@ typedef struct	s_options
 int		ft_printf(const char *format, ...);
 
 void	init_options(t_options *opt);
+void	init_info(t_info *i);
 
 int		is_specifier(char c);
+char	*get_regular_str(char *s, t_info *i);
+char	*get_special_str(char *s, t_info *reg);
 
 void	spec_d(va_list pa, int *ret);
 void	spec_s(va_list pa, int *ret);

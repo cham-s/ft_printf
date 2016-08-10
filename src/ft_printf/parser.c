@@ -9,11 +9,34 @@ int		is_specifier(char c)
 	return (0);
 }
 
-void	lexer(char *s, va_list pa)
+char	*get_regular_str(char *s, t_info *i)
 {
-	int i;
+	int		j;
+	char	*new;
 
-	i = 0;
-	while (!is_specifier(s[i]))
-		i++;
+	j = 0;
+	while (s[j] != '%' && s[j])
+		++j;
+
+	new  = ft_strsub(s, 0, j); 
+	ft_strlstappend(&i->reg, ft_strlstnew(new));
+	free(new);
+	i->ret += j;
+	return (s + j);
+}
+
+char	*get_special_str(char *s, t_info *i)
+{
+	int		j;
+	char	*new;
+
+	j = 0;
+	while (!is_specifier(s[j]) && s[j])
+		++j;
+
+	new  = ft_strsub(s, 0, j); 
+	ft_strlstappend(&i->spe, ft_strlstnew(new));
+	free(new);
+	// add to ret result
+	return (s + j);
 }

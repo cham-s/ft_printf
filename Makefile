@@ -20,8 +20,8 @@ OBJDIR		= obj
 AR			= ar r
 OBJS 		= $(OBJDIR)/ft_printf.o\
 			  $(OBJDIR)/spec_num.o\
-			  $(OBJDIR)/dictionary.o\
-			  $(OBJDIR)/dictionary2.o\
+			  $(OBJDIR)/parser.o\
+			  $(OBJDIR)/init_options.o\
 
 
 .PHONY: all clean fclean re

@@ -30,6 +30,12 @@ typedef	struct		s_list
 	struct s_list	*next;
 }					t_list;
 
+typedef struct		s_str
+{
+	char			*str;
+	struct s_str	*next;
+}					t_str;
+
 char				*ft_strjoinfree(char *s1, char *s2);
 int					ft_atoi(const char *str);
 void				*ft_memset(void *b, int c, size_t len);
@@ -116,5 +122,7 @@ size_t				ft_tablen(char **tab);
 int 				ft_putunicode(const unsigned int cp);
 int					ft_putstruni(const unsigned int* str);
 void				ft_putulong(unsigned long n);
+t_str				*ft_strlstnew(char *str);
+void				ft_strlstappend(t_str **list, t_str *new);
 
 #endif
