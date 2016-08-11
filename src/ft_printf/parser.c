@@ -25,6 +25,27 @@ char	*get_regular_str(char *s, t_info *i)
 	return (s + j);
 }
 
+void	convert_str(char *spe, t_info *inf)
+{
+	char	*tmp;
+	char	*buffer;
+
+	tmp = spe;
+	++tmp;
+	if (!*tmp)
+		return ;
+	if (*tmp == 'd')
+	{
+		int n;
+
+		n = va_arg(inf->args, int);
+		buffer = ft_itoa(n);
+		inf->ret += ft_strlen(buffer);
+		ft_strlstappend(&inf->spe, ft_strlstnew(buffer));
+		free(buffer);
+	}
+}
+
 char	*get_special_str(char *s, t_info *i)
 {
 	int		j;
@@ -34,8 +55,9 @@ char	*get_special_str(char *s, t_info *i)
 	while (!is_specifier(s[j]) && s[j])
 		++j;
 
+	++j;
 	new  = ft_strsub(s, 0, j); 
-	ft_strlstappend(&i->spe, ft_strlstnew(new));
+	convert_str(new, i);
 	free(new);
 	// add to ret result
 	return (s + j);

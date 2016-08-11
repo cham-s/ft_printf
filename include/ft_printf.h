@@ -51,6 +51,7 @@ void	init_info(t_info *i);
 int		is_specifier(char c);
 char	*get_regular_str(char *s, t_info *i);
 char	*get_special_str(char *s, t_info *reg);
+void	convert(t_info *inf);
 
 void	spec_d(va_list pa, int *ret);
 void	spec_s(va_list pa, int *ret);

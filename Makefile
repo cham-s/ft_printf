@@ -49,5 +49,6 @@ fclean: clean
 
 re: fclean all
 
-test:
+t:
 	gcc main.c libftprintf.a -I include -I libft/includes -o printf
+	./printf | cat -e
