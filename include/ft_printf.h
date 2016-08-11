@@ -53,18 +53,18 @@ char	*get_regular_str(char *s, t_info *i);
 char	*get_special_str(char *s, t_info *reg);
 void	convert(t_info *inf);
 
-void	spec_d(va_list pa, int *ret);
-void	spec_s(va_list pa, int *ret);
-void	spec_g_s(va_list pa, int *ret);
-void	spec_p(va_list pa, int *ret);
-void	spec_c(va_list pa, int *ret);
-void	spec_g_d(va_list pa, int *ret);
-void	spec_o(va_list pa, int *ret);
-void	spec_g_o(va_list pa, int *ret);
-void	spec_u(va_list pa, int *ret);
-void	spec_x(va_list pa, int *ret);
-void	spec_g_x(va_list pa, int *ret);
-void	spec_g_c(va_list pa, int *ret);
-void	spec_g_u(va_list pa, int *ret);
+void	spec_d(t_info *inf);
+void	spec_s(t_info *inf);
+void	spec_g_s(t_info *inf);
+void	spec_p(t_info *inf);
+void	spec_c(t_info *inf);
+void	spec_g_d(t_info *inf);
+void	spec_o(t_info *inf);
+void	spec_g_o(t_info *inf);
+void	spec_u(t_info *inf);
+void	spec_x(t_info *inf);
+void	spec_g_x(t_info *inf);
+void	spec_g_c(t_info *inf);
+void	spec_g_u(t_info *inf);
 
 #endif

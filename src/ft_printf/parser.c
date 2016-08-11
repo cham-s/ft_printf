@@ -28,22 +28,13 @@ char	*get_regular_str(char *s, t_info *i)
 void	convert_str(char *spe, t_info *inf)
 {
 	char	*tmp;
-	char	*buffer;
 
 	tmp = spe;
 	++tmp;
 	if (!*tmp)
 		return ;
 	if (*tmp == 'd')
-	{
-		int n;
-
-		n = va_arg(inf->args, int);
-		buffer = ft_itoa(n);
-		inf->ret += ft_strlen(buffer);
-		ft_strlstappend(&inf->spe, ft_strlstnew(buffer));
-		free(buffer);
-	}
+		spec_d(inf);
 }
 
 char	*get_special_str(char *s, t_info *i)
