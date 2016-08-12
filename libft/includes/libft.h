@@ -36,6 +36,12 @@ typedef struct		s_str
 	struct s_str	*next;
 }					t_str;
 
+typedef struct		s_str_uni
+{
+	unsigned int	*str;
+	struct s_str	*next;
+}					t_str_uni;
+
 char				*ft_strjoinfree(char *s1, char *s2);
 int					ft_atoi(const char *str);
 void				*ft_memset(void *b, int c, size_t len);
@@ -120,11 +126,14 @@ size_t				size_to_allocate(const char *s, char c);
 char				**ft_splitspaces(char const *s);
 size_t				ft_tablen(char **tab);
 int					ft_unisize(const unsigned int cu);
-size_t				ft_strlenuni(const unsigned int* str)
+size_t				ft_strlenuni(const unsigned int* str);
 int 				ft_putunicode(const unsigned int cp);
 int					ft_putstruni(const unsigned int* str);
 void				ft_putulong(unsigned long n);
 t_str				*ft_strlstnew(char *str);
+t_str				*ft_strunilstnew(unsigned int *str);
 void				ft_strlstappend(t_str **list, t_str *new);
+size_t				ft_strbytelen(const unsigned int* str);
+unsigned int		*ft_strdupuni(const unsigned int *s1)
 
 #endif

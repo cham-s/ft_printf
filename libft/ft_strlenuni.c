@@ -1,14 +1,11 @@
 #include "libft.h"
 
-size_t	ft_strlenuni(const unsigned int* str)
+size_t	ft_strlenuni(const unsigned int *s)
 {
-	size_t	size;
+	size_t i;
 
-	size = 0;
-	while (*str)
-	{
-		size += ft_unisize(*str);
-		++str;
-	}
-	return (size);
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }

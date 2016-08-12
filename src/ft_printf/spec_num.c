@@ -107,21 +107,21 @@ void	spec_s(t_info *inf)
 	inf->ret += ft_strlen(s);
 }
 /*  */
-void	spec_g_s(t_info *inf)
-{
-	unsigned int	*s;
-	int				size;
-
-	s = va_arg(inf->args, unsigned int*);
-	if (!s)
-	{
-		ft_strlstappend(&inf->spe, ft_strlstnew("(null)"));
-		*ret += NULL_LEN;
-		return ;
-	}
-	size = ft_putstruni(s);
-	*ret += size;
-}
+/* void	spec_g_s(t_info *inf) */
+/* { */
+/* 	unsigned int	*s; */
+/* 	int				size; */
+/*  */
+/* 	s = va_arg(inf->args, unsigned int*); */
+/* 	if (!s) */
+/* 	{ */
+/* 		ft_strlstappend(&inf->spe, ft_strlstnew("(null)")); */
+/* 		*ret += NULL_LEN; */
+/* 		return ; */
+/* 	} */
+/* 	size = ft_putstruni(s); */
+/* 	*ret += size; */
+/* } */
 /*  */
 void	spec_p(t_info *inf)
 {

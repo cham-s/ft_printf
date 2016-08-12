@@ -36,7 +36,7 @@ OBJ = ft_atoi.o ft_bzero.o ft_isalnum.o ft_isalpha.o \
 	ft_isspace.o ft_lstdelmem.o get_next_line.o ft_strjoinfree.o ft_tablen.o \
    	ft_itoa_base.o ft_ltoa_base.o ft_uitoa_base.o ft_ultoa_base.o ft_uitoa.o\
 	ft_putunicode.o ft_putstruni.o ft_putulong.o ft_strlstnew.o ft_strlstappend.o \
-	ft_unisize.o ft_strlenuni.o
+	ft_unisize.o ft_strlenuni.o ft_strbytelen.o ft_strdupunu.o
 
 CFLAGS = -g -Wall -Wextra -Werror -I includes
 .PHONY: all clean fclean re
