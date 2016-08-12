@@ -103,45 +103,48 @@ void	spec_s(t_info *inf)
 		return ;
 	}
 	buffer = ft_strdup(s);
+	ft_strlstappend(&inf->spe, ft_strlstnew(buffer));
 	inf->ret += ft_strlen(s);
 }
 /*  */
-/* void	spec_g_s(t_info *inf) */
-/* { */
-/* 	unsigned int	*s; */
-/* 	int				size; */
+void	spec_g_s(t_info *inf)
+{
+	unsigned int	*s;
+	int				size;
+
+	s = va_arg(inf->args, unsigned int*);
+	if (!s)
+	{
+		ft_strlstappend(&inf->spe, ft_strlstnew("(null)"));
+		*ret += NULL_LEN;
+		return ;
+	}
+	size = ft_putstruni(s);
+	*ret += size;
+}
 /*  */
-/* 	s = va_arg(pa, unsigned int*); */
-/* 	if (!s) */
-/* 	{ */
-/* 		ft_putstr("(null)"); */
-/* 		*ret += NULL_LEN; */
-/* 		return ; */
-/* 	} */
-/* 	size = ft_putstruni(s); */
-/* 	*ret += size; */
-/* } */
-/*  */
-/* void	spec_p(t_info *inf) */
-/* { */
-/* 	void				*n; */
-/* 	unsigned long long	addr; */
-/* 	char				*output; */
-/* 	char				*s; */
-/*  */
-/* 	n = va_arg(pa, void*); */
-/* 	addr = (unsigned long long)n; */
-/* 	output = ft_ltoa_base(addr, 16); */
-/* 	s = output; */
-/* 	while (*s) */
-/* 	{ */
-/* 		*s = ft_tolower(*s); */
-/* 		s++; */
-/* 	} */
-/* 	ft_putstr("0x"); */
-/* 	ft_putstr(output); */
-/* 	*ret += ft_strlen(output) + 2; */
-/* } */
+void	spec_p(t_info *inf)
+{
+	void				*n;
+	unsigned long long	addr;
+	char				*output;
+	char				*s;
+
+	n = va_arg(inf->args, void*);
+	addr = (unsigned long long)n;
+	output = ft_ltoa_base(addr, 16);
+	s = output;
+	while (*s)
+	{
+		*s = ft_tolower(*s);
+		s++;
+	}
+	s = ft_strjoin("0x", output);
+	inf->ret += ft_strlen(s);
+	ft_strlstappend(&inf->spe, ft_strlstnew(s));
+	free(output);
+	free(s);
+}
 /*  */
 /* void	spec_x(t_info *inf) */
 /* { */

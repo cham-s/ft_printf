@@ -48,9 +48,7 @@ int	ft_printf(const char *format, ...)
 		if (!*(format = get_special_str((char *)format, &i)))
 			continue ;
 	}
-
 	va_end(i.args);
-
 	output_str(&i);
 
 	return (i.ret);

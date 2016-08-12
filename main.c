@@ -15,5 +15,5 @@
 
 int main(void)
 {
-	ft_printf("hello this is the number %d and the number %d", 42, 28);
+	ft_printf("aa%%bb");
 }

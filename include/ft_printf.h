@@ -50,7 +50,7 @@ void	init_info(t_info *i);
 
 int		is_specifier(char c);
 char	*get_regular_str(char *s, t_info *i);
-char	*get_special_str(char *s, t_info *reg);
+char	*get_special_str(char *s, t_info *i);
 void	convert(t_info *inf);
 
 void	spec_d(t_info *inf);
