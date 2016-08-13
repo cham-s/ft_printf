@@ -3,8 +3,8 @@
 
 unsigned int	*ft_strdupuni(const unsigned int *s1)
 {
-	char	*str;
-	size_t	len;
+	unsigned int	*str;
+	size_t			len;
 
 	len = (ft_strlenuni(s1));
 	str = (unsigned int *)malloc(sizeof(unsigned int) * len);

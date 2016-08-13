@@ -30,9 +30,10 @@ typedef struct	s_functs_spec
 typedef struct	s_info
 {
 	va_list	args;
-	int		ret;
-	t_str	*reg;
-	t_str	*spe;
+	int			ret;
+	t_str		*reg;
+	t_str		*spe;
+	t_str_uni	spe_uni;	
 }				t_info;
 
 typedef struct	s_options

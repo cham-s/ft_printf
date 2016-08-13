@@ -38,8 +38,8 @@ typedef struct		s_str
 
 typedef struct		s_str_uni
 {
-	unsigned int	*str;
-	struct s_str	*next;
+	unsigned int		*str;
+	struct s_str_uni	*next;
 }					t_str_uni;
 
 char				*ft_strjoinfree(char *s1, char *s2);
@@ -133,7 +133,9 @@ void				ft_putulong(unsigned long n);
 t_str				*ft_strlstnew(char *str);
 t_str				*ft_strunilstnew(unsigned int *str);
 void				ft_strlstappend(t_str **list, t_str *new);
+void				ft_strlstappenduni(t_str_uni **list, t_str_uni *new);
 size_t				ft_strbytelen(const unsigned int* str);
-unsigned int		*ft_strdupuni(const unsigned int *s1)
+unsigned int		*ft_strdupuni(const unsigned int *s1);
+void				*ft_memdupuni(void *s1, size_t len);
 
 #endif

@@ -28,15 +28,19 @@ OBJ = ft_atoi.o ft_bzero.o ft_isalnum.o ft_isalpha.o \
 	ft_strlcat.o ft_memcmp.o ft_memchr.o ft_strchr.o ft_strrchr.o \
 	ft_memalloc.o ft_memdel.o  ft_strnew.o ft_strdel.o ft_striter.o \
 	ft_strmap.o ft_strmapi.o ft_strequ.o ft_strnequ.o \
-	ft_strsub.o ft_strjoin.o ft_strjoinfree.o ft_strnjoin.o ft_strsplit.o ft_itoa.o ft_strtrim.o \
+	ft_strsub.o ft_strjoin.o ft_strjoinfree.o ft_strnjoin.o ft_strsplit.o\
+	ft_itoa.o ft_strtrim.o \
 	ft_lstnew.o ft_lstdelone.o ft_lstdel.o ft_lstadd.o ft_lstiter.o \
 	ft_lstmap.o ft_lstnewref.o ft_strsplitspc.o ft_strndup.o ft_memdup.o \
 	ft_strlenchr.o ft_lstappend.o ft_lstprint.o  ft_lstlen.o ft_lstinsertafter.o \
- 	ft_lstremove.o ft_swap.o ft_stronlyhas.o ft_size_to_allocate.o ft_splitspaces.o \
+ 	ft_lstremove.o ft_swap.o ft_stronlyhas.o ft_size_to_allocate.o \
+	ft_splitspaces.o \
 	ft_isspace.o ft_lstdelmem.o get_next_line.o ft_strjoinfree.o ft_tablen.o \
    	ft_itoa_base.o ft_ltoa_base.o ft_uitoa_base.o ft_ultoa_base.o ft_uitoa.o\
-	ft_putunicode.o ft_putstruni.o ft_putulong.o ft_strlstnew.o ft_strlstappend.o \
-	ft_unisize.o ft_strlenuni.o ft_strbytelen.o ft_strdupunu.o
+	ft_putunicode.o ft_putstruni.o ft_putulong.o\
+	ft_strlstnew.o ft_strlstappend.o \
+	ft_unisize.o ft_strlenuni.o ft_strbytelen.o ft_strdupuni.o ft_memdupuni.o \
+	ft_strunilstnew.o ft_strlstappenduni.o
 
 CFLAGS = -g -Wall -Wextra -Werror -I includes
 .PHONY: all clean fclean re

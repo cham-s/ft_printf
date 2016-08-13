@@ -9,7 +9,7 @@ t_str	*ft_strunilstnew(unsigned int *str)
 	new = (t_str *)ft_memalloc(sizeof(t_str));
 	if (!new || !str)
 		return (NULL);
-	new->str = (unsigned int *)malloc(sizeof(unsigned int) * );
+	new->str = ft_memdupuni(str, len);
 	new->next = NULL;
 	return (new);
 }
