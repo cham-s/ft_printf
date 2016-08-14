@@ -15,5 +15,5 @@
 
 int main(void)
 {
-	ft_printf("aa%%bb");
+	ft_printf("a%Sb%sc%S", L"我", "42", L"猫");
 }

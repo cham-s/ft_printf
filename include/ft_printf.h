@@ -33,7 +33,8 @@ typedef struct	s_info
 	int			ret;
 	t_str		*reg;
 	t_str		*spe;
-	t_str_uni	spe_uni;	
+	t_str_uni	*spe_uni;	
+	int			pos;
 }				t_info;
 
 typedef struct	s_options

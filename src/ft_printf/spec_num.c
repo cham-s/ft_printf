@@ -17,10 +17,11 @@ void	spec_d(t_info *inf)
 	int		n;
 	char	*buffer;
 
+	inf->pos += 1;
 	n = va_arg(inf->args, int);
 	buffer = ft_itoa(n);
 	inf->ret += ft_strlen(buffer);
-	ft_strlstappend(&inf->spe, ft_strlstnew(buffer));
+	ft_strlstappend(&inf->spe, ft_strlstnew(buffer, inf->pos));
 	free(buffer);
 }
 
@@ -93,36 +94,46 @@ void	spec_s(t_info *inf)
 	char	*s;
 	char	*buffer;
 
+	inf->pos += 1;
 	s = va_arg(inf->args, char*);
 	if (!s)
 	{
 		buffer = ft_strdup("(null)");
 		inf->ret += NULL_LEN;
-		ft_strlstappend(&inf->spe, ft_strlstnew(buffer));
+		ft_strlstappend(&inf->spe, ft_strlstnew(buffer, inf->pos));
 		free(buffer);
+		inf->pos += 1;
+		inf->spe->pos = inf->pos;
 		return ;
 	}
 	buffer = ft_strdup(s);
-	ft_strlstappend(&inf->spe, ft_strlstnew(buffer));
+	ft_strlstappend(&inf->spe, ft_strlstnew(buffer, inf->pos));
 	inf->ret += ft_strlen(s);
 }
 /*  */
-/* void	spec_g_s(t_info *inf) */
-/* { */
-/* 	unsigned int	*s; */
-/* 	int				size; */
-/*  */
-/* 	s = va_arg(inf->args, unsigned int*); */
-/* 	if (!s) */
-/* 	{ */
-/* 		ft_strlstappend(&inf->spe, ft_strlstnew("(null)")); */
-/* 		*ret += NULL_LEN; */
-/* 		return ; */
-/* 	} */
-/* 	size = ft_putstruni(s); */
-/* 	*ret += size; */
-/* } */
-/*  */
+void	spec_g_s(t_info *inf)
+{
+	unsigned int	*s;
+	unsigned int	*buffer;
+	int				size;
+
+	inf->pos += 1;
+	s = va_arg(inf->args, unsigned int*);
+	if (!s)
+	{
+		buffer = ft_memdupuni(L"(null)", NULL_LEN);
+		ft_strlstappenduni(&inf->spe_uni, ft_strunilstnew(buffer, inf->pos));
+		inf->ret += NULL_LEN;
+		free(buffer);
+		return ;
+	}
+	buffer = ft_memdupuni(s, ft_strlenuni(s));
+	size = ft_strbytelen(s);
+	ft_strlstappenduni(&inf->spe_uni, ft_strunilstnew(s, inf->pos));
+	inf->ret += size;
+	free(buffer);
+}
+
 void	spec_p(t_info *inf)
 {
 	void				*n;
@@ -130,6 +141,7 @@ void	spec_p(t_info *inf)
 	char				*output;
 	char				*s;
 
+	inf->pos += 1;
 	n = va_arg(inf->args, void*);
 	addr = (unsigned long long)n;
 	output = ft_ltoa_base(addr, 16);
@@ -141,7 +153,7 @@ void	spec_p(t_info *inf)
 	}
 	s = ft_strjoin("0x", output);
 	inf->ret += ft_strlen(s);
-	ft_strlstappend(&inf->spe, ft_strlstnew(s));
+	ft_strlstappend(&inf->spe, ft_strlstnew(s, inf->pos));
 	free(output);
 	free(s);
 }

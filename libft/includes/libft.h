@@ -34,12 +34,14 @@ typedef struct		s_str
 {
 	char			*str;
 	struct s_str	*next;
+	int				pos;
 }					t_str;
 
 typedef struct		s_str_uni
 {
 	unsigned int		*str;
 	struct s_str_uni	*next;
+	int					pos;
 }					t_str_uni;
 
 char				*ft_strjoinfree(char *s1, char *s2);
@@ -130,8 +132,8 @@ size_t				ft_strlenuni(const unsigned int* str);
 int 				ft_putunicode(const unsigned int cp);
 int					ft_putstruni(const unsigned int* str);
 void				ft_putulong(unsigned long n);
-t_str				*ft_strlstnew(char *str);
-t_str				*ft_strunilstnew(unsigned int *str);
+t_str				*ft_strlstnew(char *str, int position);
+t_str_uni			*ft_strunilstnew(unsigned int *str, int position);
 void				ft_strlstappend(t_str **list, t_str *new);
 void				ft_strlstappenduni(t_str_uni **list, t_str_uni *new);
 size_t				ft_strbytelen(const unsigned int* str);

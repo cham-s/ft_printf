@@ -14,22 +14,45 @@
 
 void	output_str(t_info *i)
 {
-	t_str	*treg;
-	t_str	*tspe;
+	t_str		*treg;
+	t_str		*tspe;
+	t_str_uni	*tspe_uni;
 
 	treg = i->reg;
 	tspe = i->spe;
-	while (treg || tspe)
+	tspe_uni = i->spe_uni;
+	while (treg || tspe || tspe_uni)
 	{
 		if (treg)
 		{
 			ft_putstr(treg->str);
 			treg = treg->next;
 		}
-		if (tspe)
+		if (tspe && tspe_uni)
 		{
-			ft_putstr(tspe->str);
-			tspe = tspe->next;
+			if (tspe->pos < tspe_uni->pos)
+			{
+				ft_putstr(tspe->str);
+				tspe = tspe->next;
+			}
+			else
+			{
+				ft_putstruni(tspe_uni->str);
+				tspe_uni = tspe_uni->next;
+			}
+		}
+		else
+		{
+			if (tspe)
+			{
+				ft_putstr(tspe->str);
+				tspe = tspe->next;
+			}
+			if (tspe_uni)
+			{
+				ft_putstruni(tspe_uni->str);
+				tspe_uni = tspe_uni->next;
+			}
 		}
 	}
 }

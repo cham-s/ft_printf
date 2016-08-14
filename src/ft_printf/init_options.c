@@ -13,4 +13,6 @@ void	init_info(t_info *i)
 	i->ret = 0;
 	i->reg = NULL;
 	i->spe = NULL;
+	i->spe_uni = NULL;
+	i->pos = 0;
 }

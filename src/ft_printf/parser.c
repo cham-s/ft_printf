@@ -18,8 +18,9 @@ char	*get_regular_str(char *s, t_info *i)
 	while (s[j] != '%' && s[j])
 		++j;
 
+	i->pos += 1;
 	new  = ft_strsub(s, 0, j); 
-	ft_strlstappend(&i->reg, ft_strlstnew(new));
+	ft_strlstappend(&i->reg, ft_strlstnew(new, i->pos));
 	free(new);
 	i->ret += j;
 	return (s + j);
@@ -36,12 +37,15 @@ void	convert_str(char *spe, t_info *inf)
 	if (*tmp == '%')
 	{
 		inf->ret += 1;
-		ft_strlstappend(&inf->spe, ft_strlstnew(ft_strdup("%")));
+		inf->pos += 1;
+		ft_strlstappend(&inf->spe, ft_strlstnew(ft_strdup("%"), inf->pos));
 	}
 	if (*tmp == 'd')
 		spec_d(inf);
 	else if (*tmp == 's')
 		spec_s(inf);
+	else if (*tmp == 'S')
+		spec_g_s(inf);
 	else if (*tmp == 'p')
 		spec_p(inf);
 	else if (*tmp == ' ')
