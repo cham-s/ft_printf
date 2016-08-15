@@ -99,12 +99,15 @@ void	spec_c(t_info *inf)
 void	spec_g_c(t_info *inf)
 {
 	unsigned int	c;
+	unsigned int	*buffer;
 	int				size;
 
+	buffer = ft_memdupuni((void *)"1", 1);
 	inf->pos += 1;
 	c = va_arg(inf->args, unsigned int);
+	buffer[0] = c;
 	size = ft_unisize(c);
-	ft_strlstappenduni(&inf->spe_uni, ft_strunilstnew((unsigned int *)&c, inf->pos));
+	ft_strlstappenduni(&inf->spe_uni, ft_strunilstnew(buffer, inf->pos));
 	inf->ret += size;
 }
 
