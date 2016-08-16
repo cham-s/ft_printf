@@ -5,7 +5,7 @@ int		is_specifier(char c)
 	if (c == 's' || c == 'S' || c == 'd' || c == 'D' || c == 'x' || c == 'X' || 
 			c == 'o' || c == 'O' || c == 'u' || c == 'U' || c == 'c' || c == 'C' || 
 			c == 'p' || c == 'i' || c == '%' || c == ' ')
-		return (1);
+		return (c);
 	return (0);
 }
 
@@ -26,48 +26,83 @@ char	*get_regular_str(char *s, t_info *i)
 	return (s + j);
 }
 
-void	convert_str(char *spe, t_info *inf)
+void	choose_specifier(char spec, t_info *inf)
 {
-	char	*tmp;
-
-	tmp = spe;
-	++tmp;
-	if (!*tmp)
-		return ;
-	if (*tmp == '%')
+	if (spec == '%')
 	{
 		inf->ret += 1;
 		inf->pos += 1;
 		ft_strlstappend(&inf->spe, ft_strlstnew(ft_strdup("%"), inf->pos));
 	}
-	if (*tmp == 'd' || *tmp == 'i')
+	else if (spec == 'd' || spec == 'i')
 		spec_d(inf);
-	else if (*tmp == 'D')
+	else if (spec == 'D')
 		spec_g_d(inf);
-	else if (*tmp == 's')
+	else if (spec == 's')
 		spec_s(inf);
-	else if (*tmp == 'S')
+	else if (spec == 'S')
 		spec_g_s(inf);
-	else if (*tmp == 'p')
+	else if (spec == 'p')
 		spec_p(inf);
-	else if (*tmp == 'o')
+	else if (spec == 'o')
 		spec_o(inf);
-	else if (*tmp == 'O')
+	else if (spec == 'O')
 		spec_g_o(inf);
-	else if (*tmp == 'u')
+	else if (spec == 'u')
 		spec_u(inf);
-	else if (*tmp == 'U')
+	else if (spec == 'U')
 		spec_g_u(inf);
-	else if (*tmp == 'x')
+	else if (spec == 'x')
 		spec_x(inf);
-	else if (*tmp == 'X')
+	else if (spec == 'X')
 		spec_g_x(inf);
-	else if (*tmp == 'c')
+	else if (spec == 'c')
 		spec_c(inf);
-	else if (*tmp == 'C')
+	else if (spec == 'C')
 		spec_g_c(inf);
-	else if (*tmp == ' ')
+	else if (spec == ' ')
 		return ;
+}
+
+// possible leaks
+void	check_format(char *spe, t_info *inf)
+{
+	char 		*tmp;
+	char		*f;
+	t_options	opt;
+
+	tmp = spe;
+	++tmp;
+	while (*tmp)
+	{
+		while (*tmp == '-' || *tmp == ' ' || *tmp == '+' || *tmp = '#')
+		{
+			f = inf->options.flag;
+			if (!ft_strchr(f, *tmp)
+				while (inf->options.flag)
+			 = 
+			if (!*tmp)
+				continue ;
+		}
+	}
+
+}
+
+void	convert_str(char *spe, t_info *inf)
+{
+	char	*tmp;
+
+	tmp = spe;
+	//++tmp;
+	if (!*tmp)
+		return ;
+	if (is_specifier(*tmp))
+		choose_specifier(*tmp, inf);
+	else
+	{
+		check_format(spe, t_info *inf);
+
+	}
 }
 
 char	*get_special_str(char *s, t_info *i)
@@ -75,14 +110,14 @@ char	*get_special_str(char *s, t_info *i)
 	int		j;
 	char	*new;
 
-	j = 0;
-	if (is_specifier(s[j + 1]) && s[j])
+	j = 1;
+	while (!is_specifier(s[j]) && s[j])
 		++j;
-
-	if (s[j])
-		++j;
-	new  = ft_strsub(s, 0, j); 
+	++j;
+	new  = ft_strsub(s, 1, j); 
 	convert_str(new, i);
+	/* ft_putendl(new); */
+	/* exit(2); */
 	free(new);
 	return (s + j);
 }

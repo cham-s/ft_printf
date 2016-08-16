@@ -2,10 +2,11 @@
 
 void	init_options(t_options *opt)
 {
-	opt->has_flags = 0;
-	opt->has_width = 0;
-	opt->has_precision = 0;
-	opt->has_length = 0;
+	opt->spec = 0;
+	opt->flag = 0;
+	opt->width = NULL;
+	opt->precision = NULL;
+	opt->length = ft_memalloc(4);
 }
 
 void	init_info(t_info *i)
@@ -15,4 +16,5 @@ void	init_info(t_info *i)
 	i->spe = NULL;
 	i->spe_uni = NULL;
 	i->pos = 0;
+	init_options(&i->options);
 }

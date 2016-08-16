@@ -15,5 +15,5 @@
 
 int main(void)
 {
-	ft_printf("a%Sb%sc%S", L"我", "42", L"猫");
+	printf("%------------+++++++++   d|\n", 29);
 }

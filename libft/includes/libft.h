@@ -35,6 +35,7 @@ typedef struct		s_str
 	char			*str;
 	struct s_str	*next;
 	int				pos;
+	char			*length;
 }					t_str;
 
 typedef struct		s_str_uni

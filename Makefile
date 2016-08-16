@@ -51,4 +51,4 @@ re: fclean all
 
 t:
 	gcc main.c libftprintf.a -I include -I libft/includes -o printf
-	./printf | cat -e
+	./printf

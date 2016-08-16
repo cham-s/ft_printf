@@ -27,6 +27,41 @@ typedef struct	s_functs_spec
 	void	(*f)(int n, int *ret);
 }				t_functs_spec;
 
+typedef enum	e_flag
+{
+	minus = 0,
+	plus = 0,
+	space = 0,
+	sharp = 0
+}
+
+typedef enum	e_width
+{
+	number = 0
+}
+
+typedef enum	e_precision
+{
+	number = 0
+}
+
+typedef enum	e_length
+{
+	hh = 0,
+	h = 0,
+	l = 0,
+	ll = 0,
+	z = 0
+}
+typedef struct	s_options
+{
+	char	spec;
+	char	flag;
+	char	*width;
+	char	*precision;
+	char	*length;
+}				t_options;
+
 typedef struct	s_info
 {
 	va_list	args;
@@ -35,15 +70,9 @@ typedef struct	s_info
 	t_str		*spe;
 	t_str_uni	*spe_uni;	
 	int			pos;
+	t_options	options;
 }				t_info;
 
-typedef struct	s_options
-{
-	int		has_flags;
-	int		has_width;
-	int		has_precision;
-	int		has_length;
-}				t_options;
 
 int		ft_printf(const char *format, ...);
 
