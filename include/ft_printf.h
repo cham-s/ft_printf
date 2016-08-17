@@ -27,39 +27,39 @@ typedef struct	s_functs_spec
 	void	(*f)(int n, int *ret);
 }				t_functs_spec;
 
-typedef enum	e_flag
+typedef struct	s_flag
 {
-	minus = 0,
-	plus = 0,
-	space = 0,
-	sharp = 0
-}
+	int	minus;
+	int plus;
+	int space;
+	int sharp;
+}				t_flag;
 
-typedef enum	e_width
+typedef struct	s_width
 {
-	number = 0
-}
+	int n;
+	int	n_zero;
+}				t_width;
 
-typedef enum	e_precision
+typedef struct	s_prec
 {
-	number = 0
-}
+	int	pres_num;
+}				t_prec;
 
-typedef enum	e_length
+typedef struct	s_length
 {
-	hh = 0,
-	h = 0,
-	l = 0,
-	ll = 0,
-	z = 0
-}
+	int	hh;
+	int	h;
+	int	l;
+	int	ll;
+	int	z;
+}				t_length;
 typedef struct	s_options
 {
-	char	spec;
-	char	flag;
-	char	*width;
-	char	*precision;
-	char	*length;
+	t_length	length;
+	t_prec		prec;
+	t_width		width;
+	t_flag		flag;
 }				t_options;
 
 typedef struct	s_info

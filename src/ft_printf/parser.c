@@ -68,24 +68,20 @@ void	choose_specifier(char spec, t_info *inf)
 void	check_format(char *spe, t_info *inf)
 {
 	char 		*tmp;
-	char		*f;
-	t_options	opt;
 
 	tmp = spe;
 	++tmp;
 	while (*tmp)
 	{
-		while (*tmp == '-' || *tmp == ' ' || *tmp == '+' || *tmp = '#')
-		{
-			f = inf->options.flag;
-			if (!ft_strchr(f, *tmp)
-				while (inf->options.flag)
-			 = 
-			if (!*tmp)
-				continue ;
-		}
+		if (*tmp == '-')
+			inf->options.flag.minus = 1;
+		else if (*tmp == '+')
+			inf->options.flag.plus = 1;
+		else if (*tmp == ' ')
+			inf->options.flag.space = 1;
+		else if (*tmp == '#')
+			inf->options.flag.sharp = 1;
 	}
-
 }
 
 void	convert_str(char *spe, t_info *inf)
@@ -99,10 +95,7 @@ void	convert_str(char *spe, t_info *inf)
 	if (is_specifier(*tmp))
 		choose_specifier(*tmp, inf);
 	else
-	{
-		check_format(spe, t_info *inf);
-
-	}
+		check_format(spe, inf);
 }
 
 char	*get_special_str(char *s, t_info *i)
@@ -116,8 +109,6 @@ char	*get_special_str(char *s, t_info *i)
 	++j;
 	new  = ft_strsub(s, 1, j); 
 	convert_str(new, i);
-	/* ft_putendl(new); */
-	/* exit(2); */
 	free(new);
 	return (s + j);
 }
