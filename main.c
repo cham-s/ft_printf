@@ -13,20 +13,26 @@
 #include "ft_printf.h"
 //printf
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(void)
 {
-	int n1, n2;
-	char *s = "hello";
+	char ch = 'h';
+	char *string = "computer";
+	int count = 234;
+	int hex = 0x10;
+	int oct = 010;
+	int dec = 10;
+	double fp = 251.7366;
+	wchar_t wc = (wchar_t)0x0058;
+	wchar_t ws[4];
 
-	ft_putendl("====== ft_printf ======");
-	n1 = ft_printf("a%ob%oc%od", 0, 55555, 100000);
-	ft_putstr("\nret: ");
-	ft_putnbr(n1);
-	ft_putendl("");
-	ft_putendl("====== printf ======");
-	n2 = printf("a%ob%oc%od", 0, 55555, 100000);
-	ft_putstr("\nret: ");
-	ft_putnbr(n2);
-	ft_putendl("");
+	//printf("1234567890123%01234567890123456789\n\n", &count);
+	/* printf("Value of count should be 13; count = %d\n\n", count); */
+	/* printf("%10c%5c\n", ch, ch); */
+	/* printf("%25s\n%25.4s\n\n", string, string); */
+	/* printf("%f    %.2f   %e    %E\n\n", fp ,fp, fp, fp); */
+	/* printf("%i    %i    %i\n\n", hex, oct, dec); */
+	ft_printf("%i    %i    %i\n\n", hex, oct, dec);
+	//ft_printf("Hello %il this is a fmt\n", 124, 125, 126);
 }

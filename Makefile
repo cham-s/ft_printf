@@ -36,7 +36,7 @@ $(NAME): $(OBJS)
 
 $(OBJDIR)/%.o : %.c $(INC)
 	@mkdir -p $(OBJDIR)
-	$(CC) -c $(FLAGS) $(INCLUDES) $< -o $@
+	$(CC) -g -c $(FLAGS) $(INCLUDES) $< -o $@
 
 clean:
 	rm -rf $(OBJDIR)
@@ -48,4 +48,4 @@ fclean: clean
 re: fclean all
 
 test:
-	gcc main.c libftprintf.a -I include -I libft/includes -o printf
+	gcc main.c libftprintf.a -I include -I libft/includes -g -o printf
