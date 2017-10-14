@@ -116,5 +116,6 @@ size_t				ft_tablen(char **tab);
 int 				ft_putunicode(const unsigned int cp);
 int					ft_putstruni(const unsigned int* str);
 void				ft_putulong(unsigned long n);
+int					tabcontains(char *tabstr[], char c);
 
 #endif

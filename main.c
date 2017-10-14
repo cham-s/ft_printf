@@ -33,6 +33,7 @@ int main(void)
 	/* printf("%25s\n%25.4s\n\n", string, string); */
 	/* printf("%f    %.2f   %e    %E\n\n", fp ,fp, fp, fp); */
 	/* printf("%i    %i    %i\n\n", hex, oct, dec); */
-	ft_printf("%i    %i    %i\n\n", hex, oct, dec);
+	printf("%0-20+#i", -10, oct, dec); 
+	//ft_printf("%i    %i    %i\n\n", hex, oct, dec);
 	//ft_printf("Hello %il this is a fmt\n", 124, 125, 126);
 }

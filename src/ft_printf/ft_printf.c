@@ -20,23 +20,18 @@ char *args_size[] = {"h", "l", "ll", "L", "H", "D", "DD", NULL};
 
 char *flags[] = {"-", "+", " ", "#", "0", NULL};
 
-int	fmt_tabsize(const char *str)
+typedef struct		s_formater
 {
-	while (*str)
-	{
-		str = ft_strchr(str, '%');
-		ft_putstr(str);
-		int i = 0;
-		while (types[i++])
-			ft_putendl(types[i]);
-		exit(0);
-	}
-	return (2048);
-}
+	char			flags[3];
+	char			*width[3];
+	char			*precision[3];
+	char			*length[3];
+	char			*type[3];
+}					t_formater;
 
-/* char **fmt_specs(const char *str) */
+/* char *fmt_specs(const char *str) */
 /* { */
-/* 	char **ret; */
+/* 	while */
 /* } */
 
 int	ft_printf(const char *format, ...)
@@ -46,7 +41,6 @@ int	ft_printf(const char *format, ...)
 
 	ret = 0;
 	//const char *cur_arg = format;
-	//fmt_tabsize(format);
 	char **strs = ft_strsplit(format, '%');
 	(void)strs;
 
@@ -55,6 +49,12 @@ int	ft_printf(const char *format, ...)
 		ft_putstr("(null)");
 		return (NULL_LEN);
 	}
+
+	if (tabcontains(flags, '#'))
+		ft_putendl("yes");
+	else
+		ft_putendl("no");
+	exit(0);
 
 	va_start(pa, format);
 	va_end(pa);
