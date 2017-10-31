@@ -6,7 +6,7 @@
 /*   By: cattouma <cattouma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/03 22:50:07 by cattouma          #+#    #+#             */
-/*   Updated: 2016/08/08 04:14:46 by cattouma         ###   ########.fr       */
+/*   Updated: 2017/10/31 17:39:00 by cattouma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,37 @@ typedef struct		s_formater
 	char			*type[3];
 }					t_formater;
 
-/* char *fmt_specs(const char *str) */
-/* { */
-/* 	while */
-/* } */
+int	is_type(char c)
+{
+	char	str[24];
+	int		i;
+
+	i = 0;
+	ft_strcpy(str, "sSpdDioOuUxXcCeEfFgGaAn");
+	while (str[i])
+	{
+		if (str[i] == c)
+		{
+			/* printf debug */
+			printf("[DEBUG TYPE] It's indeed a type the char is %c\n", c);
+			return (1);
+		}
+		i += 1;
+	}
+	return (0);
+}
+
+const char *fmt_specs(const char *str)
+{
+	int i = 0;
+
+	str++;
+	while(!is_type(str[i]))
+	{
+		i += 1;
+	}
+	return (str + i);
+}
 
 int	ft_printf(const char *format, ...)
 {
@@ -40,9 +67,6 @@ int	ft_printf(const char *format, ...)
 	int		ret;
 
 	ret = 0;
-	//const char *cur_arg = format;
-	char **strs = ft_strsplit(format, '%');
-	(void)strs;
 
 	if (!format)
 	{
@@ -50,15 +74,20 @@ int	ft_printf(const char *format, ...)
 		return (NULL_LEN);
 	}
 
-	if (tabcontains(flags, '#'))
-		ft_putendl("yes");
-	else
-		ft_putendl("no");
-	exit(0);
-
+	int i = 0;
 	va_start(pa, format);
+	while (format[i] != '\0')
+	{
+		if (format[i] == '%')
+		{
+			// go right and start format checking
+			format = fmt_specs(format + i);
+		}
+		else
+			ft_putchar(format[i]);
+		i += 1;
+	}
 	va_end(pa);
 
 	return (2048);
-
 }

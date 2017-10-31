@@ -6,7 +6,7 @@
 /*   By: cattouma <cattouma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/05 22:44:46 by cattouma          #+#    #+#             */
-/*   Updated: 2016/08/09 01:40:31 by cattouma         ###   ########.fr       */
+/*   Updated: 2017/10/31 17:14:18 by cattouma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ int main(void)
 	/* printf("%25s\n%25.4s\n\n", string, string); */
 	/* printf("%f    %.2f   %e    %E\n\n", fp ,fp, fp, fp); */
 	/* printf("%i    %i    %i\n\n", hex, oct, dec); */
-	printf("%0-20+#i", -10, oct, dec); 
+	//printf("%0-20+#i", -10, oct, dec);
 	//ft_printf("%i    %i    %i\n\n", hex, oct, dec);
 	//ft_printf("Hello %il this is a fmt\n", 124, 125, 126);
+	ft_printf("%11111111d %2222222222d %333333333d\n", 1, 2, 3);
 }
