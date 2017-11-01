@@ -81,9 +81,9 @@ void		init_formater(t_formater *fmt)
 }
 
 # define F_MINUS	0b00001
-# define F_PLUS	0b00010
+# define F_PLUS		0b00010
 # define F_BLANK	0b00100
-# define F_ZERO	0b01000
+# define F_ZERO		0b01000
 # define F_SHARP	0b10000
 
 void		set_formater(t_formater *fmt, const char *str)
@@ -100,6 +100,8 @@ void		set_formater(t_formater *fmt, const char *str)
 				fmt->flag.id |= F_SHARP;
 			else if (*str == '0')
 				fmt->flag.id |= F_PLUS;
+			if ((fmt->flag.id & F_MINUS) && (fmt->flag.id & F_ZERO))
+				fmt->flag.id &= 0b10111; /* Ignor F_ZER0 */
 			str++;
 		}
 		printf("[ DEBUG Flag ] activated flags are: ");
