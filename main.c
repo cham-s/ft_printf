@@ -36,5 +36,5 @@ int main(void)
 	//printf("%0-20+#i", -10, oct, dec);
 	//ft_printf("%i    %i    %i\n\n", hex, oct, dec);
 	//ft_printf("Hello %il this is a fmt\n", 124, 125, 126);
-	ft_printf("%11111111d %2222222222d %333333333d\n", 1, 2, 3);
+	ft_printf("%-+-+-+-+-+-+-+- #015d", -123456789, 2, 3);
 }
