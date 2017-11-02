@@ -20,12 +20,6 @@ char *args_size[] = {"h", "l", "ll", "L", "H", "D", "DD", NULL};
 
 char *flags[] = {"-", "+", " ", "#", "0", NULL};
 
-typedef struct		s_flag
-{
-	int	id;
-	size_t			width;
-}					t_flag;
-
 typedef struct		s_precision
 {
 	int		modifier;
@@ -34,7 +28,8 @@ typedef struct		s_precision
 
 typedef struct		s_formater
 {
-	t_flag			flag;
+	int				flag;
+	int				width;
 	t_precision		precision;
 	int				type;
 }					t_formater;
@@ -73,55 +68,65 @@ int	is_flag(char c)
 
 void		init_formater(t_formater *fmt)
 {
-	fmt->flag.id = 0;
-	fmt->flag.width = 0;
+	fmt->flag = 0;
+	fmt->width = 0;
 	fmt->precision.modifier = 0;
 	fmt->precision.length = 0;
 	fmt->type = 0;
 }
 
-# define F_MINUS	0b00001
-# define F_PLUS		0b00010
-# define F_BLANK	0b00100
-# define F_ZERO		0b01000
-# define F_SHARP	0b10000
+# define F_MINUS	0x01
+# define F_PLUS		0x02
+# define F_BLANK	0x04	
+# define F_ZERO		0x08	
+# define F_SHARP	0x10
 
-void		set_formater(t_formater *fmt, const char *str)
+void		set_formater(t_formater *fmt, const char *str, va_list *pa)
 {
-		while(is_flag(*str))
+	/* activated flags */
+	while(is_flag(*str))
+	{
+		if (*str == '-')
+			fmt->flag |= F_MINUS;
+		else if (*str == '+')
+			fmt->flag |= F_PLUS;
+		else if (*str == '#')
+			fmt->flag |= F_SHARP;
+		else if (*str == ' ')
+			fmt->flag |= F_BLANK;
+		else if (*str == '0')
+			fmt->flag |= F_ZERO;
+		if ((fmt->flag & F_MINUS) && (fmt->flag & F_ZERO))
+			fmt->flag &= 0b10111; /* Ignor F_ZER0 */
+		str++;
+	}
+	/* checking for asterik for width */
+	if (*str == '*')
+		fmt->width = va_arg(*pa, int);
+	else
+	{
+		char		*str_num;
+		const char	*start;
+
+		start = str;
+		if (ft_isdigit(*str))
 		{
-			if (*str == '-')
-				fmt->flag.id |= F_MINUS;
-			else if (*str == '+')
-				fmt->flag.id |= F_PLUS;
-			else if (*str == '#')
-				fmt->flag.id |= F_ZERO;
-			else if (*str == ' ')
-				fmt->flag.id |= F_SHARP;
-			else if (*str == '0')
-				fmt->flag.id |= F_PLUS;
-			if ((fmt->flag.id & F_MINUS) && (fmt->flag.id & F_ZERO))
-				fmt->flag.id &= 0b10111; /* Ignor F_ZER0 */
-			str++;
+			while (ft_isdigit(*str))
+				str++;
+			str_num = ft_strsub(start, 0, (size_t)(str - start));
+			fmt->width = ft_atoi(str_num);
+			free(str_num);
+			printf("[DEBUG Width] the current width without * is : %d\n", fmt->width);
 		}
-		printf("[ DEBUG Flag ] activated flags are: ");
-		if (fmt->flag.id & F_MINUS)
-			printf("- ");
-		if (fmt->flag.id & F_PLUS)
-			printf("+ ");
-		if (fmt->flag.id & F_SHARP)
-			printf("# ");
-		if (fmt->flag.id & F_ZERO)
-			printf("0 ");
-		printf("\n");
+	}
 }
-const char *fmt_specs(const char *str)
+const char *fmt_specs(const char *str, va_list *pa)
 {
 	t_formater	fmt;
 
 	init_formater(&fmt);
 	str++;
-	set_formater(&fmt, str);
+	set_formater(&fmt, str, pa);
 	return (str);
 }
 
@@ -143,14 +148,14 @@ int	ft_printf(const char *format, ...)
 	va_start(pa, format);
 	while (*tmp != '\0')
 	{
-		if (*tmp == '%')
+		if (*tmp != '%')
 		{
-			// go right and start format checking
-			tmp = fmt_specs(tmp);
-		}
-		else
 			ft_putchar(*tmp);
-		tmp++;
+			tmp++;
+			continue ;
+		}
+		// go right and start format checking
+		tmp = fmt_specs(tmp, &pa);
 	}
 	va_end(pa);
 
