@@ -20,17 +20,12 @@ char *args_size[] = {"h", "l", "ll", "L", "H", "D", "DD", NULL};
 
 char *flags[] = {"-", "+", " ", "#", "0", NULL};
 
-typedef struct		s_precision
-{
-	int		modifier;
-	size_t	length;
-}					t_precision;
-
 typedef struct		s_formater
 {
 	int				flag;
 	int				width;
-	t_precision		precision;
+	int				modifier;
+	int				length;
 	int				type;
 }					t_formater;
 
@@ -70,8 +65,8 @@ void		init_formater(t_formater *fmt)
 {
 	fmt->flag = 0;
 	fmt->width = 0;
-	fmt->precision.modifier = 0;
-	fmt->precision.length = 0;
+	fmt->modifier = 0;
+	fmt->length = 0;
 	fmt->type = 0;
 }
 
@@ -100,9 +95,14 @@ void		set_formater(t_formater *fmt, const char *str, va_list *pa)
 			fmt->flag &= 0b10111; /* Ignor F_ZER0 */
 		str++;
 	}
+
 	/* checking for asterik for width */
 	if (*str == '*')
+	{
 		fmt->width = va_arg(*pa, int);
+		printf("[DEBUG WIDTH] is: %d\n", fmt->width);
+		str++;
+	}
 	else
 	{
 		char		*str_num;
@@ -115,8 +115,36 @@ void		set_formater(t_formater *fmt, const char *str, va_list *pa)
 				str++;
 			str_num = ft_strsub(start, 0, (size_t)(str - start));
 			fmt->width = ft_atoi(str_num);
+			printf("[DEBUG WIDTH] is: %d\n", fmt->width);
 			free(str_num);
-			printf("[DEBUG Width] the current width without * is : %d\n", fmt->width);
+		}
+	}
+
+	/* checking precision */
+	if (*str == '.')
+	{
+		str++;
+		if (*str == '*')
+		{
+			fmt->length = va_arg(*pa, int);
+			printf("[DEBUG PRECISION] is: %d\n", fmt->length);
+			str++;
+		}
+		else
+		{
+			char		*str_num;
+			const char	*start;
+
+			start = str;
+			if (ft_isdigit(*str))
+			{
+				while (ft_isdigit(*str))
+					str++;
+				str_num = ft_strsub(start, 0, (size_t)(str - start));
+				fmt->length = ft_atoi(str_num);
+				printf("[DEBUG PRECISION] is: %d\n", fmt->length);
+				free(str_num);
+			}
 		}
 	}
 }
