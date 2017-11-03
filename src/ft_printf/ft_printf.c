@@ -24,7 +24,7 @@ typedef struct		s_formater
 {
 	int				flag;
 	int				width;
-	int				modifier;
+	int				precision;
 	int				length;
 	int				type;
 }					t_formater;
@@ -61,11 +61,27 @@ int	is_flag(char c)
 	return (0);
 }
 
+int is_modifier(char c)
+{
+	char	str[5];
+	int		i;
+
+	i = 0;
+	ft_strcpy(str, "hljz");
+	while (str[i])
+	{
+		if (str[i] == c)
+			return (1);
+		i += 1;
+	}
+	return (0);
+}
+
 void		init_formater(t_formater *fmt)
 {
 	fmt->flag = 0;
 	fmt->width = 0;
-	fmt->modifier = 0;
+	fmt->precision= 0;
 	fmt->length = 0;
 	fmt->type = 0;
 }
@@ -75,6 +91,12 @@ void		init_formater(t_formater *fmt)
 # define F_BLANK	0x04	
 # define F_ZERO		0x08	
 # define F_SHARP	0x10
+
+# define F_SH		0x01
+# define F_SL		0x02
+# define F_DH		0x04	
+# define F_DL		0x08	
+# define F_Z		0x10	
 
 void		set_formater(t_formater *fmt, const char *str, va_list *pa)
 {
@@ -92,7 +114,7 @@ void		set_formater(t_formater *fmt, const char *str, va_list *pa)
 		else if (*str == '0')
 			fmt->flag |= F_ZERO;
 		if ((fmt->flag & F_MINUS) && (fmt->flag & F_ZERO))
-			fmt->flag &= 0b10111; /* Ignor F_ZER0 */
+			fmt->flag &= 0b10111; /* Ignore F_ZER0 */
 		str++;
 	}
 
@@ -100,7 +122,6 @@ void		set_formater(t_formater *fmt, const char *str, va_list *pa)
 	if (*str == '*')
 	{
 		fmt->width = va_arg(*pa, int);
-		printf("[DEBUG WIDTH] is: %d\n", fmt->width);
 		str++;
 	}
 	else
@@ -115,7 +136,6 @@ void		set_formater(t_formater *fmt, const char *str, va_list *pa)
 				str++;
 			str_num = ft_strsub(start, 0, (size_t)(str - start));
 			fmt->width = ft_atoi(str_num);
-			printf("[DEBUG WIDTH] is: %d\n", fmt->width);
 			free(str_num);
 		}
 	}
@@ -127,7 +147,6 @@ void		set_formater(t_formater *fmt, const char *str, va_list *pa)
 		if (*str == '*')
 		{
 			fmt->length = va_arg(*pa, int);
-			printf("[DEBUG PRECISION] is: %d\n", fmt->length);
 			str++;
 		}
 		else
@@ -142,11 +161,26 @@ void		set_formater(t_formater *fmt, const char *str, va_list *pa)
 					str++;
 				str_num = ft_strsub(start, 0, (size_t)(str - start));
 				fmt->length = ft_atoi(str_num);
-				printf("[DEBUG PRECISION] is: %d\n", fmt->length);
 				free(str_num);
 			}
 		}
 	}
+
+	/* Get length modifier */
+	if (*str == 'l' && *(str + 1) != 'l')
+		fmt->modifier |= F_SL;
+	else if (*str == 'l' && *(str + 1) == 'l')
+		fmt->modifier |= F_DL;
+	else if (*str == 'h' && *(str + 1) != 'h')
+		fmt->modifier |= F_SH;
+	else if (*str == 'h' && *(str + 1) == 'h')
+		fmt->modifier |= F_DH;
+	else if (*str == 'z')
+		fmt->modifier |= F_Z;
+	if ((fmt->modifier & F_DL) || fmt->modifier & F_DH)
+		str++;
+	str++;
+
 }
 const char *fmt_specs(const char *str, va_list *pa)
 {
