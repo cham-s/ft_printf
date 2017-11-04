@@ -12,22 +12,88 @@
 
 #include "ft_printf.h"
 
-char *types[] = {"d", "i", "u", "o", "x", "X",
-				 "f", "F", "e", "E", "g", "G",
-				 "c", "s", "n", "p", "C", "S", NULL};
-
-char *args_size[] = {"h", "l", "ll", "L", "H", "D", "DD", NULL};
-
-char *flags[] = {"-", "+", " ", "#", "0", NULL};
-
-typedef struct		s_formater
+void	debug_fmt(t_formater *fmt)
 {
-	int				flag;
-	int				width;
-	int				modifier;
-	int				length;
-	int				type;
-}					t_formater;
+	if (fmt->flag)
+	{
+		printf("[DEBUG flag] The flag is: ");
+		if (fmt->flag & F_MINUS)
+			printf("- ");
+		if (fmt->flag & F_PLUS)
+			printf("+ ");
+		if (fmt->flag & F_BLANK)
+			printf("blank ");
+		if (fmt->flag & F_ZERO)
+			printf("0 ");
+		if (fmt->flag & F_SHARP)
+			printf("# ");
+		printf("\n");
+	}
+	if (fmt->width)
+		printf("[DEBUG width] The width is: %d\n", fmt->width);
+	if (fmt->length)
+		printf("[DEBUG length] The precision length is: %d\n", fmt->length);
+	if (fmt->modifier)
+	{
+		printf("[DEBUG modifier] The modifier is: ");
+		if (fmt->modifier & F_SH)
+			printf("h ");
+		if (fmt->modifier & F_SL)
+			printf("l ");
+		if (fmt->modifier & F_DL)
+			printf("ll ");
+		if (fmt->modifier & F_DH)
+			printf("hh ");
+		if (fmt->modifier & F_Z)
+			printf("z ");
+		printf("\n");
+	}
+	if (fmt->type)
+	{
+		printf("[DEBUG type] The type is: ");
+		if (fmt->type == T_S)
+			printf("s");
+		else if (fmt->type == T_GS)
+			printf("S");
+		else if (fmt->type == T_GS)
+			printf("S");
+		else if (fmt->type == T_D)
+			printf("d");
+		else if (fmt->type == T_GD)
+			printf("GD");
+		else if (fmt->type == T_I)
+			printf("i");
+		else if (fmt->type == T_O)
+			printf("o");
+		else if (fmt->type == T_GO)
+			printf("O");
+		else if (fmt->type == T_U)
+			printf("u");
+		else if (fmt->type == T_GU)
+			printf("U");
+		else if (fmt->type == T_X)
+			printf("x");
+		else if (fmt->type == T_GX)
+			printf("X");
+		else if (fmt->type == T_C)
+			printf("c");
+		else if (fmt->type == T_GC)
+			printf("C");
+		else if (fmt->type == T_EE)
+			printf("eE");
+		else if (fmt->type == T_FF)
+			printf("fF");
+		else if (fmt->type == T_GG)
+			printf("gG");
+		else if (fmt->type == T_AA)
+			printf("aA");
+		else if (fmt->type == T_N)
+			printf("n");
+		else if (fmt->type == T_P)
+			printf("p");
+		printf("\n");
+	}
+}
 
 int	is_type(char c)
 {
@@ -86,46 +152,6 @@ void		init_formater(t_formater *fmt)
 	fmt->type = 0;
 }
 
-/*
- * Flags
- * */
-# define F_MINUS	0x01
-# define F_PLUS		0x02
-# define F_BLANK	0x04	
-# define F_ZERO		0x08	
-# define F_SHARP	0x10
-
-/*
- * Modifiers 
- * */
-# define F_SH		0x01
-# define F_SL		0x02
-# define F_DH		0x04	
-# define F_DL		0x08	
-# define F_Z		0x10	
-
-/*
- * Types 
- * */
-# define T_S		1
-# define T_GS		2
-# define T_D		3
-# define T_GD		4
-# define T_I		5
-# define T_O		6
-# define T_GO		7
-# define T_U		8
-# define T_GU		9
-# define T_X		10
-# define T_GX		11
-# define T_C		12	
-# define T_GC		13
-# define T_EE		14
-# define T_FF		15
-# define T_GG		16
-# define T_AA		17
-# define T_N		18
-# define T_P		19
 
 /*
  * A format string is composed of:
@@ -260,16 +286,7 @@ void		set_formater(t_formater *fmt, const char *str, va_list *pa)
 		else if (*str == 'C')
 			fmt->type = T_GC;
 	}
-	if (fmt->flag)
-		printf("[DEBUG flag] The flag is: %#2.2x\n", fmt->flag);
-	if (fmt->width)
-		printf("[DEBUG width] The width is: %d\n", fmt->width);
-	if (fmt->length)
-		printf("[DEBUG length] The precision length is: %d\n", fmt->length);
-	if (fmt->modifier)
-		printf("[DEBUG modifier] The modifier is: %#2.2x\n", fmt->modifier);
-	if (fmt->type)
-		printf("[DEBUG type] The type is: %d\n", fmt->type);
+	debug_fmt(fmt);
 }
 const char *fmt_specs(const char *str, va_list *pa)
 {

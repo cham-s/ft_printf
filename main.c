@@ -38,4 +38,6 @@ int main(void)
 	//ft_printf("Hello l this is a fmt\n", 124, 125, 126);
 	//ft_printf("%-+-+-+-+-+-+-+- #015d\n", -123456789, 2, 3);
 	ft_printf("% 10.4hd\n", 4);
+	ft_printf("%-+ #10.4lld\n", 4);
+	ft_printf("%020hd\n", 4);
 }
