@@ -24,7 +24,7 @@ typedef struct		s_formater
 {
 	int				flag;
 	int				width;
-	int				precision;
+	int				modifier;
 	int				length;
 	int				type;
 }					t_formater;
@@ -81,7 +81,7 @@ void		init_formater(t_formater *fmt)
 {
 	fmt->flag = 0;
 	fmt->width = 0;
-	fmt->precision= 0;
+	fmt->modifier = 0;
 	fmt->length = 0;
 	fmt->type = 0;
 }
@@ -97,6 +97,35 @@ void		init_formater(t_formater *fmt)
 # define F_DH		0x04	
 # define F_DL		0x08	
 # define F_Z		0x10	
+
+
+# define T_S		1
+# define T_GS		2
+# define T_D		3
+# define T_GD		4
+# define T_I		5
+# define T_O		6
+# define T_GO		7
+# define T_U		8
+# define T_GU		9
+# define T_X		10
+# define T_GX		11
+# define T_C		12	
+# define T_GC		13
+# define T_EE		14
+# define T_FF		15
+# define T_GG		16
+# define T_AA		17
+# define T_N		18
+
+
+
+/*
+ * A format string is composed of:
+ * [ flag ] - [ width ] - [ precision ] - [ modifier ] - type
+ * set formater takes a potential string fmt and build a data structure
+ * from it. 
+ * */
 
 void		set_formater(t_formater *fmt, const char *str, va_list *pa)
 {
@@ -180,7 +209,47 @@ void		set_formater(t_formater *fmt, const char *str, va_list *pa)
 	if ((fmt->modifier & F_DL) || fmt->modifier & F_DH)
 		str++;
 	str++;
+	if (is_modifier(*str))
+	{
+		while (is_modifier(*str))
+			str++;
+	}
 
+//	ft_strcpy(str, "sSpdDioOuUxXcCeEfFgGaAn");
+	/* Extract type */
+	if (is_type(*str))
+	{
+		if (*str == 's')
+			fmt->type = T_S;
+		else if (*str == 'S')
+			fmt->type = T_GS;
+		else if (*str == 'p')
+			fmt->type = T_P;
+		else if (*str == 'd')
+			fmt->type = T_D;
+		else if (*str == 'd')
+			fmt->type = T_P;
+		else if (*str == 'D')
+			fmt->type = T_GD;
+		else if (*str == 'i')
+			fmt->type = T_I;
+		else if (*str == 'o')
+			fmt->type = T_O;
+		else if (*str == 'O')
+			fmt->type = T_GO;
+		else if (*str == 'u')
+			fmt->type = T_U;
+		else if (*str == 'U')
+			fmt->type = T_GU;
+		else if (*str == 'x')
+			fmt->type = T_X;
+		else if (*str == 'X')
+			fmt->type = T_GX;
+		else if (*str == 'c')
+			fmt->type = T_C;
+		else if (*str == 'C')
+			fmt->type = T_GC;
+	}
 }
 const char *fmt_specs(const char *str, va_list *pa)
 {
