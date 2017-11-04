@@ -86,19 +86,27 @@ void		init_formater(t_formater *fmt)
 	fmt->type = 0;
 }
 
+/*
+ * Flags
+ * */
 # define F_MINUS	0x01
 # define F_PLUS		0x02
 # define F_BLANK	0x04	
 # define F_ZERO		0x08	
 # define F_SHARP	0x10
 
+/*
+ * Modifiers 
+ * */
 # define F_SH		0x01
 # define F_SL		0x02
 # define F_DH		0x04	
 # define F_DL		0x08	
 # define F_Z		0x10	
 
-
+/*
+ * Types 
+ * */
 # define T_S		1
 # define T_GS		2
 # define T_D		3
@@ -117,8 +125,7 @@ void		init_formater(t_formater *fmt)
 # define T_GG		16
 # define T_AA		17
 # define T_N		18
-
-
+# define T_P		19
 
 /*
  * A format string is composed of:
@@ -196,26 +203,29 @@ void		set_formater(t_formater *fmt, const char *str, va_list *pa)
 	}
 
 	/* Get length modifier */
-	if (*str == 'l' && *(str + 1) != 'l')
-		fmt->modifier |= F_SL;
-	else if (*str == 'l' && *(str + 1) == 'l')
-		fmt->modifier |= F_DL;
-	else if (*str == 'h' && *(str + 1) != 'h')
-		fmt->modifier |= F_SH;
-	else if (*str == 'h' && *(str + 1) == 'h')
-		fmt->modifier |= F_DH;
-	else if (*str == 'z')
-		fmt->modifier |= F_Z;
-	if ((fmt->modifier & F_DL) || fmt->modifier & F_DH)
+	if (is_modifier(*str))
+	{
+		if (*str == 'l' && *(str + 1) != 'l')
+			fmt->modifier |= F_SL;
+		else if (*str == 'l' && *(str + 1) == 'l')
+			fmt->modifier |= F_DL;
+		else if (*str == 'h' && *(str + 1) != 'h')
+			fmt->modifier |= F_SH;
+		else if (*str == 'h' && *(str + 1) == 'h')
+			fmt->modifier |= F_DH;
+		else if (*str == 'z')
+			fmt->modifier |= F_Z;
+		if ((fmt->modifier & F_DL) || fmt->modifier & F_DH)
+			str++;
 		str++;
-	str++;
+	}
 	if (is_modifier(*str))
 	{
 		while (is_modifier(*str))
 			str++;
 	}
 
-//	ft_strcpy(str, "sSpdDioOuUxXcCeEfFgGaAn");
+	//	ft_strcpy(str, "sSpdDioOuUxXcCeEfFgGaAn");
 	/* Extract type */
 	if (is_type(*str))
 	{
@@ -228,7 +238,7 @@ void		set_formater(t_formater *fmt, const char *str, va_list *pa)
 		else if (*str == 'd')
 			fmt->type = T_D;
 		else if (*str == 'd')
-			fmt->type = T_P;
+			fmt->type = T_D;
 		else if (*str == 'D')
 			fmt->type = T_GD;
 		else if (*str == 'i')
@@ -250,6 +260,16 @@ void		set_formater(t_formater *fmt, const char *str, va_list *pa)
 		else if (*str == 'C')
 			fmt->type = T_GC;
 	}
+	if (fmt->flag)
+		printf("[DEBUG flag] The flag is: %#2.2x\n", fmt->flag);
+	if (fmt->width)
+		printf("[DEBUG width] The width is: %d\n", fmt->width);
+	if (fmt->length)
+		printf("[DEBUG length] The precision length is: %d\n", fmt->length);
+	if (fmt->modifier)
+		printf("[DEBUG modifier] The modifier is: %#2.2x\n", fmt->modifier);
+	if (fmt->type)
+		printf("[DEBUG type] The type is: %d\n", fmt->type);
 }
 const char *fmt_specs(const char *str, va_list *pa)
 {
