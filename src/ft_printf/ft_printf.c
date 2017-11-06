@@ -152,17 +152,8 @@ void		init_formater(t_formater *fmt)
 	fmt->type = 0;
 }
 
-
-/*
- * A format string is composed of:
- * [ flag ] - [ width ] - [ precision ] - [ modifier ] - type
- * set formater takes a potential string fmt and build a data structure
- * from it. 
- * */
-
-void		set_formater(t_formater *fmt, const char *str, va_list *pa)
+const char	*set_flags(t_formater *fmt, const char *str)
 {
-	/* activated flags */
 	while(is_flag(*str))
 	{
 		if (*str == '-')
@@ -179,8 +170,14 @@ void		set_formater(t_formater *fmt, const char *str, va_list *pa)
 			fmt->flag &= 0b10111; /* Ignore F_ZER0 */
 		str++;
 	}
+	return (str);
+}
 
-	/* checking for asterik for width */
+const char	*set_width(t_formater *fmt, const char *str, va_list *pa)
+{
+	char		*str_num;
+	const char	*start;
+
 	if (*str == '*')
 	{
 		fmt->width = va_arg(*pa, int);
@@ -188,9 +185,6 @@ void		set_formater(t_formater *fmt, const char *str, va_list *pa)
 	}
 	else
 	{
-		char		*str_num;
-		const char	*start;
-
 		start = str;
 		if (ft_isdigit(*str))
 		{
@@ -201,8 +195,14 @@ void		set_formater(t_formater *fmt, const char *str, va_list *pa)
 			free(str_num);
 		}
 	}
+	return (str);
+}
 
-	/* checking precision */
+const char	*set_precision_length(t_formater *fmt, const char *str, va_list *pa)
+{
+	char		*str_num;
+	const char	*start;
+
 	if (*str == '.')
 	{
 		str++;
@@ -213,9 +213,6 @@ void		set_formater(t_formater *fmt, const char *str, va_list *pa)
 		}
 		else
 		{
-			char		*str_num;
-			const char	*start;
-
 			start = str;
 			if (ft_isdigit(*str))
 			{
@@ -227,8 +224,11 @@ void		set_formater(t_formater *fmt, const char *str, va_list *pa)
 			}
 		}
 	}
+	return (str);
+}
 
-	/* Get length modifier */
+const char	*set_modifier(t_formater *fmt, const char *str)
+{
 	if (is_modifier(*str))
 	{
 		if (*str == 'l' && *(str + 1) != 'l')
@@ -250,9 +250,11 @@ void		set_formater(t_formater *fmt, const char *str, va_list *pa)
 		while (is_modifier(*str))
 			str++;
 	}
+	return (str);
+}
 
-	//	ft_strcpy(str, "sSpdDioOuUxXcCeEfFgGaAn");
-	/* Extract type */
+const char	*set_type(t_formater *fmt, const char *str)
+{
 	if (is_type(*str))
 	{
 		if (*str == 's')
@@ -286,9 +288,20 @@ void		set_formater(t_formater *fmt, const char *str, va_list *pa)
 		else if (*str == 'C')
 			fmt->type = T_GC;
 	}
+	return (str);
+}
+
+void		set_formater(t_formater *fmt, const char *str, va_list *pa)
+{
+	str = set_flags(fmt, str);
+	str = set_width(fmt, str, pa);
+	str = set_precision_length(fmt, str, pa);
+	str = set_modifier(fmt, str);
+	str = set_type(fmt, str);
 	debug_fmt(fmt);
 }
-const char *fmt_specs(const char *str, va_list *pa)
+
+const char *handle_format_string(const char *str, va_list *pa)
 {
 	t_formater	fmt;
 
@@ -302,30 +315,26 @@ int	ft_printf(const char *format, ...)
 {
 	va_list		pa;
 	int			ret;
-	const char	*tmp;
+	const char	*str;
 
 	ret = 0;
-	tmp = format;
-
+	str = format;
 	if (!format)
 	{
 		ft_putstr("(null)");
 		return (NULL_LEN);
 	}
-
 	va_start(pa, format);
-	while (*tmp != '\0')
+	while (*str != '\0')
 	{
-		if (*tmp != '%')
+		if (*str != '%')
 		{
-			ft_putchar(*tmp);
-			tmp++;
+			ft_putchar(*str);
+			str++;
 			continue ;
 		}
-		// go right and start format checking
-		tmp = fmt_specs(tmp, &pa);
+		str = handle_format_string(str, &pa);
 	}
 	va_end(pa);
-
 	return (2048);
 }
