@@ -6,11 +6,17 @@
 /*   By: cattouma <cattouma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/03 22:50:07 by cattouma          #+#    #+#             */
-/*   Updated: 2017/10/31 17:39:00 by cattouma         ###   ########.fr       */
+/*   Updated: 2017/11/06 22:29:47 by cattouma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+typedef struct	s_printf
+{
+	int			ret;
+	const char	*str;
+}				t_printf;
 
 void	debug_fmt(t_formater *fmt)
 {
@@ -152,188 +158,187 @@ void		init_formater(t_formater *fmt)
 	fmt->type = 0;
 }
 
-const char	*set_flags(t_formater *fmt, const char *str)
+void		set_flags(t_formater *fmt, t_printf *pf)
 {
-	while(is_flag(*str))
+	while(is_flag(*(pf->str)))
 	{
-		if (*str == '-')
+		if (*(pf->str) == '-')
 			fmt->flag |= F_MINUS;
-		else if (*str == '+')
+		else if (*(pf->str) == '+')
 			fmt->flag |= F_PLUS;
-		else if (*str == '#')
+		else if (*(pf->str) == '#')
 			fmt->flag |= F_SHARP;
-		else if (*str == ' ')
+		else if (*(pf->str) == ' ')
 			fmt->flag |= F_BLANK;
-		else if (*str == '0')
+		else if (*(pf->str) == '0')
 			fmt->flag |= F_ZERO;
 		if ((fmt->flag & F_MINUS) && (fmt->flag & F_ZERO))
 			fmt->flag &= 0b10111; /* Ignore F_ZER0 */
-		str++;
+		(pf->str)++;
 	}
-	return (str);
 }
 
-const char	*set_width(t_formater *fmt, const char *str, va_list *pa)
+void		set_width(t_formater *fmt, t_printf *pf, va_list *pa)
 {
 	char		*str_num;
 	const char	*start;
 
-	if (*str == '*')
+	if (*(pf->str) == '*')
 	{
 		fmt->width = va_arg(*pa, int);
-		str++;
+		(pf->str)++;
 	}
 	else
 	{
-		start = str;
-		if (ft_isdigit(*str))
+		start = pf->str;
+		if (ft_isdigit(*(pf->str)))
 		{
-			while (ft_isdigit(*str))
-				str++;
-			str_num = ft_strsub(start, 0, (size_t)(str - start));
+			while (ft_isdigit(*(pf->str)))
+				(pf->str)++;
+			str_num = ft_strsub(start, 0, (size_t)(pf->str - start));
 			fmt->width = ft_atoi(str_num);
 			free(str_num);
 		}
 	}
-	return (str);
 }
 
-const char	*set_precision_length(t_formater *fmt, const char *str, va_list *pa)
+void		set_precision_length(t_formater *fmt, t_printf *pf, va_list *pa)
 {
 	char		*str_num;
 	const char	*start;
 
-	if (*str == '.')
+	if (*(pf->str) == '.')
 	{
-		str++;
-		if (*str == '*')
+		(pf->str)++;
+		if (*(pf->str) == '*')
 		{
 			fmt->length = va_arg(*pa, int);
-			str++;
+			(pf->str)++;
 		}
 		else
 		{
-			start = str;
-			if (ft_isdigit(*str))
+			start = pf->str;
+			if (ft_isdigit(*(pf->str)))
 			{
-				while (ft_isdigit(*str))
-					str++;
-				str_num = ft_strsub(start, 0, (size_t)(str - start));
+				while (ft_isdigit(*(pf->str)))
+					(pf->str)++;
+				str_num = ft_strsub(start, 0, (size_t)(pf->str - start));
 				fmt->length = ft_atoi(str_num);
 				free(str_num);
 			}
 		}
 	}
-	return (str);
 }
 
-const char	*set_modifier(t_formater *fmt, const char *str)
+void	set_modifier(t_formater *fmt, t_printf *pf)
 {
-	if (is_modifier(*str))
+	if (is_modifier(*(pf->str)))
 	{
-		if (*str == 'l' && *(str + 1) != 'l')
+		if (*(pf->str) == 'l' && *((pf->str) + 1) != 'l')
 			fmt->modifier |= F_SL;
-		else if (*str == 'l' && *(str + 1) == 'l')
+		else if (*(pf->str) == 'l' && *((pf->str) + 1) == 'l')
 			fmt->modifier |= F_DL;
-		else if (*str == 'h' && *(str + 1) != 'h')
+		else if (*(pf->str) == 'h' && *((pf->str) + 1) != 'h')
 			fmt->modifier |= F_SH;
-		else if (*str == 'h' && *(str + 1) == 'h')
+		else if (*(pf->str) == 'h' && *((pf->str) + 1) == 'h')
 			fmt->modifier |= F_DH;
-		else if (*str == 'z')
+		else if (*(pf->str) == 'z')
 			fmt->modifier |= F_Z;
 		if ((fmt->modifier & F_DL) || fmt->modifier & F_DH)
-			str++;
-		str++;
+			(pf->str)++;
+		(pf->str)++;
 	}
-	if (is_modifier(*str))
+	if (is_modifier(*(pf->str)))
 	{
-		while (is_modifier(*str))
-			str++;
+		while (is_modifier(*(pf->str)))
+			(pf->str)++;
 	}
-	return (str);
 }
 
-const char	*set_type(t_formater *fmt, const char *str)
+void		set_type(t_formater *fmt, t_printf *pf)
 {
-	if (is_type(*str))
+	if (is_type(*(pf->str)))
 	{
-		if (*str == 's')
+		if (*(pf->str) == 's')
 			fmt->type = T_S;
-		else if (*str == 'S')
+		else if (*(pf->str) == 'S')
 			fmt->type = T_GS;
-		else if (*str == 'p')
+		else if (*(pf->str) == 'p')
 			fmt->type = T_P;
-		else if (*str == 'd')
+		else if (*(pf->str) == 'd')
 			fmt->type = T_D;
-		else if (*str == 'd')
+		else if (*(pf->str) == 'd')
 			fmt->type = T_D;
-		else if (*str == 'D')
+		else if (*(pf->str) == 'D')
 			fmt->type = T_GD;
-		else if (*str == 'i')
+		else if (*(pf->str) == 'i')
 			fmt->type = T_I;
-		else if (*str == 'o')
+		else if (*(pf->str) == 'o')
 			fmt->type = T_O;
-		else if (*str == 'O')
+		else if (*(pf->str) == 'O')
 			fmt->type = T_GO;
-		else if (*str == 'u')
+		else if (*(pf->str) == 'u')
 			fmt->type = T_U;
-		else if (*str == 'U')
+		else if (*(pf->str) == 'U')
 			fmt->type = T_GU;
-		else if (*str == 'x')
+		else if (*(pf->str) == 'x')
 			fmt->type = T_X;
-		else if (*str == 'X')
+		else if (*(pf->str) == 'X')
 			fmt->type = T_GX;
-		else if (*str == 'c')
+		else if (*(pf->str) == 'c')
 			fmt->type = T_C;
-		else if (*str == 'C')
+		else if (*(pf->str) == 'C')
 			fmt->type = T_GC;
 	}
-	return (str);
 }
 
-void		set_formater(t_formater *fmt, const char *str, va_list *pa)
+void		set_formater(t_formater *fmt, t_printf *pf, va_list *pa)
 {
-	str = set_flags(fmt, str);
-	str = set_width(fmt, str, pa);
-	str = set_precision_length(fmt, str, pa);
-	str = set_modifier(fmt, str);
-	str = set_type(fmt, str);
+	set_flags(fmt, pf);
+	set_width(fmt, pf, pa);
+	set_precision_length(fmt, pf, pa);
+	set_modifier(fmt, pf);
+	set_type(fmt, pf);
 	debug_fmt(fmt);
 }
 
-const char *handle_format_string(const char *str, va_list *pa)
+void		handle_format_string(t_printf *pf, va_list *pa)
 {
 	t_formater	fmt;
 
 	init_formater(&fmt);
-	str++;
-	set_formater(&fmt, str, pa);
-	return (str);
+	(pf->str)++;
+	set_formater(&fmt, pf, pa);
+}
+
+void	init_printf(t_printf *pf, const char *format)
+{
+	pf->ret = 0;
+	pf->str = format;
 }
 
 int	ft_printf(const char *format, ...)
 {
 	va_list		pa;
-	int			ret;
-	const char	*str;
+	t_printf	pf;
 
-	ret = 0;
-	str = format;
+	init_printf(&pf, format);
 	if (!format)
 	{
 		ft_putstr("(null)");
 		return (NULL_LEN);
 	}
 	va_start(pa, format);
-	while (*str != '\0')
+	while (*(pf.str) != '\0')
 	{
-		if (*str != '%')
+		if (*(pf.str) != '%')
 		{
-			ft_putchar(*str);
-			str++;
+			ft_putchar(*(pf.str));
+			pf.ret += 1;
+			(pf.str)++;
 			continue ;
 		}
-		str = handle_format_string(str, &pa);
+		handle_format_string(&pf, &pa);
 	}
 	va_end(pa);
 	return (2048);
