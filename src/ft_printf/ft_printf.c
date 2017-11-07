@@ -6,7 +6,7 @@
 /*   By: cattouma <cattouma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/03 22:50:07 by cattouma          #+#    #+#             */
-/*   Updated: 2017/11/06 22:29:47 by cattouma         ###   ########.fr       */
+/*   Updated: 2017/11/07 02:34:09 by cattouma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,6 +289,7 @@ void		set_type(t_formater *fmt, t_printf *pf)
 			fmt->type = T_C;
 		else if (*(pf->str) == 'C')
 			fmt->type = T_GC;
+		(pf->str)++;
 	}
 }
 
@@ -299,8 +300,8 @@ void		set_formater(t_formater *fmt, t_printf *pf, va_list *pa)
 	set_precision_length(fmt, pf, pa);
 	set_modifier(fmt, pf);
 	set_type(fmt, pf);
-	debug_fmt(fmt);
 }
+
 
 void		handle_format_string(t_printf *pf, va_list *pa)
 {
@@ -309,6 +310,53 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 	init_formater(&fmt);
 	(pf->str)++;
 	set_formater(&fmt, pf, pa);
+	if (fmt.type == T_S)
+	{
+		char	*str;
+		str = va_arg(*pa, char *);
+		if (!str)
+		{
+			ft_putstr("(null)");
+			pf->ret += NULL_LEN;
+		}
+		else
+		{
+			ft_putstr(str);
+			pf->ret += (int )ft_strlen(str);
+		}
+	}
+	else if (fmt.type == T_D)
+	{
+		int		num;
+		char	*str_num;
+
+		num = va_arg(*pa, int);
+		str_num = ft_itoa(num);
+		ft_putstr(str_num);
+		pf->ret += (int )ft_strlen(str_num);
+		free(str_num);
+	}
+	else if (fmt.type == T_P)
+	{
+		void				*n;
+		unsigned long long	addr;
+		char				*output;
+		char				*str;
+
+		n = va_arg(*pa, void*);
+		addr = (unsigned long long)n;
+		output = ft_ltoa_base(addr, 16);
+		str = output;
+		while(*str)
+		{
+			*str = ft_tolower(*str);
+			str++;
+		}
+		ft_putstr("0x");
+		ft_putstr(output);
+		pf->ret += (int )(ft_strlen(output) + 2);
+		free(output);
+	}
 }
 
 void	init_printf(t_printf *pf, const char *format)
@@ -341,5 +389,5 @@ int	ft_printf(const char *format, ...)
 		handle_format_string(&pf, &pa);
 	}
 	va_end(pa);
-	return (2048);
+	return (pf.ret);
 }
