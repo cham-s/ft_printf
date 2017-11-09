@@ -26,16 +26,9 @@ int main(void)
 	//ret2 = printf("{% 2%}");
 	//printf("return: %d\n", ret);
 	printf("%lc\n", L'ψ');	
-	printf("%C", L'猫');
-	printf("%C", L'δ');
-	printf("%C", L'요');
-	printf("%C", L'莨');
-	printf("%C", L'ي');
-	unsigned char c;
-	c = 0xcf;
-	write(1, &c, 1);
-	c = 0x88;
-	write(1, &c, 1);
-	/* c = 0x0a; */
-	/* write(1, &c, 1); */
+	ft_printf("%C", L'猫');
+	/* printf("%C", L'δ'); */
+	/* printf("%C", L'요'); */
+	/* printf("%C", L'莨'); */
+	/* printf("%C", L'ي'); */
 }

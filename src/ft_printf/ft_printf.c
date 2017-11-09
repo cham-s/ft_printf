@@ -357,6 +357,26 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 		pf->ret += (int )(ft_strlen(output) + 2);
 		free(output);
 	}
+	else if (fmt.type == T_GC)
+	{
+		unsigned int ch;
+
+		ch = va_arg(*pa, unsigned int);
+		pf->ret += ft_putunicode(ch);
+	}
+	else if (fmt.type == T_GS)
+	{
+		unsigned int *str;
+
+		str = va_arg(*pa, unsigned int *);
+		if (!str)
+		{
+			ft_putstr("(null)");
+			pf->ret += NULL_LEN;
+		}
+		else
+			pf->ret += ft_putstruni(str);
+	}
 }
 
 void	init_printf(t_printf *pf, const char *format)
