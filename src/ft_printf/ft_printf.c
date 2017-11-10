@@ -325,13 +325,23 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 			pf->ret += (int )ft_strlen(str);
 		}
 	}
-	else if (fmt.type == T_D)
+	else if (fmt.type == T_D || fmt.type == T_I)
 	{
-		int		num;
 		char	*str_num;
 
-		num = va_arg(*pa, int);
-		str_num = ft_itoa(num);
+		if (fmt.modifier & F_SL)
+			str_num = ft_ultoa_base(va_arg(*pa, long int), 10);
+		else if (fmt.modifier & F_DL)
+			str_num = ft_ultoa_base(va_arg(*pa, long long int), 10);
+		else if (fmt.modifier & F_SH)
+			str_num = ft_stoa_base((short )va_arg(*pa, int), 10);
+		else if (fmt.modifier & F_DH)
+			str_num = ft_ctoa_base((char )va_arg(*pa, int), 10);
+		else if (fmt.modifier & F_Z)
+			str_num = ft_ultoa_base(va_arg(*pa, size_t), 10);
+		else
+			str_num = ft_itoa(va_arg(*pa, int));
+
 		ft_putstr(str_num);
 		pf->ret += (int )ft_strlen(str_num);
 		free(str_num);
@@ -376,6 +386,112 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 		}
 		else
 			pf->ret += ft_putstruni(str);
+	}
+	else if (fmt.type == T_GD)
+	{
+		long long n;
+
+		n = va_arg(*pa, long long);
+		ft_putnbr(n);
+		pf->ret += ft_strlen(ft_ltoa_base(n, 10));
+	}
+	else if (fmt.type == T_O)
+	{
+		char *s;
+
+		if (fmt.modifier & F_DH)
+			s = ft_uctoa_base((unsigned char )va_arg(*pa, unsigned int), 8);
+		else if (fmt.modifier & F_SH)
+			s = ft_ustoa_base((unsigned short)va_arg(*pa, unsigned int), 8);
+		else if (fmt.modifier & F_SL)
+			s = ft_ultoa_base(va_arg(*pa, unsigned long), 8);
+		else if (fmt.modifier & F_DL)
+			s = ft_ultoa_base(va_arg(*pa, unsigned long long), 8);
+		else if (fmt.modifier & F_Z)
+			s = ft_ultoa_base(va_arg(*pa, size_t), 8);
+		else
+			s = ft_itoa_base(va_arg(*pa, unsigned int), 8);
+		ft_putstr(s);
+		pf->ret += ft_strlen(s);
+	}
+	else if (fmt.type == T_GO)
+	{
+		char *s;
+
+		s = ft_ltoa_base(va_arg(*pa, unsigned long), 8);
+		ft_putstr(s);
+		pf->ret += ft_strlen(s);
+	}
+	else if (fmt.type == T_X)
+	{
+		char *s;
+		char *output;
+
+		if (fmt.modifier & F_DH)
+			output = ft_uctoa_base((unsigned char )va_arg(*pa, unsigned int), 16);
+		else if (fmt.modifier & F_SH)
+			output = ft_ustoa_base((unsigned short)va_arg(*pa, unsigned int), 16);
+		else if (fmt.modifier & F_SL)
+			output = ft_ultoa_base(va_arg(*pa, unsigned long), 16);
+		else if (fmt.modifier & F_DL)
+			output = ft_ultoa_base(va_arg(*pa, unsigned long long), 16);
+		else
+			output = ft_ultoa_base(va_arg(*pa, size_t), 16);
+		s = output;
+		while (*s)
+		{
+			*s = ft_tolower(*s);
+			s++;
+		}
+		ft_putstr(output);
+		pf->ret += ft_strlen(output);
+	}
+	else if (fmt.type == T_GX)
+	{
+		char	*output;
+
+		output = NULL;
+		if (fmt.modifier & F_DH)
+			output = ft_uctoa_base((unsigned char )va_arg(*pa, unsigned int), 16);
+		else if (fmt.modifier & F_SH)
+			output = ft_ustoa_base((unsigned short)va_arg(*pa, unsigned int), 16);
+		else if (fmt.modifier & F_SL)
+			output = ft_ultoa_base(va_arg(*pa, unsigned long), 16);
+		else if (fmt.modifier & F_DL)
+			output = ft_ultoa_base(va_arg(*pa, unsigned long long), 16);
+		else
+			output = ft_ultoa_base(va_arg(*pa, size_t), 16);
+		ft_putstr(output);
+		pf->ret += ft_strlen(output);
+	}
+	else if (fmt.type == T_U)
+	{
+		char	*str_num;
+
+		if (fmt.modifier & F_SL)
+			str_num = ft_ultoa_base(va_arg(*pa, unsigned long int), 10);
+		else if (fmt.modifier & F_DL)
+			str_num = ft_ultoa_base(va_arg(*pa, unsigned long long int), 10);
+		else if (fmt.modifier & F_SH)
+			str_num = ft_stoa_base((short )va_arg(*pa,unsigned  int), 10);
+		else if (fmt.modifier & F_DH)
+			str_num = ft_ctoa_base((char )va_arg(*pa, unsigned int), 10);
+		else if (fmt.modifier & F_Z)
+			str_num = ft_ultoa_base(va_arg(*pa, size_t), 10);
+		else
+			str_num = ft_itoa(va_arg(*pa, int));
+
+		ft_putstr(str_num);
+		pf->ret += (int )ft_strlen(str_num);
+		free(str_num);
+	}
+	else if (fmt.type == T_GU)
+	{
+		char *output;
+
+		output = ft_ultoa_base(va_arg(*pa, unsigned long), 10);
+		ft_putstr(output);
+		pf->ret += ft_strlen(output);
 	}
 }
 

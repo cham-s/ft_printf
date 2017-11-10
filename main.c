@@ -17,18 +17,16 @@
 int main(void)
 {
 	unsigned long l;
+	char c;
 	int ret = 0;
 	int ret2 = 0;
 	char values[4] = {0, 0, 0, 0};
-	unsigned int ch = (unsigned int)L'ψ'; 
-	//ret = ft_printf("{% %}");
-	//ret2 = ft_printf("%s%s%s%s%s", "1", "2", "3", "4", "5");
-	//ret2 = printf("{% 2%}");
-	//printf("return: %d\n", ret);
-	printf("%lc\n", L'ψ');	
-	ft_printf("%C", L'猫');
-	/* printf("%C", L'δ'); */
-	/* printf("%C", L'요'); */
-	/* printf("%C", L'莨'); */
-	/* printf("%C", L'ي'); */
+	unsigned int ch = (unsigned int)L'ψ';
+
+	printf("char: %lu\n", sizeof(char));
+	printf("short: %lu\n", sizeof(short));
+	printf("int: %lu\n", sizeof(int));
+	printf("long: %lu\n", sizeof(long));
+	printf("long long: %lu\n", sizeof(long long));
+	printf("long long: %lu\n", sizeof(size_t));
 }

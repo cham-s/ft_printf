@@ -25,18 +25,18 @@
  * */
 # define F_MINUS	0x01
 # define F_PLUS		0x02
-# define F_BLANK	0x04	
-# define F_ZERO		0x08	
+# define F_BLANK	0x04
+# define F_ZERO		0x08
 # define F_SHARP	0x10
 
 /*
- * Modifiers 
+ * Modifiers
  * */
 # define F_SH		0x01
 # define F_SL		0x02
-# define F_DH		0x04	
-# define F_DL		0x08	
-# define F_Z		0x10	
+# define F_DH		0x04
+# define F_DL		0x08
+# define F_Z		0x10
 
 /*
  * Types 
@@ -52,7 +52,7 @@
 # define T_GU		9
 # define T_X		10
 # define T_GX		11
-# define T_C		12	
+# define T_C		12
 # define T_GC		13
 # define T_P		19
 # define T_EE		14

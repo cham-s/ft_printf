@@ -34,7 +34,10 @@ OBJ = ft_atoi.o ft_bzero.o ft_isalnum.o ft_isalpha.o \
 	ft_strlenchr.o ft_lstappend.o ft_lstprint.o  ft_lstlen.o ft_lstinsertafter.o \
  	ft_lstremove.o ft_swap.o ft_stronlyhas.o ft_size_to_allocate.o ft_splitspaces.o \
 	ft_isspace.o ft_lstdelmem.o get_next_line.o ft_strjoinfree.o ft_tablen.o \
-   	ft_itoa_base.o ft_ltoa_base.o ft_uitoa_base.o ft_ultoa_base.o ft_uitoa.o ft_putunicode.o ft_putstruni.o ft_putulong.o tabcontains.o
+   	ft_itoa_base.o ft_ltoa_base.o ft_uitoa_base.o ft_ultoa_base.o ft_uitoa.o \
+	ft_putunicode.o ft_putstruni.o ft_putulong.o tabcontains.o ft_ustoa_base.o \
+	ft_uctoa_base.o ft_stoa_base.o ft_ctoa_base.o
+
 
 CFLAGS = -g -c -Wall -Wextra -Werror -I includes
 .PHONY: all clean fclean re
