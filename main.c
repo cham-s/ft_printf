@@ -16,8 +16,11 @@
 
 int main(void)
 {
-	int ret = 0;
+	int ret1 = 0;
 	int ret2 = 0;
-	ret =  printf("%ls, %ls", L"暖炉", L"لحم خنزير");
-	ret2 =  ft_printf("%ls, %ls", 0, L"لحم خنزير");
+	//ret2 =  ft_printf("%i, %+i\n", -123432, 12345);
+	ret1 =  printf("% i, %30i\n", -123432, 12345);
+	//ret2 =  ft_printf("% i, %           +i\n", -123432, 12345);
+
+	//printf("ret1: %d\nret2: %d\n", ret1, ret2);
 }
