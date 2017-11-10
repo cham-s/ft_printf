@@ -16,17 +16,8 @@
 
 int main(void)
 {
-	unsigned long l;
-	char c;
 	int ret = 0;
 	int ret2 = 0;
-	char values[4] = {0, 0, 0, 0};
-	unsigned int ch = (unsigned int)L'ψ';
-
-	printf("char: %lu\n", sizeof(char));
-	printf("short: %lu\n", sizeof(short));
-	printf("int: %lu\n", sizeof(int));
-	printf("long: %lu\n", sizeof(long));
-	printf("long long: %lu\n", sizeof(long long));
-	printf("long long: %lu\n", sizeof(size_t));
+	ret =  printf("%ls, %ls", L"暖炉", L"لحم خنزير");
+	ret2 =  ft_printf("%ls, %ls", 0, L"لحم خنزير");
 }

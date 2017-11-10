@@ -312,8 +312,10 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 	set_formater(&fmt, pf, pa);
 	if (fmt.type == T_S)
 	{
-		char	*str;
-		str = va_arg(*pa, char *);
+		unsigned int *str;
+
+		str = NULL;
+		str = va_arg(*pa, unsigned int*);
 		if (!str)
 		{
 			ft_putstr("(null)");
@@ -321,8 +323,13 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 		}
 		else
 		{
-			ft_putstr(str);
-			pf->ret += (int )ft_strlen(str);
+			if (fmt.modifier & F_SL)
+				pf->ret += ft_putstruni(str);
+			else
+			{
+				ft_putstr((char *)str);
+				pf->ret += (int )ft_strlen((const char *)str);
+			}
 		}
 	}
 	else if (fmt.type == T_D || fmt.type == T_I)
@@ -330,15 +337,15 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 		char	*str_num;
 
 		if (fmt.modifier & F_SL)
-			str_num = ft_ultoa_base(va_arg(*pa, long int), 10);
+			str_num = ft_ltoa_base(va_arg(*pa, long int), 10);
 		else if (fmt.modifier & F_DL)
-			str_num = ft_ultoa_base(va_arg(*pa, long long int), 10);
+			str_num = ft_ltoa_base(va_arg(*pa, long long int), 10);
 		else if (fmt.modifier & F_SH)
 			str_num = ft_stoa_base((short )va_arg(*pa, int), 10);
 		else if (fmt.modifier & F_DH)
 			str_num = ft_ctoa_base((char )va_arg(*pa, int), 10);
 		else if (fmt.modifier & F_Z)
-			str_num = ft_ultoa_base(va_arg(*pa, size_t), 10);
+			str_num = ft_ltoa_base(va_arg(*pa, long long), 10);
 		else
 			str_num = ft_itoa(va_arg(*pa, int));
 
@@ -366,6 +373,16 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 		ft_putstr(output);
 		pf->ret += (int )(ft_strlen(output) + 2);
 		free(output);
+	}
+	else if (fmt.type == T_C)
+	{
+		if (fmt.modifier & F_SL)
+			pf->ret += ft_putunicode(va_arg(*pa, unsigned int));
+		else
+		{
+			ft_putchar(va_arg(*pa, int));
+			pf->ret += 1;
+		}
 	}
 	else if (fmt.type == T_GC)
 	{
@@ -410,7 +427,7 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 		else if (fmt.modifier & F_Z)
 			s = ft_ultoa_base(va_arg(*pa, size_t), 8);
 		else
-			s = ft_itoa_base(va_arg(*pa, unsigned int), 8);
+			s = ft_uitoa_base(va_arg(*pa, unsigned int), 8);
 		ft_putstr(s);
 		pf->ret += ft_strlen(s);
 	}
@@ -473,13 +490,13 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 		else if (fmt.modifier & F_DL)
 			str_num = ft_ultoa_base(va_arg(*pa, unsigned long long int), 10);
 		else if (fmt.modifier & F_SH)
-			str_num = ft_stoa_base((short )va_arg(*pa,unsigned  int), 10);
+			str_num = ft_ustoa_base((unsigned short )va_arg(*pa,unsigned  int), 10);
 		else if (fmt.modifier & F_DH)
-			str_num = ft_ctoa_base((char )va_arg(*pa, unsigned int), 10);
+			str_num = ft_uctoa_base((unsigned char )va_arg(*pa, unsigned int), 10);
 		else if (fmt.modifier & F_Z)
 			str_num = ft_ultoa_base(va_arg(*pa, size_t), 10);
 		else
-			str_num = ft_itoa(va_arg(*pa, int));
+			str_num = ft_uitoa(va_arg(*pa, unsigned int));
 
 		ft_putstr(str_num);
 		pf->ret += (int )ft_strlen(str_num);
