@@ -18,8 +18,8 @@ int main(void)
 {
 	int ret1 = 0;
 	int ret2 = 0;
-	ret1 =  printf("%#X\n", INT_MAX);
-	ret2 =  ft_printf("%#X\n", INT_MAX);
+	ft_printf("{% %}");
+	//assert_printf("%s%d%p%%%S%D%i%o%O%u%U%x%X%c%C","bonjour", 42, &c, L"暖炉", LONG_MAX, 42, 42, 42, 100000, ULONG_MAX, 42, 42, 'c', L'플');
 
-	printf("ret1: %d\nret2: %d\n", ret1, ret2);
+	//printf("ret1: %d\nret2: %d\n", ret1, ret2);
 }

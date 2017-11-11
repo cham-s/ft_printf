@@ -54,12 +54,13 @@
 # define T_GX		11
 # define T_C		12
 # define T_GC		13
-# define T_P		19
 # define T_EE		14
 # define T_FF		15
 # define T_GG		16
 # define T_AA		17
 # define T_N		18
+# define T_P		19
+# define T_PNT		20	
 
 typedef struct		s_formater
 {

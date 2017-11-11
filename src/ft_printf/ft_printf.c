@@ -103,11 +103,11 @@ void	debug_fmt(t_formater *fmt)
 
 int	is_type(char c)
 {
-	char	str[24];
+	char	str[25];
 	int		i;
 
 	i = 0;
-	ft_strcpy(str, "sSpdDioOuUxXcCeEfFgGaAn");
+	ft_strcpy(str, "%sSpdDioOuUxXcCeEfFgGaAn");
 	while (str[i])
 	{
 		if (str[i] == c)
@@ -289,6 +289,8 @@ void		set_type(t_formater *fmt, t_printf *pf)
 			fmt->type = T_C;
 		else if (*(pf->str) == 'C')
 			fmt->type = T_GC;
+		else if (*(pf->str) == '%')
+			fmt->type = T_PNT;
 		(pf->str)++;
 	}
 }
@@ -299,6 +301,7 @@ void		set_formater(t_formater *fmt, t_printf *pf, va_list *pa)
 	set_width(fmt, pf, pa);
 	set_precision_length(fmt, pf, pa);
 	set_modifier(fmt, pf);
+	//exit(1);
 	set_type(fmt, pf);
 }
 
@@ -310,7 +313,13 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 	init_formater(&fmt);
 	(pf->str)++;
 	set_formater(&fmt, pf, pa);
-	if (fmt.type == T_S)
+	//debug_fmt(&fmt);
+	if (fmt.type == T_PNT)
+	{
+		ft_putchar('%');
+		pf->ret += 1;
+	}
+	else if (fmt.type == T_S)
 	{
 		unsigned int *str;
 
