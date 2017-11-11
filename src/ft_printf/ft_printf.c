@@ -444,7 +444,7 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 			s = ft_ultoa_base(va_arg(*pa, size_t), 8);
 		else
 			s = ft_uitoa_base(va_arg(*pa, unsigned int), 8);
-		if (fmt.flag & F_SHARP)
+		if (fmt.flag & F_SHARP && s[0] != '0')
 		{
 			ft_putstr("0");
 			more += 1;
@@ -460,7 +460,10 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 		more = 0;
 		s = ft_ltoa_base(va_arg(*pa, unsigned long), 8);
 		if (fmt.flag & F_SHARP)
+		{
 			ft_putstr("0");
+			more += 1;
+		}
 		ft_putstr(s);
 		pf->ret += ft_strlen(s) + more;
 	}
@@ -487,7 +490,7 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 			*s = ft_tolower(*s);
 			s++;
 		}
-		if (fmt.flag & F_SHARP)
+		if (fmt.flag & F_SHARP && output[0] != '0')
 		{
 			ft_putstr("0x");
 			more += 2;
@@ -512,7 +515,7 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 			output = ft_ultoa_base(va_arg(*pa, unsigned long long), 16);
 		else
 			output = ft_ultoa_base(va_arg(*pa, size_t), 16);
-		if (fmt.flag & F_SHARP)
+		if (fmt.flag & F_SHARP && output[0] != '0')
 		{
 			ft_putstr("0X");
 			more += 2;

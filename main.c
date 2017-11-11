@@ -18,9 +18,8 @@ int main(void)
 {
 	int ret1 = 0;
 	int ret2 = 0;
-	//ret2 =  ft_printf("%i, %+i\n", -123432, 12345);
-	ret1 =  printf("% i, %30i\n", -123432, 12345);
-	//ret2 =  ft_printf("% i, %           +i\n", -123432, 12345);
+	ret1 =  printf("%#X\n", INT_MAX);
+	ret2 =  ft_printf("%#X\n", INT_MAX);
 
-	//printf("ret1: %d\nret2: %d\n", ret1, ret2);
+	printf("ret1: %d\nret2: %d\n", ret1, ret2);
 }
