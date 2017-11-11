@@ -6,7 +6,7 @@
 /*   By: cattouma <cattouma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/03 22:50:07 by cattouma          #+#    #+#             */
-/*   Updated: 2017/11/07 04:22:49 by cattouma         ###   ########.fr       */
+/*   Updated: 2017/11/11 19:27:03 by cattouma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -301,7 +301,6 @@ void		set_formater(t_formater *fmt, t_printf *pf, va_list *pa)
 	set_width(fmt, pf, pa);
 	set_precision_length(fmt, pf, pa);
 	set_modifier(fmt, pf);
-	//exit(1);
 	set_type(fmt, pf);
 }
 
@@ -313,7 +312,6 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 	init_formater(&fmt);
 	(pf->str)++;
 	set_formater(&fmt, pf, pa);
-	//debug_fmt(&fmt);
 	if (fmt.type == T_PNT)
 	{
 		ft_putchar('%');
@@ -369,6 +367,17 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 				ch = fmt.flag & F_PLUS ? '+' : ' ';
 				ft_putchar(ch);
 				more += 1;
+			}
+			int size;
+
+			size = fmt.width;
+			while (size--)
+			{
+				if (fmt.flag & F_BLANK)
+				{
+					ft_putchar(' ');
+					more += 1;
+				}
 			}
 		}
 
