@@ -13,13 +13,23 @@
 #include "ft_printf.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <locale.h>
 
 int main(void)
 {
+	char *l = setlocale(LC_ALL, "");
+	int ret = 0;
 	int ret1 = 0;
 	int ret2 = 0;
-	ft_printf("% 10d hello\n",  3);
-	printf("% 10d hello\n",  3);
+	wint_t i = 0xD7FE;
+	/* for (i = 0x000001; i < 0x10FFFF; i++) */
+	/* { */
+	/* 	ret = printf("%lc", i); */
+	/* 	ret = printf("\nret: %d value: U+%X ", ret, i); */
+	/* } */
+	//assert_printf("%lc, %lc", L'暖', L'ح');
+	ret1 = printf("%lc", i);
 
-	//printf("ret1: %d\nret2: %d\n", ret1, ret2);
+	printf("\nret1: %d\n", ret1);
+//	printf("ret2: %d\n", ret2);
 }
