@@ -19,7 +19,6 @@ INC			= include/ft_printf.h include/dict.h
 OBJDIR		= obj
 AR			= ar r
 OBJS 		= $(OBJDIR)/ft_printf.o\
-			  $(OBJDIR)/spec_num.o\
 
 
 .PHONY: all clean fclean re

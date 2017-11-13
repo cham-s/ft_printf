@@ -15,6 +15,7 @@
 typedef struct	s_printf
 {
 	int			ret;
+	int			fmt_err;
 	const char	*str;
 	char		*fmt_str;
 	size_t		len_str;
@@ -364,10 +365,11 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 	}
 	else if (fmt.type == T_S)
 	{
-		unsigned int *str;
-
+		wchar_t *str;
+		int		ret;
+		ret = 0;
 		str = NULL;
-		str = va_arg(*pa, unsigned int*);
+		str = va_arg(*pa, wchar_t *);
 		if (!str)
 		{
 			ft_putstr("(null)");
@@ -376,11 +378,17 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 		else
 		{
 			if (fmt.modifier & F_SL)
-				pf->ret += ft_putstruni(str);
-			else
+			{
+				ret = ft_putstruni(str);
+				if (ret < 0)
+					pf->fmt_err = -1;
+				else
+					pf->ret += ret;
+			}
+			else 
 			{
 				ft_putstr((char *)str);
-				pf->ret += (int )ft_strlen((const char *)str);
+				pf->ret += ft_strlen((char *)str);
 			}
 		}
 	}
@@ -441,8 +449,17 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 	}
 	else if (fmt.type == T_C)
 	{
+		int	ret;
+
+		ret = 0;
 		if (fmt.modifier & F_SL)
-			pf->ret += ft_putunicode(va_arg(*pa, unsigned int));
+		{
+			ret = ft_putunicode(va_arg(*pa, wint_t));
+			if (ret < 0)
+				pf->fmt_err = -1;
+			else
+				pf->ret += ret;
+		}
 		else
 		{
 			ft_putchar(va_arg(*pa, int));
@@ -473,16 +490,16 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 	}
 	else if (fmt.type == T_GC)
 	{
-		unsigned int ch;
+		wint_t	ch;
 
-		ch = va_arg(*pa, unsigned int);
+		ch = va_arg(*pa, wint_t);
 		pf->ret += ft_putunicode(ch);
 	}
 	else if (fmt.type == T_GS)
 	{
-		unsigned int *str;
+		wchar_t	*str;
 
-		str = va_arg(*pa, unsigned int *);
+		str = va_arg(*pa, wchar_t *);
 		if (!str)
 		{
 			ft_putstr("(null)");
@@ -642,6 +659,7 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 
 void	init_printf(t_printf *pf, const char *format)
 {
+	pf->fmt_err = 0;
 	pf->ret = 0;
 	pf->str = format;
 	pf->len_str = 0;
@@ -672,5 +690,5 @@ int	ft_printf(const char *format, ...)
 		handle_format_string(&pf, &pa);
 	}
 	va_end(pa);
-	return (pf.ret);
+	return (pf.fmt_err < 0 ? - 1: pf.ret);
 }

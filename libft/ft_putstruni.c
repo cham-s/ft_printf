@@ -1,6 +1,6 @@
 #include "libft.h"
 
-int	ft_putstruni(const unsigned int* str)
+int	ft_putstruni(wchar_t *str)
 {
 	int size;
 

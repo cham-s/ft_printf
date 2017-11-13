@@ -76,7 +76,7 @@ static void		addnode(t_file **btree, t_file *new)
 	}
 }
 
-static int		getline(t_file *fpnode, char **line, int fd)
+static int		getln(t_file *fpnode, char **line, int fd)
 {
 	int				ret;
 	int				len;
@@ -124,7 +124,7 @@ int				get_next_line(int const fd, char **line)
 		{
 			fpnode->buffer = ft_strdup("");
 		}
-		res = getline(fpnode, line, fd);
+		res = getln(fpnode, line, fd);
 		return (res);
 	}
 }
