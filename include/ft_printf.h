@@ -37,6 +37,7 @@
 # define F_DH		0x04
 # define F_DL		0x08
 # define F_Z		0x10
+# define F_J		0x20
 
 /*
  * Types 
@@ -61,6 +62,7 @@
 # define T_N		18
 # define T_P		19
 # define T_PNT		20	
+# define T_OTH		21	
 
 typedef struct		s_formater
 {

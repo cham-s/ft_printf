@@ -122,5 +122,9 @@ int 				ft_putunicode(wint_t c);
 int					ft_putstruni(wchar_t *str);
 void				ft_putulong(unsigned long n);
 int					tabcontains(char *tabstr[], char c);
+int					is_valid_code_point(wint_t c);
+int					str_has_valid_codepoint(wchar_t * str);
+int					ft_strunilen(wchar_t *str);
+int					size_bytes_code_point(wint_t c);
 
 #endif
