@@ -32,12 +32,12 @@
 /*
  * Modifiers
  * */
-# define F_SH		0x01
-# define F_SL		0x02
-# define F_DH		0x04
-# define F_DL		0x08
-# define F_Z		0x10
-# define F_J		0x20
+# define F_SH		1
+# define F_SL		2
+# define F_DH		3
+# define F_DL		4
+# define F_Z		5
+# define F_J		6
 
 /*
  * Types 

@@ -18,8 +18,23 @@ typedef struct	s_printf
 	int			fmt_err;
 	const char	*str;
 	char		*fmt_str;
+	char		invalid;
 	size_t		len_str;
 }				t_printf;
+
+
+int				print_n_char(char c, int size)
+{
+	int ret;
+
+	ret = 0;
+	while (size--)
+	{
+		ft_putchar(c);
+		ret += 1;
+	}
+	return (ret);
+}
 
 int				print_padding(t_formater *fmt, int size)
 {
@@ -43,13 +58,20 @@ int				print_flag_width(t_formater *fmt, t_printf *pf)
 	int		is_neg;
 
 	is_neg = pf->fmt_str[0] == '-' ? 1 : 0;
-	if (fmt->flag & F_BLANK && fmt->width == 0 && (!(fmt->type & T_O) || !(fmt->type & T_GO)))
-	{
-		ft_putchar(' ');
-		pf->ret += 1;
-	}
 	size = fmt->width - pf->len_str;
 	size = size < 0 ? 0 : size;
+	if (fmt->flag & F_BLANK && (fmt->type == T_D
+	 || fmt->type == T_I
+	 || fmt->type == T_D
+	 || fmt->type == T_GD))
+	{
+		if (pf->fmt_str[0] != '-' || pf->fmt_str[0] == '0')
+		{
+			ft_putchar(' ');
+			pf->ret += 1;
+			size = size > 0 ? --size: 0;
+		}
+	}
 	if(!(fmt->flag & F_MINUS))
 	{
 		if (fmt->flag & F_ZERO && is_neg)
@@ -89,15 +111,15 @@ void	debug_fmt(t_formater *fmt)
 	if (fmt->modifier)
 	{
 		printf("[DEBUG modifier] The modifier is: ");
-		if (fmt->modifier & F_SH)
+		if (fmt->modifier == F_SH)
 			printf("h ");
-		if (fmt->modifier & F_SL)
+		if (fmt->modifier == F_SL)
 			printf("l ");
-		if (fmt->modifier & F_DL)
+		if (fmt->modifier == F_DL)
 			printf("ll ");
-		if (fmt->modifier & F_DH)
+		if (fmt->modifier == F_DH)
 			printf("hh ");
-		if (fmt->modifier & F_Z)
+		if (fmt->modifier == F_Z)
 			printf("z ");
 		printf("\n");
 	}
@@ -221,6 +243,8 @@ void		set_flags(t_formater *fmt, t_printf *pf)
 			fmt->flag |= F_ZERO;
 		if ((fmt->flag & F_MINUS) && (fmt->flag & F_ZERO))
 			fmt->flag &= 0b10111; /* Ignore F_ZER0 */
+		if ((fmt->flag & F_BLANK) && (fmt->flag & F_PLUS))
+			fmt->flag &= 0b11011; /* Ignore F_BLANK */
 		(pf->str)++;
 	}
 }
@@ -282,18 +306,18 @@ void	set_modifier(t_formater *fmt, t_printf *pf)
 	if (is_modifier(*(pf->str)))
 	{
 		if (*(pf->str) == 'l' && *((pf->str) + 1) != 'l')
-			fmt->modifier |= F_SL;
+			fmt->modifier = F_SL;
 		else if (*(pf->str) == 'l' && *((pf->str) + 1) == 'l')
-			fmt->modifier |= F_DL;
+			fmt->modifier = F_DL;
 		else if (*(pf->str) == 'h' && *((pf->str) + 1) != 'h')
-			fmt->modifier |= F_SH;
+			fmt->modifier = F_SH;
 		else if (*(pf->str) == 'h' && *((pf->str) + 1) == 'h')
-			fmt->modifier |= F_DH;
+			fmt->modifier = F_DH;
 		else if (*(pf->str) == 'z')
-			fmt->modifier |= F_DH;
+			fmt->modifier = F_Z;
 		else if (*(pf->str) == 'j')
-			fmt->modifier |= F_J;
-		if ((fmt->modifier & F_DL) || fmt->modifier & F_DH)
+			fmt->modifier = F_J;
+		if ((fmt->modifier == F_DL) || fmt->modifier == F_DH)
 			(pf->str)++;
 		(pf->str)++;
 	}
@@ -340,11 +364,17 @@ void		set_type(t_formater *fmt, t_printf *pf)
 			fmt->type = T_GC;
 		else if (*(pf->str) == '%')
 			fmt->type = T_PNT;
-		else 
-			fmt->type = T_OTH;
+		(pf->str)++;
+	}
+	else 
+	{
+		fmt->type = T_OTH;
+		pf->invalid = *(pf->str);
 		(pf->str)++;
 	}
 }
+
+//int			cancel_flags()
 
 void		set_formater(t_formater *fmt, t_printf *pf, va_list *pa)
 {
@@ -375,7 +405,7 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 
 		str = NULL;
 		str = va_arg(*pa, wchar_t *);
-		size = fmt.width - (fmt.modifier & F_SL ? ft_strunilen(str) : \
+		size = fmt.width - (fmt.modifier == F_SL ? ft_strunilen(str) : \
 				ft_strlen((char *)str));
 		size = size < 0 ? 0 : size;
 		if (!str)
@@ -385,23 +415,47 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 		}
 		else
 		{
-			if (fmt.flag & F_BLANK && fmt.width == 0)
-			{
-				ft_putchar(' ');
-				pf->ret += 1;
-			}
-			if ((fmt.modifier & F_SL) && !str_has_valid_codepoint(str))
+			if ((fmt.modifier == F_SL) && !str_has_valid_codepoint(str))
 				pf->fmt_err = -1;
 			if(!(fmt.flag & F_MINUS))
 			{
 				pf->ret += print_padding(&fmt, size);
-				pf->ret += fmt.modifier & F_SL ? ft_putstruni(str) : \
+				pf->ret += fmt.modifier == F_SL ? ft_putstruni(str) : \
 						   write(1, (char *)str, ft_strlen((char *)str));
 			}
 			else
 			{
-				pf->ret += fmt.modifier & F_SL ? ft_putstruni(str) : \
-						   write(1, (char *)str, ft_strlen((char *)str));
+				pf->ret += fmt.modifier == F_SL ? ft_putstruni(str) : \
+						   ft_putnstr((char *)str, ft_strlen((char *)str));
+				pf->ret += print_padding(&fmt, size);
+			}
+		}
+	}
+	else if (fmt.type == T_GS)
+	{
+		wchar_t	*str;
+		int size;
+
+		str = va_arg(*pa, wchar_t *);
+		size = fmt.width - ft_strunilen(str);
+		size = size < 0 ? 0 : size;
+		if (!str)
+		{
+			ft_putstr("(null)");
+			pf->ret += NULL_LEN;
+		}
+		else
+		{
+			if (!str_has_valid_codepoint(str))
+				pf->fmt_err = -1;
+			if(!(fmt.flag & F_MINUS))
+			{
+				pf->ret += print_padding(&fmt, size);
+				pf->ret +=  ft_putstruni(str);
+			}
+			else
+			{
+				pf->ret += ft_putstruni(str);
 				pf->ret += print_padding(&fmt, size);
 			}
 		}
@@ -413,17 +467,17 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 
 		more = 0;
 		num = va_arg(*pa, long long);
-		if (fmt.modifier & F_SL)
+		if (fmt.modifier == F_SL)
 			pf->fmt_str = ft_ltoa_base((long int ) num, 10);
-		else if (fmt.modifier & F_DL)
+		else if (fmt.modifier == F_DL)
 			pf->fmt_str = ft_ltoa_base(num, 10);
-		else if (fmt.modifier & F_SH)
+		else if (fmt.modifier == F_SH)
 			pf->fmt_str = ft_stoa_base((short )num, 10);
-		else if (fmt.modifier & F_DH)
+		else if (fmt.modifier == F_DH)
 			pf->fmt_str = ft_ctoa_base((char )num, 10);
-		else if (fmt.modifier & F_Z)
+		else if (fmt.modifier == F_Z)
 			pf->fmt_str = ft_ltoa_base(num, 10);
-		else if (fmt.modifier & F_J)
+		else if (fmt.modifier == F_J)
 			pf->fmt_str = ft_ltoa_base((intmax_t )num, 10);
 		else
 			pf->fmt_str = ft_itoa_base((int )num, 10);
@@ -446,39 +500,48 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 		unsigned long long	addr;
 		char				*output;
 		char				*str;
+		int					size;
 
 		n = va_arg(*pa, void*);
 		addr = (unsigned long long)n;
 		output = ft_ltoa_base(addr, 16);
+		size = fmt.width - (ft_strlen(output) + 2);
+		size = size < 0 ? 0 : size;
 		str = output;
 		while(*str)
 		{
 			*str = ft_tolower(*str);
 			str++;
 		}
-		ft_putstr("0x");
-		pf->fmt_str = output;
-		pf->len_str = (ft_strlen(output) + 2);
-		print_flag_width(&fmt, pf);
-		pf->ret += (int )pf->len_str;
+		if (fmt.width > 0 && !(fmt.flag & F_ZERO))
+		{
+			if (!(fmt.flag & F_MINUS))
+				pf->ret += print_n_char(' ', size);
+			ft_putstr("0x");
+			ft_putstr(output);
+			if (fmt.flag & F_MINUS)
+				pf->ret += print_n_char(' ', size);
+		}
+		else
+		{
+			ft_putstr("0x");
+			pf->ret += print_n_char('0', size);
+			ft_putstr(output);
+		}
+		pf->ret += ft_strlen(output) + 2;
 		free(output);
 	}
 	else if (fmt.type == T_C)
 	{
 		int	ret;
-		ret = 0;
 		int size;
 
-		if (fmt.flag & F_BLANK && fmt.width == 0)
-		{
-			ft_putchar(' ');
-			pf->ret += 1;
-		}
+		ret = 0;
 		size = fmt.width - 1;
 		size = size < 0 ? 0 : size;
 		if (!(fmt.flag & F_MINUS))
 			pf->ret += print_padding(&fmt, size);
-		if (fmt.modifier & F_SL)
+		if (fmt.modifier == F_SL)
 		{
 			ret = ft_putunicode(va_arg(*pa, wint_t));
 			if (ret < 0)
@@ -500,11 +563,6 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 		ret = 0;
 		int size;
 
-		if (fmt.flag & F_BLANK && fmt.width == 0)
-		{
-			ft_putchar(' ');
-			pf->ret += 1;
-		}
 		size = fmt.width - 1;
 		size = size < 0 ? 0 : size;
 		if (!(fmt.flag & F_MINUS))
@@ -516,40 +574,6 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 			pf->ret += ret;
 		if (fmt.flag & F_MINUS)
 			pf->ret += print_padding(&fmt, size);
-	}
-	else if (fmt.type == T_GS)
-	{
-		wchar_t	*str;
-		int size;
-
-		str = va_arg(*pa, wchar_t *);
-		size = fmt.width - ft_strunilen(str);
-		size = size < 0 ? 0 : size;
-		if (!str)
-		{
-			ft_putstr("(null)");
-			pf->ret += NULL_LEN;
-		}
-		else
-		{
-			if (fmt.flag & F_BLANK && fmt.width == 0)
-			{
-				ft_putchar(' ');
-				pf->ret += 1;
-			}
-			if (!str_has_valid_codepoint(str))
-				pf->fmt_err = -1;
-			if(!(fmt.flag & F_MINUS))
-			{
-				pf->ret += print_padding(&fmt, size);
-				pf->ret +=  ft_putstruni(str);
-			}
-			else
-			{
-				pf->ret += ft_putstruni(str);
-				pf->ret += print_padding(&fmt, size);
-			}
-		}
 	}
 	else if (fmt.type == T_GD)
 	{
@@ -565,17 +589,17 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 		int		more;
 
 		more = 0;
-		if (fmt.modifier & F_DH)
+		if (fmt.modifier == F_DH)
 			s = ft_uctoa_base((unsigned char )va_arg(*pa, unsigned int), 8);
-		else if (fmt.modifier & F_SH)
+		else if (fmt.modifier == F_SH)
 			s = ft_ustoa_base((unsigned short)va_arg(*pa, unsigned int), 8);
-		else if (fmt.modifier & F_SL)
+		else if (fmt.modifier == F_SL)
 			s = ft_ultoa_base(va_arg(*pa, unsigned long), 8);
-		else if (fmt.modifier & F_DL)
+		else if (fmt.modifier == F_DL)
 			s = ft_ultoa_base(va_arg(*pa, unsigned long long), 8);
-		else if (fmt.modifier & F_Z)
+		else if (fmt.modifier == F_Z)
 			s = ft_ultoa_base(va_arg(*pa, size_t), 8);
-		else if (fmt.modifier & F_J)
+		else if (fmt.modifier == F_J)
 			s = ft_ultoa_base(va_arg(*pa, uintmax_t), 8);
 		else
 			s = ft_uitoa_base(va_arg(*pa, unsigned int), 8);
@@ -615,17 +639,17 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 		int		more;
 
 		more = 0;
-		if (fmt.modifier & F_DH)
+		if (fmt.modifier == F_DH)
 			output = ft_uctoa_base((unsigned char )va_arg(*pa, unsigned int), 16);
-		else if (fmt.modifier & F_SH)
+		else if (fmt.modifier == F_SH)
 			output = ft_ustoa_base((unsigned short)va_arg(*pa, unsigned int), 16);
-		else if (fmt.modifier & F_SL)
+		else if (fmt.modifier == F_SL)
 			output = ft_ultoa_base(va_arg(*pa, unsigned long), 16);
-		else if (fmt.modifier & F_DL)
+		else if (fmt.modifier == F_DL)
 			output = ft_ultoa_base(va_arg(*pa, unsigned long long), 16);
-		else if (fmt.modifier & F_Z)
+		else if (fmt.modifier == F_Z)
 			output = ft_ultoa_base(va_arg(*pa, size_t), 16);
-		else if (fmt.modifier & F_J)
+		else if (fmt.modifier == F_J)
 			output = ft_ultoa_base(va_arg(*pa, uintmax_t), 16);
 		else
 			output = ft_ultoa_base(va_arg(*pa, size_t), 16);
@@ -653,17 +677,17 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 
 		more = 0;
 		output = NULL;
-		if (fmt.modifier & F_DH)
+		if (fmt.modifier == F_DH)
 			output = ft_uctoa_base((unsigned char )va_arg(*pa, unsigned int), 16);
-		else if (fmt.modifier & F_SH)
+		else if (fmt.modifier == F_SH)
 			output = ft_ustoa_base((unsigned short)va_arg(*pa, unsigned int), 16);
-		else if (fmt.modifier & F_SL)
+		else if (fmt.modifier == F_SL)
 			output = ft_ultoa_base(va_arg(*pa, unsigned long), 16);
-		else if (fmt.modifier & F_DL)
+		else if (fmt.modifier == F_DL)
 			output = ft_ultoa_base(va_arg(*pa, unsigned long long), 16);
-		else if (fmt.modifier & F_Z)
+		else if (fmt.modifier == F_Z)
 			output = ft_ultoa_base(va_arg(*pa, size_t), 16);
-		else if (fmt.modifier & F_J)
+		else if (fmt.modifier == F_J)
 			output = ft_ultoa_base(va_arg(*pa, uintmax_t), 16);
 		else
 			output = ft_ultoa_base(va_arg(*pa, size_t), 16);
@@ -682,17 +706,17 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 	{
 		char	*str_num;
 
-		if (fmt.modifier & F_SL)
+		if (fmt.modifier == F_SL)
 			str_num = ft_ultoa_base(va_arg(*pa, unsigned long int), 10);
-		else if (fmt.modifier & F_DL)
+		else if (fmt.modifier == F_DL)
 			str_num = ft_ultoa_base(va_arg(*pa, unsigned long long int), 10);
-		else if (fmt.modifier & F_SH)
+		else if (fmt.modifier == F_SH)
 			str_num = ft_ustoa_base((unsigned short )va_arg(*pa,unsigned  int), 10);
-		else if (fmt.modifier & F_DH)
+		else if (fmt.modifier == F_DH)
 			str_num = ft_uctoa_base((unsigned char )va_arg(*pa, unsigned int), 10);
-		else if (fmt.modifier & F_Z)
+		else if (fmt.modifier == F_Z)
 			str_num = ft_ultoa_base(va_arg(*pa, size_t), 10);
-		else if (fmt.modifier & F_J)
+		else if (fmt.modifier == F_J)
 			str_num = ft_ultoa_base(va_arg(*pa, uintmax_t), 10);
 		else
 			str_num = ft_uitoa(va_arg(*pa, unsigned int));
@@ -704,11 +728,31 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 	}
 	else if (fmt.type == T_GU)
 	{
-		char *output;
+		char *str_num;
 
-		output = ft_ultoa_base(va_arg(*pa, unsigned long), 10);
-		ft_putstr(output);
-		pf->ret += ft_strlen(output);
+		str_num = ft_ultoa_base(va_arg(*pa, unsigned long), 10);
+		pf->len_str = ft_strlen(str_num);
+		pf->fmt_str = str_num;
+		print_flag_width(&fmt, pf);
+		pf->ret += pf->len_str;
+		free(str_num);
+	}
+	else if (fmt.type == T_OTH)
+	{
+		int size;
+		size = fmt.width - 1;
+		size = size < 0 ? 0 : size;
+		if (!(fmt.flag & F_MINUS))
+		{
+			pf->ret += print_padding(&fmt, size);
+			ft_putchar(pf->invalid);
+		}
+		else
+		{
+			ft_putchar(pf->invalid);
+			pf->ret += print_padding(&fmt, size);
+		}
+		pf->ret += 1;
 	}
 }
 

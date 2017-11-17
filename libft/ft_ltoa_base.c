@@ -15,8 +15,8 @@ char	*ft_ltoa_base(long long value, unsigned long long base)
 	unsigned long long	tmp;
 	char				*s;
 
-	if (value == -9223372036854775807 && base == 10)
-		return ("-9223372036854775807");
+	if (value == (-9223372036854775807 - 1) && base == 10)
+		return ft_strdup("-9223372036854775808");
 	if (base == 10 && value < 0)
 		is_neg = 1;
 	else
