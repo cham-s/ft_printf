@@ -126,5 +126,6 @@ int					is_valid_code_point(wint_t c);
 int					str_has_valid_codepoint(wchar_t * str);
 int					ft_strunilen(wchar_t *str);
 int					size_bytes_code_point(wint_t c);
+int 				ft_putnstr(char *str, int n);
 
 #endif

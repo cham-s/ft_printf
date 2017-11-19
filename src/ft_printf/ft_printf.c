@@ -772,10 +772,7 @@ int	ft_printf(const char *format, ...)
 
 	init_printf(&pf, format);
 	if (!format)
-	{
-		ft_putstr("(null)");
-		return (NULL_LEN);
-	}
+		return (write(1, "(null)", 6));
 	va_start(pa, format);
 	while (*(pf.str) != '\0')
 	{
