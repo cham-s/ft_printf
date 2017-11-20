@@ -1,4 +1,5 @@
-#include "libft.h"
+#include "ftstdio.h"
+#include "ftstring.h"
 
 static unsigned char	conv(unsigned char n)
 {

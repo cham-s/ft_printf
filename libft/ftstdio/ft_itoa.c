@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ftstdio.h"
+#include "ftstring.h"
 
 static	int		ft_size(int n)
 {

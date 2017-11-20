@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ftstring.h"
+#include "ftctype.h"
 
 static size_t	to_allocate(const char *s)
 {

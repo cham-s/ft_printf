@@ -23,11 +23,19 @@
 
 
 # for each dir replace include libft with dir
-for dir in `ls -ld */ | awk '{print $9}' | tr -d  '/'  | grep ft | head -n 4`; do
-	for f in `ls $dir/ | grep "\.c"`; do
-		sed "s/libft/$dir/" $dir/$f
+for dir in `ls | grep "ft"`; do
+	for f in `ls $dir/ | grep "\.new"`; do
+		# printf "%s" $f
+		mv $dir/$f `printf $dir/$f | sed "s/\.new//"`
+		#cat $dir/$f
 	done
-done	
+done
+
+# for f in `ls | grep ft`; do 
+# 	cat Makefile | sed "s/&0/$f.a/" >> $f/Makefile	
+# 	#printf "%s\n" $f
+# done
+
 
 # chang name from libft to current dir
 # for f in `ls | grep "\.c"`; do

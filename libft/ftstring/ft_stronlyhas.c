@@ -12,15 +12,15 @@
 
 #include "ftstring.h"
 
-t_bool	ft_stronlyhas(const char *s, char c)
+int		ft_stronlyhas(const char *s, char c)
 {
 	if (!s)
-		return (false);
+		return (0);
 	while (*s)
 	{
 		if (*s != c)
-			return (false);
+			return (0);
 		s++;
 	}
-	return (true);
+	return (1);
 }

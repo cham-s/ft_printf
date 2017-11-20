@@ -1,5 +1,6 @@
 
-#include "libft.h"
+#include "ftstdio.h"
+#include "ftstring.h"
 
 static short	conv(short n)
 {

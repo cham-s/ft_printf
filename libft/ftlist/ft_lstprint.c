@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ftlist.h"
+#include "ftstdio.h"
 
 void	ft_lstprint(t_list **alst)
 {

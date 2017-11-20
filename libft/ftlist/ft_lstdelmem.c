@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ftlist.h"
 
 void	ft_lstdelmem(t_list **alst, void (*del)(void **))
 {

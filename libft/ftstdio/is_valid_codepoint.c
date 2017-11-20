@@ -1,4 +1,4 @@
-#include "libft.h"
+#include "ftstdio.h"
 
 int	is_valid_code_point(wint_t c)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ftlist.h"
 
 void	ft_lstremove(t_list *alst, size_t index)
 {

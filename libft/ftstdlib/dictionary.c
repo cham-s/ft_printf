@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "dict.h"
+#include "ftstdlib.h"
+#include "ftstring.h"
 
 t_dict			*init_dict(int size)
 {

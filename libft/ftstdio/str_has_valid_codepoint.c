@@ -1,4 +1,4 @@
-#include "libft.h"
+#include "ftstdio.h"
 
 int	str_has_valid_codepoint(wchar_t * str)
 {

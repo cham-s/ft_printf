@@ -30,7 +30,7 @@ OBJ =	ft_lstappend.o \
 		ft_lstprint.o \
 		ft_lstremove.o
 
-CFLAGS = -g -c -Wall -Wextra -Werror -I includes
+CFLAGS = -g -c -Wall -Wextra -Werror -I ../includes
 .PHONY: all clean fclean re
 
 RM = rm -rf

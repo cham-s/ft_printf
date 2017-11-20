@@ -5,6 +5,8 @@
 # define FT_STDOUT	1
 # define FT_STDER	2
 
+# include <stdlib.h>
+# include <wchar.h>
 
 void		ft_bzero(void *m, size_t n);
 void		*ft_memalloc(size_t size);
@@ -48,5 +50,9 @@ char		*ft_strtrim(char const *s);
 int			ft_strunilen(wchar_t *str);
 void		ft_swap(void *a, void *b);
 int			tabcontains(char *tabstr[], char c);
+size_t		ft_strlen(const char *s);
+size_t		size_to_allocate(const char *s, char c);
+size_t		ft_strlenchr(const char *s, char c);
+int			size_bytes_code_point(wint_t c);
 
 #endif

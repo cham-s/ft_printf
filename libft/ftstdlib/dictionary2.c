@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "dict.h"
+#include "ftstdlib.h"
+#include "ftstring.h"
 
 void	dict_insert(t_dict *d, const char *key, const char *value)
 {

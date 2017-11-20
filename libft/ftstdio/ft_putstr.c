@@ -10,11 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ftstdio.h"
+#include "ftstring.h"
+#include <unistd.h>
 
 int		ft_putstr(char const *s)
 {
 	if (!s)
-		return ;
+		return (0);
 	return (write(1, s, ft_strlen(s)));
 }

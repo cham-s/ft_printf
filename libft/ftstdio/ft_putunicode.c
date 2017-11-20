@@ -1,4 +1,4 @@
-#include "libft.h"
+#include "ftstdio.h"
 
 static int	one_byte_sequence(wint_t c)
 {

@@ -11,8 +11,9 @@
 /* ************************************************************************** */
 
 #include "ftstring.h"
+#include "ftctype.h"
 
 void	ft_bzero(void *m, size_t n)
 {
-	ft_memset(s, '\0', m);
+	ft_memset(m, '\0', n);
 }

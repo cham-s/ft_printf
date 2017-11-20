@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ftlist.h"
 
 void	ft_lstinsertafter(t_list *alst, t_list *new, size_t index)
 {

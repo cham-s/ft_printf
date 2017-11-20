@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ftstdio.h"
+#include "ftstring.h"
 
 static unsigned long long	conv(unsigned long long n)
 {

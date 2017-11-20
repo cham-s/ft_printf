@@ -1,4 +1,4 @@
-#include "libft.h"
+#include "ftstdio.h"
 
 int	ft_putstruni(wchar_t *str)
 {

@@ -1,4 +1,4 @@
-#include "libft.h"
+#include "ftstdio.h"
 
 int			size_bytes_code_point(wint_t c)
 {

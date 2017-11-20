@@ -10,10 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <sys/types.h>
+#include "ftstdio.h"
+#include "ftstring.h"
 #include <fcntl.h>
-#include <sys/uio.h>
 #include <unistd.h>
 
 static t_file	*fpnodenew(int fd)
