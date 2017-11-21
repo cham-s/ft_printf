@@ -1,4 +1,4 @@
-NAME = ftctype.a
+NAME = libftctype.a
 
 CC = clang
 
@@ -13,7 +13,7 @@ OBJ = ft_isalnum.o \
 		ft_tolower.o \
 		ft_toupper.o \
 
-CFLAGS =  -c -Wall -Wextra -Werror -I ../includes
+CFLAGS =  -Wall -Wextra -Werror -I ../includes
 .PHONY: all clean fclean re
 
 RM = rm -rf
@@ -23,6 +23,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 		$(AR) $(NAME) $(OBJ)
 		@ranlib $(NAME)
+		cp $(NAME) ../
 
 %.o: %.c
 	$(CC) -c $(CFLAGS) $< -o $@
@@ -31,6 +32,7 @@ clean:
 		$(RM) $(OBJ)
 
 fclean: clean
+		$(RM) ../$(NAME)
 		$(RM) $(NAME)
 
 re: fclean all
