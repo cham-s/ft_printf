@@ -13,11 +13,6 @@
 #ifndef FT_PRINTF
 # define FT_PRINTF
 
-# include <stdarg.h>
-# include <limits.h>
-# include <wchar.h>
-# include "libft.h"
-
 # define NULL_LEN 6
 
 /*
@@ -69,6 +64,7 @@ typedef struct		s_formater
 	int				flag;
 	int				width;
 	int				modifier;
+	int				precision;
 	int				length;
 	int				type;
 }					t_formater;

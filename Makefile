@@ -10,41 +10,41 @@
 #                                                                              #
 # **************************************************************************** #
 
+LIB 		= libft/libft.a
 NAME 		= libftprintf.a
 CC 			= clang
-LIB 		= libft/libft.a
-FLAGS 		= -Wall -Werror -Wextra
-INCLUDES 	= -I include -I libft/includes
-INC			= include/ft_printf.h include/dict.h libft/includes/
+INCLUDES 	= -I include -I libft/includes/
+INC			= include/ft_printf.h
 OBJDIR		= obj
 AR			= ar r
 OBJS 		= $(OBJDIR)/ft_printf.o\
 
+CFLAGS = -c -Wall -Wextra -Werror
 
 .PHONY: all clean fclean re
 
-VPATH = src/ft_printf:src/dict
+VPATH = src/ft_printf
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	make -C libft/
 	$(AR) $(LIB) $(OBJS)
-	mv $(LIB) .
+	cp $(LIB) .
 	mv libft.a $(NAME)
+	@ranlib $(NAME)
 
 $(OBJDIR)/%.o : %.c $(INC)
 	@mkdir -p $(OBJDIR)
-	$(CC) -g -c $(FLAGS) $(INCLUDES) $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) $< -o $@  
+
 
 clean:
 	rm -rf $(OBJDIR)
 
 fclean: clean
-	make fclean -C libft/
 	rm -f $(NAME)
 
 re: fclean all
 
 test:
-	gcc main.c libftprintf.a -I include -I libft/includes -g -o printf
+	gcc main.c -I include -I libft/includes -o printf libftprintf.a
