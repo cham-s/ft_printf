@@ -18,7 +18,7 @@ char		*ft_ctoa_base(char n, char base);
 char		*ft_itoa(int n);
 char		*ft_itoa_base(int n, int base);
 char		*ft_ltoa_base(long long value, unsigned long long base);
-void		ft_putchar(char c);
+int			ft_putchar(char c);
 void		ft_putchar_fd(char c, int fd);
 void		ft_putendl(char const *s);
 void		ft_putendl_fd(char const *s, int fd);

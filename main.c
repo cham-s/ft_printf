@@ -22,6 +22,7 @@ int main(void)
 	wchar_t s[5] = {0x200, 0x200, 0x200, 0x200, 0x0};
 	int ret1 = 0;
 	int ret2 = 0;
-	ret1 = printf("%-#030.16d", 347532);
-	printf("\nret1: %d\nret2: %d\n", ret1, ret2);
+	ret1 =  printf("{%-15Z}\n", 123);
+	ret2 =  ft_printf("{%-15Z}\n", 123);
+	printf("ret1: %d\nret2: %d\n", ret1, ret2);
 }
