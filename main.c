@@ -22,7 +22,7 @@ int main(void)
 	wchar_t s[5] = {0x200, 0x200, 0x200, 0x200, 0x0};
 	int ret1 = 0;
 	int ret2 = 0;
-	ret1 =  printf("%15.4d\n", -42);
-	ret2 =  ft_printf("%15.4d\n", -42);
+	ret1 =  printf("{%10d}\n", -42);
+	ret2 =  ft_printf("{%10d}\n", -42);
 	printf("ret1: %d\nret2: %d\n", ret1, ret2);
 }
