@@ -10,6 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+// KO
+//ret1 =  printf("%C", (wint_t) - 2); 
+	//ret1 = printf("%C\n", 0xe000);
+
 #include "ft_printf.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,7 +26,7 @@ int main(void)
 	wchar_t s[5] = {0x200, 0x200, 0x200, 0x200, 0x0};
 	int ret1 = 0;
 	int ret2 = 0;
-	ret1 =  printf("{%10d}\n", -42);
-	ret2 =  ft_printf("{%10d}\n", -42);
+	ret1 = printf("{%05.*d}\n", 6, 42);
+	ret2 = ft_printf("{%05.*d}\n", 6, 42);
 	printf("ret1: %d\nret2: %d\n", ret1, ret2);
 }
