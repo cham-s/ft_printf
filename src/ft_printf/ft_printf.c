@@ -20,10 +20,10 @@ typedef struct	s_printf
 {
 	int			ret;
 	int			fmt_err;
+	char		*prefix;
 	const char	*str;
 	char		*fmt_str;
 	char		invalid;
-	size_t		len_str;
 }				t_printf;
 
 int				print_n_char(char c, int size)
@@ -60,111 +60,32 @@ char			*str_tolower(char *str)
 	return (str);
 }
 
-int update_width(t_formater *fmt, t_printf *pf)
-{
-	if (fmt->flag & F_SHARP && pf->fmt_str[0] != '0')
-	{
-		if (fmt->type == T_O)
-			return (fmt->width -= 1);
-		else if (fmt->type == T_X || fmt->type == T_GX)
-			return (fmt->width -= 2);
-	}
-	else if (fmt->flag & F_PLUS && (fmt->type == T_D || fmt->type == T_I || fmt->type == T_GD))
-	{
-		if (pf->fmt_str[0] != '-')
-			return (fmt->width -= 1);
-	}
-	else if (fmt->flag & F_BLANK)
-			return (fmt->width -= 1);
-	else if (fmt->type == T_P)
-		return (fmt->width -= 2);
-	return (fmt->width);
-}
-
-// change
-int update_precision(t_formater *fmt, t_printf *pf)
-{
-	(void)fmt;
-	if (pf->fmt_str[0] == '-' )
-		return ((ft_strlen(pf->fmt_str) - 1));
-	return (ft_strlen(pf->fmt_str));
-}
-
-
-int print_prefix(t_formater *fmt, t_printf *pf)
-{
-	int ret;
-
-	ret = 0;
-	if (fmt->flag & F_SHARP)
-	{
-		if (fmt->type == T_O || fmt->type == T_GO)
-		{
-			if (ft_strcmp(pf->fmt_str, "0") == 0)
-				return (0);
-			ret += ft_putchar('0');
-		}
-		if (pf->fmt_str[0] != '0')
-		{
-			if (fmt->type == T_X)
-				ret += ft_putstr("0x");
-			else if (fmt->type == T_GX)
-				ret += ft_putstr("0X");
-		}
-	}
-	else if (fmt->flag & F_PLUS && (fmt->type == T_D || fmt->type == T_I || fmt->type == T_GD))
-	{
-		if (pf->fmt_str[0] != '-')
-			ret += ft_putchar('+');
-	}
-	else if (fmt->type == T_P)
-	{
-		ret += ft_putstr("0x");
-	}
-	else if (fmt->precision && pf->fmt_str[0] == '-' )
-	{
-		ret += ft_putchar('-');
-	}
-	else if (pf->fmt_str[0] == '-' && fmt->flag & F_ZERO)
-	{
-		ret += ft_putchar('-');
-	}
-	return (ret);
-}
-
 int				print_with_precision(t_formater *fmt, t_printf *pf)
 {
 	int		ret;
-	int		size_width;
-	int		size_precision;
-	int		mixed_size;
-	char	c;
 	int		is_neg;
+	int		b_size;
+	int		z_size;
 
 	ret = 0;
-	c = '\0';
 	if (fmt->flag & F_BLANK && (fmt->type == T_D || fmt->type == T_I || fmt->type == T_GD))
 		ret += ft_putchar(' ');
 	is_neg = pf->fmt_str[0] == '-' ? 1 : 0;
-	if (fmt->flag & F_BLANK || fmt->width > 0)
-		c = ' ';
-	if (fmt->flag & F_ZERO)
-		c = ' ';
-	size_width = final_size(update_width(fmt, pf), (int )ft_strlen(pf->fmt_str));
-	size_precision = final_size(fmt->length, update_precision(fmt, pf));
-	mixed_size = final_size(size_width, size_precision);
-	if ((fmt->flag & F_ZERO || fmt->flag & F_BLANK || fmt->width > 0) &&
-		!(fmt->flag & F_MINUS))
-		ret += print_n_char(c, mixed_size);
-	ret += print_prefix(fmt, pf);
+	if (is_neg)
+		pf->prefix = ft_strdup("-");
+	z_size = final_size(fmt->length, ft_strlen(is_neg? pf->fmt_str + 1 : pf->fmt_str));
+	b_size = final_size(fmt->width, z_size + ft_strlen(pf->prefix) + ft_strlen(pf->fmt_str));
+	if (!(fmt->flag & F_MINUS))
+		ret += print_n_char(' ', b_size);
+	ret += ft_putstr(pf->prefix);
 	if ((pf->fmt_str[0] == '0' && *(pf->fmt_str + 1) == '\0'))
 		if (fmt->length == 0)
 			return (ret);
-	ret += print_n_char('0', size_precision);
+	ret += print_n_char('0', z_size);
 	ret += ft_putstr(is_neg? pf->fmt_str + 1 : pf->fmt_str);
 	if ((fmt->flag & F_ZERO || fmt->flag & F_BLANK || fmt->width > 0) &&
 		fmt->flag & F_MINUS)
-		ret += print_n_char(c, mixed_size);
+		ret += print_n_char(' ', b_size);
 	return (ret);
 }
 
@@ -172,28 +93,23 @@ int				print_regular(t_formater *fmt, t_printf *pf)
 {
 	int		ret;
 	int		is_neg;
-	char	c;
 	int		size;
 
 	ret = 0;
 	is_neg = pf->fmt_str[0] == '-' ? 1 : 0;
-	size = final_size(update_width(fmt, pf), (int )ft_strlen(pf->fmt_str));
-	c = '\0';
-	if (!is_neg && fmt->flag & F_BLANK && (fmt->type == T_D || fmt->type == T_I || fmt->type == T_GD))
+	if (is_neg)
+		pf->prefix = ft_strdup("-");
+	if (fmt->flag & F_BLANK && (fmt->type == T_D || fmt->type == T_I || fmt->type == T_GD))
 		ret += ft_putchar(' ');
-	if (fmt->flag & F_BLANK || fmt->width > 0)
-		c = ' ';
+	size = final_size(fmt->width, ft_strlen(is_neg? pf->fmt_str + 1 : pf->fmt_str) + ft_strlen(pf->prefix));
+	if (!(fmt->flag & F_MINUS) && (fmt->flag & F_BLANK))
+		ret += print_n_char(' ', size);
+	ret += ft_putstr(pf->prefix);
 	if (fmt->flag & F_ZERO)
-		c = '0';
-	if ((fmt->flag & F_BLANK || fmt->width > 0) && !(fmt->flag & F_ZERO) && !(fmt->flag & F_MINUS))
-		ret += print_n_char(c, size);
-	ret += print_prefix(fmt, pf);
-	if ((fmt->flag & F_ZERO) && !(fmt->flag & F_MINUS))
-		ret += print_n_char(c, size);
-	ret += ft_putstr(is_neg && fmt->flag & F_ZERO? pf->fmt_str + 1 : pf->fmt_str);
-	if ((fmt->flag & F_ZERO || fmt->flag & F_BLANK || fmt->width > 0) &&
-		fmt->flag & F_MINUS)
-		ret += print_n_char(c, size);
+		ret += print_n_char('0', size);
+	ret += ft_putstr(is_neg? pf->fmt_str + 1 : pf->fmt_str);
+	if ((fmt->flag & F_BLANK || fmt->width > 0) && fmt->flag & F_MINUS)
+		ret += print_n_char(' ', size);
 	return (ret);
 }
 
@@ -609,6 +525,8 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 		else
 			pf->ret += print_regular(&fmt, pf);
 		free(pf->fmt_str);
+		
+			
 	}
 	else if (fmt.type == T_GD)
 	{
@@ -631,11 +549,14 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 		addr = (unsigned long long)n;
 		pf->fmt_str = ft_ltoa_base(addr, 16);
 		str_tolower(pf->fmt_str);
+		pf->prefix = ft_strdup("0x");
 		if (fmt.precision)
 			pf->ret += print_with_precision(&fmt, pf);
 		else
 			pf->ret += print_regular(&fmt, pf);
 		free(pf->fmt_str);
+		
+			
 	}
 	else if (fmt.type == T_C)
 	{
@@ -694,20 +615,28 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 			pf->fmt_str = ft_ultoa_base(va_arg(*pa, uintmax_t), 8);
 		else
 			pf->fmt_str = ft_uitoa_base(va_arg(*pa, unsigned int), 8);
+		if (fmt.flag & F_SHARP)
+			pf->prefix = ft_strdup("0");
 		if (fmt.precision)
 			pf->ret += print_with_precision(&fmt, pf);
 		else
 			pf->ret += print_regular(&fmt, pf);
 		free(pf->fmt_str);
+		
+			
 	}
 	else if (fmt.type == T_GO)
 	{
 		pf->fmt_str = ft_ltoa_base(va_arg(*pa, unsigned long), 8);
+		if (fmt.flag & F_SHARP)
+			pf->prefix = ft_strdup("0");
 		if (fmt.precision)
 			pf->ret += print_with_precision(&fmt, pf);
 		else
 			pf->ret += print_regular(&fmt, pf);
 		free(pf->fmt_str);
+		
+			
 	}
 	else if (fmt.type == T_X)
 	{
@@ -726,11 +655,15 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 		else
 			pf->fmt_str = ft_ultoa_base(va_arg(*pa, size_t), 16);
 		str_tolower(pf->fmt_str);
+		if (fmt.flag & F_SHARP)
+			pf->prefix = ft_strdup("0x");
 		if (fmt.precision)
 			pf->ret += print_with_precision(&fmt, pf);
 		else
 			pf->ret += print_regular(&fmt, pf);
 		free(pf->fmt_str);
+		
+			
 	}
 	else if (fmt.type == T_GX)
 	{
@@ -748,15 +681,18 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 			pf->fmt_str = ft_ultoa_base(va_arg(*pa, uintmax_t), 16);
 		else
 			pf->fmt_str = ft_ultoa_base(va_arg(*pa, size_t), 16);
+		if (fmt.flag & F_SHARP)
+			pf->prefix = ft_strdup("OX");
 		if (fmt.precision)
 			pf->ret += print_with_precision(&fmt, pf);
 		else
 			pf->ret += print_regular(&fmt, pf);
 		free(pf->fmt_str);
+		
+			
 	}
 	else if (fmt.type == T_U)
 	{
-
 		if (fmt.modifier == F_SL)
 			pf->fmt_str = ft_ultoa_base(va_arg(*pa, unsigned long int), 10);
 		else if (fmt.modifier == F_DL)
@@ -800,7 +736,7 @@ void	init_printf(t_printf *pf, const char *format)
 	pf->fmt_err = 0;
 	pf->ret = 0;
 	pf->str = format;
-	pf->len_str = 0;
+	pf->prefix = NULL;
 	pf->fmt_str = NULL;
 }
 
