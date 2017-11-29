@@ -28,9 +28,5 @@ char	*ft_strdup(const char *s1)
 		i++;
 	}
 	str[i] = '\0';
-	/* str = ft_strnew(len); */
-	/* if (!str) */
-	/* 	return (NULL); */
-	/* ft_memcpy((void *)str, s1, len); */
 	return (str);
 }

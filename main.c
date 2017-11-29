@@ -26,7 +26,7 @@ int main(void)
 	wchar_t s[5] = {0x200, 0x200, 0x200, 0x200, 0x0};
 	int ret1 = 0;
 	int ret2 = 0;
-	ret1 = printf("%i%i%i%i%i\n", 1, -2, 3, -4, 5);
-	ret2 = ft_printf("%i%i%i%i%i\n", 1, -2, 3, -4, 5);
+	ret1 =  printf("{% 02d}\n", 0); 
+	//ret2 =  ft_printf("{% 04d}\n", 0); 
 	printf("ret1: %d\nret2: %d\n", ret1, ret2);
 }
