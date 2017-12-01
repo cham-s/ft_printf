@@ -1,6 +1,6 @@
 #include "ftstring.h" 
 
-int	ft_strunilen(wchar_t *str)
+size_t	ft_strunilen(wchar_t *str)
 {
 	int size;
 

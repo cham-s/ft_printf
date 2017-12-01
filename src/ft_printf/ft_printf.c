@@ -22,6 +22,7 @@ typedef struct	s_printf
 	int			fmt_err;
 	char		*prefix;
 	const char	*str;
+	wchar_t		*w_str;
 	char		*fmt_str;
 	char		invalid;
 }				t_printf;
@@ -139,6 +140,72 @@ int				print_regular(t_formater *fmt, t_printf *pf)
 	ret += ft_putstr(is_nega? pf->fmt_str + 1 : pf->fmt_str);
 	if ((fmt->flag & F_BLANK || fmt->width > 0) && fmt->flag & F_MINUS)
 		ret += print_n_char(' ', size);
+	return (ret);
+}
+
+int				printable_size(wchar_t *str, int n)
+{
+	int size;
+
+	size = 0;
+	while (n > size_bytes_code_point(*str) || n == size_bytes_code_point(*str))
+	{
+		size += size_bytes_code_point(*str);
+		n -= size_bytes_code_point(*str);
+		str++;
+	}
+	return (size);
+}
+
+int				print_str_precision(t_formater *fmt, t_printf *pf)
+{
+	int		ret;
+	int		c_size;
+	char	c;
+	size_t len;
+
+	c = '\0';
+	ret = 0;
+	if (fmt->flag & F_ZERO)
+		c = '0';
+	else if (fmt->width > 0)
+		c = ' ';
+	len = fmt->modifier == F_SL || fmt->type == T_GS ? ft_strunilen(pf->w_str): \
+		  ft_strlen((char *)pf->w_str);
+	len = (int )len < fmt->length ? len : fmt->length;
+	len = fmt->modifier == F_SL || fmt->type == T_GS ? printable_size(pf->w_str, len) : len;
+	c_size = fmt->width - len;
+	c_size = c_size < 0 ? 0 : c_size;
+	if (!(fmt->flag & F_MINUS) && c != '\0')
+		ret += print_n_char(c, c_size);
+	ret += fmt->modifier == F_SL || fmt->type == T_GS ? \
+		   ft_putstrnuni(pf->w_str, len) : ft_putnstr((char *)pf->w_str, len);
+	if (fmt->flag & F_MINUS && c != '\0')
+		ret += print_n_char(c_size, c_size);
+	return (ret);
+}
+
+int				print_str_regular(t_formater *fmt, t_printf *pf)
+{
+	int		ret;
+	int		c_size;
+	char	c;
+
+	c = '\0';
+	ret = 0;
+	if (fmt->flag & F_ZERO)
+		c = '0';
+	else if (fmt->width > 0)
+		c = ' ';
+	c_size = fmt->width - (fmt->modifier == F_SL || fmt->type == T_GS ? \
+		   	ft_strunilen(pf->w_str) : ft_strlen((char *)pf->w_str));
+	c_size = c_size < 0 ? 0 : c_size;
+	if (!(fmt->flag & F_MINUS))
+		ret += print_n_char(c, c_size);
+	ret += fmt->modifier == F_SL || fmt->type == T_GS ? \
+		   ft_putstruni(pf->w_str) : ft_putstr((char *)pf->w_str) ;
+	if (fmt->flag & F_MINUS)
+		ret += print_n_char(c, c_size);
 	return (ret);
 }
 
@@ -329,6 +396,11 @@ void		set_width(t_formater *fmt, t_printf *pf, va_list *pa)
 	if (*(pf->str) == '*')
 	{
 		fmt->width = va_arg(*pa, int);
+		if (fmt->width < 0)
+		{
+			fmt->width = -fmt->width;
+			fmt->flag |= F_MINUS;
+		}
 		(pf->str)++;
 	}
 	else
@@ -466,69 +538,55 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 	set_formater(&fmt, pf, pa);
 	if (fmt.type == T_PNT)
 	{
-		ft_putchar('%');
-		pf->ret += 1;
+		pf->w_str = (wchar_t *)ft_strdup("%");
+		if (fmt.precision)
+			pf->ret += print_str_precision(&fmt, pf);
+		else
+			pf->ret += print_str_regular(&fmt, pf);
+		free(pf->w_str);
 	}
 	else if (fmt.type == T_S)
 	{
-		wchar_t *str;
-		int size;
-
-		str = NULL;
-		str = va_arg(*pa, wchar_t *);
-		size = fmt.width - (fmt.modifier == F_SL ? ft_strunilen(str) : \
-				ft_strlen((char *)str));
-		size = size < 0 ? 0 : size;
-		if (!str)
-		{
-			ft_putstr("(null)");
-			pf->ret += NULL_LEN;
-		}
+		pf->w_str = va_arg(*pa, wchar_t *);
+		if (fmt.precision)
+			pf->ret += print_str_precision(&fmt, pf);
 		else
 		{
-			if ((fmt.modifier == F_SL) && !str_has_valid_codepoint(str))
-				pf->fmt_err = -1;
-			if(!(fmt.flag & F_MINUS))
+			if (!pf->w_str)
 			{
-				pf->ret += print_padding_str(&fmt, size);
-				pf->ret += fmt.modifier == F_SL ? ft_putstruni(str) : \
-						   write(1, (char *)str, ft_strlen((char *)str));
+				ft_putstr("(null)");
+				pf->ret += NULL_LEN;
 			}
+			// return instead when function
 			else
 			{
-				pf->ret += fmt.modifier == F_SL ? ft_putstruni(str) : \
-						   ft_putnstr((char *)str, ft_strlen((char *)str));
-				pf->ret += print_padding_str(&fmt, size);
+				if ((fmt.modifier == F_SL) && !str_has_valid_codepoint(pf->w_str))
+					pf->fmt_err = -1;
+				pf->ret += print_str_regular(&fmt, pf);
 			}
+
 		}
 	}
 	else if (fmt.type == T_GS)
 	{
-		wchar_t	*str;
-		int size;
-
-		str = va_arg(*pa, wchar_t *);
-		size = fmt.width - ft_strunilen(str);
-		size = size < 0 ? 0 : size;
-		if (!str)
-		{
-			ft_putstr("(null)");
-			pf->ret += NULL_LEN;
-		}
+		pf->w_str = va_arg(*pa, wchar_t *);
+		if (fmt.precision)
+			pf->ret += print_str_precision(&fmt, pf);
 		else
 		{
-			if (!str_has_valid_codepoint(str))
-				pf->fmt_err = -1;
-			if(!(fmt.flag & F_MINUS))
+			if (!pf->w_str)
 			{
-				pf->ret += print_padding_str(&fmt, size);
-				pf->ret +=  ft_putstruni(str);
+				ft_putstr("(null)");
+				pf->ret += NULL_LEN;
 			}
+			// return instead when function
 			else
 			{
-				pf->ret += ft_putstruni(str);
-				pf->ret += print_padding_str(&fmt, size);
+				if ((fmt.modifier == F_SL) && !str_has_valid_codepoint(pf->w_str))
+					pf->fmt_err = -1;
+				pf->ret += print_str_regular(&fmt, pf);
 			}
+
 		}
 	}
 	else if (fmt.type == T_D || fmt.type == T_I)
@@ -799,6 +857,7 @@ void	init_printf(t_printf *pf, const char *format)
 	pf->fmt_err = 0;
 	pf->ret = 0;
 	pf->str = format;
+	pf->w_str = NULL;
 	pf->prefix = NULL;
 	pf->fmt_str = NULL;
 }

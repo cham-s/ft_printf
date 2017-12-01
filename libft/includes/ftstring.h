@@ -47,7 +47,7 @@ char		**ft_strsplitspc(char const *s);
 char		*ft_strstr(const char *big, const char *little);
 char		*ft_strsub(char const *s, unsigned int start, size_t len);
 char		*ft_strtrim(char const *s);
-int			ft_strunilen(wchar_t *str);
+size_t		ft_strunilen(wchar_t *str);
 void		ft_swap(void *a, void *b);
 int			tabcontains(char *tabstr[], char c);
 size_t		ft_strlen(const char *s);

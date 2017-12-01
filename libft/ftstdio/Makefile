@@ -19,6 +19,7 @@ OBJ =	ft_atoi.o \
 		ft_putstr.o \
 		ft_putstr_fd.o \
 		ft_putstruni.o \
+		ft_putstrnuni.o \
 		ft_putulong.o \
 		ft_putunicode.o \
 		ft_stoa_base.o \
