@@ -48,4 +48,4 @@ re: fclean all
 
 test:
 	gcc main.c -I include -I libft/includes -o printf libftprintf.a
-	./printf
+	./printf | cat -e

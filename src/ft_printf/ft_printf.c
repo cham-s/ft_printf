@@ -184,7 +184,7 @@ int				print_str_precision(t_formater *fmt, t_printf *pf)
 	ret += fmt->modifier == F_SL || fmt->type == T_GS ? \
 		   ft_putstrnuni(pf->w_str, len) : ft_putnstr((char *)pf->w_str, len);
 	if (fmt->flag & F_MINUS && c != '\0')
-		ret += print_n_char(c_size, c_size);
+		ret += print_n_char(c, c_size);
 	return (ret);
 }
 
@@ -617,10 +617,7 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 				pf->prefix = ft_strdup("+");
 		}
 		if (fmt.precision)
-		{
-			if (ft_strcmp(pf->fmt_str, "0") || (!ft_strcmp(pf->fmt_str, "0") && fmt.length  > 0))
 				pf->ret += print_with_precision(&fmt, pf);
-		}
 		else
 			pf->ret += print_regular(&fmt, pf);
 		free(pf->fmt_str);
@@ -637,10 +634,7 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 				pf->prefix = ft_strdup("+");
 		}
 		if (fmt.precision)
-		{
-			if (ft_strcmp(pf->fmt_str, "0") || (!ft_strcmp(pf->fmt_str, "0") && fmt.length  > 0))
 				pf->ret += print_with_precision(&fmt, pf);
-		}
 		else
 			pf->ret += print_regular(&fmt, pf);
 		free(pf->fmt_str);
@@ -775,7 +769,7 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 		else if (fmt.modifier == F_J)
 			pf->fmt_str = ft_ultoa_base(va_arg(*pa, uintmax_t), 16);
 		else
-			pf->fmt_str = ft_ultoa_base(va_arg(*pa, size_t), 16);
+			pf->fmt_str = ft_uitoa_base(va_arg(*pa, unsigned int), 16);
 		str_tolower(pf->fmt_str);
 		if (fmt.flag & F_SHARP)
 		{
@@ -803,7 +797,7 @@ void		handle_format_string(t_printf *pf, va_list *pa)
 		else if (fmt.modifier == F_J)
 			pf->fmt_str = ft_ultoa_base(va_arg(*pa, uintmax_t), 16);
 		else
-			pf->fmt_str = ft_ultoa_base(va_arg(*pa, size_t), 16);
+			pf->fmt_str = ft_uitoa_base(va_arg(*pa, unsigned int), 16);
 		if (fmt.flag & F_SHARP)
 		{
 			if (ft_strcmp(pf->fmt_str, "0"))
