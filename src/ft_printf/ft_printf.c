@@ -172,7 +172,10 @@ int				print_str_precision(t_formater *fmt, t_printf *pf)
 		c = ' ';
 	len = fmt->modifier == F_SL || fmt->type == T_GS ? ft_strunilen(pf->w_str): \
 		  ft_strlen((char *)pf->w_str);
-	len = (int )len < fmt->length ? len : fmt->length;
+	if (fmt->type == T_PNT)
+		len = 1;
+	else
+		len = (int )len < fmt->length ? len : fmt->length;
 	len = fmt->modifier == F_SL || fmt->type == T_GS ? printable_size(pf->w_str, len) : len;
 	c_size = fmt->width - len;
 	c_size = c_size < 0 ? 0 : c_size;
