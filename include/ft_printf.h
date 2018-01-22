@@ -15,6 +15,7 @@
 
 # define NULL_LEN 6
 
+# include <wchar.h>
 /*
  * Flags
  * */
@@ -35,7 +36,7 @@
 # define F_J		6
 
 /*
- * Types 
+ * Types
  * */
 # define T_S		1
 # define T_GS		2
@@ -56,8 +57,8 @@
 # define T_AA		17
 # define T_N		18
 # define T_P		19
-# define T_PNT		20	
-# define T_OTH		21	
+# define T_PNT		20
+# define T_OTH		21
 
 typedef struct		s_formater
 {
@@ -69,11 +70,66 @@ typedef struct		s_formater
 	int				type;
 }					t_formater;
 
-typedef struct	s_functs_spec
+typedef struct		s_printf
 {
-	char	spec;
-	void	(*f)(int n, int *ret);
-}				t_functs_spec;
+	int				ret;
+	int				fmt_err;
+	char			*prefix;
+	const char		*str;
+	wchar_t			*w_str;
+	char			*fmt_str;
+	char			invalid;
+}					t_printf;
 
-int		ft_printf(const char *format, ...);
+typedef struct		s_functs_spec
+{
+	char			spec;
+	void			(*f)(int n, int *ret);
+}					t_functs_spec;
+
+int					ft_printf(const char *format, ...);
+
+/*
+ *  Init functions.
+ */
+void				init_formater(t_formater *fmt);
+void				init_printf(t_printf *pf, const char *format);
+
+/*
+ * Utilities functions.
+ */
+int 				is_neg(char *str);
+int 				is_signed(t_formater *fmt);
+int					final_size(int a, int b);
+int					print_n_char(char c, int size);
+char				*str_tolower(char *str);
+int					is_type(char c);
+int					is_flag(char c);
+int 				is_modifier(char c);
+
+/*
+ * Formatting printing functions.
+ */
+int					print_with_precision(t_formater *fmt, t_printf *pf);
+int					print_regular(t_formater *fmt, t_printf *pf);
+int					printable_size(wchar_t *str, int n);
+int					print_str_precision(t_formater *fmt, t_printf *pf);
+int					print_str_regular(t_formater *fmt, t_printf *pf);
+int					print_padding_str(t_formater *fmt, int size);
+
+/*
+ * Format handler function.
+ */
+void				handle_format_string(t_printf *pf, va_list *pa);
+void				set_flags(t_formater *fmt, t_printf *pf);
+void				set_width(t_formater *fmt, t_printf *pf, va_list *pa);
+void				set_precision_length(t_formater *fmt, t_printf *pf, va_list *pa);
+void				set_modifier(t_formater *fmt, t_printf *pf);
+void				set_type(t_formater *fmt, t_printf *pf);
+void				set_formater(t_formater *fmt, t_printf *pf, va_list *pa);
+
+/*
+ * Setter functions
+ */
+
 #endif

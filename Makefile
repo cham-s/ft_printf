@@ -18,6 +18,13 @@ INC			= include/ft_printf.h
 OBJDIR		= obj
 AR			= ar r
 OBJS 		= $(OBJDIR)/ft_printf.o\
+			  $(OBJDIR)/setters.o\
+			  $(OBJDIR)/setters2.o\
+			  $(OBJDIR)/prints.o\
+			  $(OBJDIR)/utils.o\
+			  $(OBJDIR)/utils2.o\
+			  $(OBJDIR)/init.o\
+			  $(OBJDIR)/formater.o\
 
 CFLAGS = -c -Wall -Wextra -Werror
 
