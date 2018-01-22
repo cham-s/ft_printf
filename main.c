@@ -27,7 +27,8 @@ int main(void)
 	wchar_t s[5] = {0x200, 0x200, 0x200, 0x200, 0x0};
 	int ret1 = 0;
 	int ret2 = 0;
-	ret1 = printf("@moulitest:-%5.d-%5.0d\n", 0, 0);
-	ret2 = ft_printf("@moulitest:-%5.d-%5.0d\n", 0, 0);
+	//ret1 = printf("% ");
+	ret1 = printf("% ");
+	ret2 = ft_printf("% ");
 	printf("ret1: %d\nret2: %d\n", ret1, ret2);
 }
