@@ -129,7 +129,21 @@ void				set_type(t_formater *fmt, t_printf *pf);
 void				set_formater(t_formater *fmt, t_printf *pf, va_list *pa);
 
 /*
- * Setter functions
+ *  Formater functions
  */
+void				format_str(t_printf *pf, va_list *pa, t_formater *fmt);
+void				format_gstr(t_printf *pf, va_list *pa, t_formater *fmt);
+void				format_d(t_printf *pf, va_list *pa, t_formater *fmt);
+void				format_gd(t_printf *pf, va_list *pa, t_formater *fmt);
+void				format_p(t_printf *pf, va_list *pa, t_formater *fmt);
+void				format_c(t_printf *pf, va_list *pa, t_formater *fmt);
+void				format_gc(t_printf *pf, va_list *pa, t_formater *fmt);
+void				format_o(t_printf *pf, va_list *pa, t_formater *fmt);
+void				format_go(t_printf *pf, va_list *pa, t_formater *fmt);
+void				format_x(t_printf *pf, va_list *pa, t_formater *fmt);
+void				format_gx(t_printf *pf, va_list *pa, t_formater *fmt);
+void				format_u(t_printf *pf, va_list *pa, t_formater *fmt);
+void				format_gu(t_printf *pf, va_list *pa, t_formater *fmt);
+void				format_oth(t_printf *pf, va_list *pa, t_formater *fmt);
 
 #endif

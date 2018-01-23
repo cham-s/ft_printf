@@ -21,10 +21,12 @@ OBJS 		= $(OBJDIR)/ft_printf.o\
 			  $(OBJDIR)/setters.o\
 			  $(OBJDIR)/setters2.o\
 			  $(OBJDIR)/prints.o\
+			  $(OBJDIR)/prints2.o\
 			  $(OBJDIR)/utils.o\
 			  $(OBJDIR)/utils2.o\
 			  $(OBJDIR)/init.o\
 			  $(OBJDIR)/formater.o\
+			  $(OBJDIR)/formater_str.o\
 
 CFLAGS = -c -Wall -Wextra -Werror
 
