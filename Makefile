@@ -26,7 +26,10 @@ OBJS 		= $(OBJDIR)/ft_printf.o\
 			  $(OBJDIR)/utils2.o\
 			  $(OBJDIR)/init.o\
 			  $(OBJDIR)/formater.o\
-			  $(OBJDIR)/formater_str.o\
+			  $(OBJDIR)/fmt.o\
+			  $(OBJDIR)/fmt2.o\
+			  $(OBJDIR)/fmt3.o\
+			  $(OBJDIR)/fmt4.o\
 
 CFLAGS = -c -Wall -Wextra -Werror
 
