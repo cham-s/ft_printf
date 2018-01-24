@@ -47,7 +47,7 @@ void	format_gstr(t_printf *pf, va_list *pa, t_formater *fmt)
 	}
 }
 
-void	format_d(t_printf *pf, va_list *pa, t_formater *fmt)
+static void	fmt_d(t_printf *pf, va_list *pa, t_formater *fmt)
 {
 	long long int	num;
 
@@ -66,6 +66,12 @@ void	format_d(t_printf *pf, va_list *pa, t_formater *fmt)
 		pf->fmt_str = ft_ltoa_base((intmax_t )num, 10);
 	else
 		pf->fmt_str = ft_itoa_base((int )num, 10);
+}
+
+void	format_d(t_printf *pf, va_list *pa, t_formater *fmt)
+{
+
+	fmt_d(pf, pa, fmt);
 	if (fmt->flag & F_PLUS)
 	{
 		if (!is_neg(pf->fmt_str))

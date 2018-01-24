@@ -15,7 +15,8 @@ static int		print_w_pres2(t_formater *fmt, t_printf *pf, int z_size, int b_size)
 		pf->prefix = NULL;
 	}
 	ret += print_n_char('0', z_size);
-	if (ft_strcmp(pf->fmt_str, "0") || (!ft_strcmp(pf->fmt_str, "0") && fmt->length > 0))
+	if (ft_strcmp(pf->fmt_str, "0") || \
+			(!ft_strcmp(pf->fmt_str, "0") && fmt->length > 0))
 		ret += ft_putstr(is_nega? pf->fmt_str + 1 : pf->fmt_str);
 	if ((fmt->flag & F_ZERO || fmt->flag & F_BLANK || fmt->width > 0) &&
 		fmt->flag & F_MINUS)

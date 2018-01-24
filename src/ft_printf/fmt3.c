@@ -9,8 +9,13 @@ void	format_u(t_printf *pf, va_list *pa, t_formater *fmt)
 	else if (fmt->modifier == F_DL)
 		pf->fmt_str = ft_ultoa_base(va_arg(*pa, unsigned long long int), 10);
 	else if (fmt->modifier == F_SH)
-		pf->fmt_str = ft_ustoa_base((unsigned short )va_arg(*pa,unsigned  int), 10);
-	else if (fmt->modifier == F_DH) pf->fmt_str = ft_uctoa_base((unsigned char )va_arg(*pa, unsigned int), 10); else if (fmt->modifier == F_Z) pf->fmt_str = ft_ultoa_base(va_arg(*pa, size_t), 10);
+		pf->fmt_str = ft_ustoa_base((unsigned short )va_arg(*pa,unsigned  int),\
+			   	10);
+	else if (fmt->modifier == F_DH)
+		pf->fmt_str = ft_uctoa_base((unsigned char )va_arg(*pa, unsigned int),\
+			   	10);
+   	else if (fmt->modifier == F_Z)
+	   	pf->fmt_str = ft_ultoa_base(va_arg(*pa, size_t), 10);
 	else if (fmt->modifier == F_J)
 		pf->fmt_str = ft_ultoa_base(va_arg(*pa, uintmax_t), 10);
 	else

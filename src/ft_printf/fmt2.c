@@ -62,7 +62,7 @@ void	format_gc(t_printf *pf, va_list *pa, t_formater *fmt)
 		pf->ret += print_padding_str(fmt, size);
 }
 
-void	format_o(t_printf *pf, va_list *pa, t_formater *fmt)
+static void	fmt_o(t_printf *pf, va_list *pa, t_formater *fmt)
 {
 	if (fmt->modifier == F_DH)
 		pf->fmt_str = ft_uctoa_base((unsigned char )va_arg(*pa, unsigned int), 8);
@@ -78,6 +78,11 @@ void	format_o(t_printf *pf, va_list *pa, t_formater *fmt)
 		pf->fmt_str = ft_ultoa_base(va_arg(*pa, uintmax_t), 8);
 	else
 		pf->fmt_str = ft_uitoa_base(va_arg(*pa, unsigned int), 8);
+}
+
+void	format_o(t_printf *pf, va_list *pa, t_formater *fmt)
+{
+	fmt_o(pf, pa, fmt);
 	if (fmt->precision)
 	{
 		if (fmt->flag & F_SHARP && !fmt->length)

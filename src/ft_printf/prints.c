@@ -18,26 +18,21 @@ int				printable_size(wchar_t *str, int n)
 	return (size);
 }
 
-int				print_str_precision(t_formater *fmt, t_printf *pf)
+int				print_str_precision1(t_formater *fmt, t_printf *pf, size_t len)
 {
+	char	c;
 	int		ret;
 	int		c_size;
-	char	c;
-	size_t len;
 
-	c = '\0';
 	ret = 0;
+	c_size = 0;
+	c = '\0';
 	if (fmt->flag & F_ZERO)
 		c = '0';
 	else if (fmt->width > 0)
 		c = ' ';
-	len = fmt->modifier == F_SL || fmt->type == T_GS ? ft_strunilen(pf->w_str): \
-		  ft_strlen((char *)pf->w_str);
-	if (fmt->type == T_PNT)
-		len = 1;
-	else
-		len = (int )len < fmt->length ? len : fmt->length;
-	len = fmt->modifier == F_SL || fmt->type == T_GS ? printable_size(pf->w_str, len) : len;
+	len = fmt->modifier == F_SL || fmt->type == T_GS ? \
+		  printable_size(pf->w_str, len) : len;
 	c_size = fmt->width - len;
 	c_size = c_size < 0 ? 0 : c_size;
 	if (!(fmt->flag & F_MINUS) && c != '\0')
@@ -47,6 +42,19 @@ int				print_str_precision(t_formater *fmt, t_printf *pf)
 	if (fmt->flag & F_MINUS && c != '\0')
 		ret += print_n_char(c, c_size);
 	return (ret);
+}
+
+int				print_str_precision(t_formater *fmt, t_printf *pf)
+{
+	size_t len;
+
+	len = fmt->modifier == F_SL || fmt->type == T_GS ? ft_strunilen(pf->w_str): \
+		  ft_strlen((char *)pf->w_str);
+	if (fmt->type == T_PNT)
+		len = 1;
+	else
+		len = (int )len < fmt->length ? len : fmt->length;
+	return (print_str_precision1(fmt, pf, len));
 }
 
 int				print_str_regular(t_formater *fmt, t_printf *pf)
