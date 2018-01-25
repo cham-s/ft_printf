@@ -2,7 +2,7 @@
 #include "ftstring.h"
 #include "ftstdio.h"
 
-static int		print_w_pres2(t_formater *fmt, t_printf *pf, int z_size, int b_size)
+static int		print_w_pres2(t_formater *fmt, t_printf *pf, int z_sz, int b_sz)
 {
 	int			ret;
 	int			is_nega;
@@ -14,22 +14,45 @@ static int		print_w_pres2(t_formater *fmt, t_printf *pf, int z_size, int b_size)
 		free(pf->prefix);
 		pf->prefix = NULL;
 	}
-	ret += print_n_char('0', z_size);
+	ret += print_n_char('0', z_sz);
 	if (ft_strcmp(pf->fmt_str, "0") || \
 			(!ft_strcmp(pf->fmt_str, "0") && fmt->length > 0))
 		ret += ft_putstr(is_nega? pf->fmt_str + 1 : pf->fmt_str);
 	if ((fmt->flag & F_ZERO || fmt->flag & F_BLANK || fmt->width > 0) &&
 		fmt->flag & F_MINUS)
-		ret += print_n_char(' ', b_size);
+		ret += print_n_char(' ', b_sz);
 	return (ret);
 }
 
-int				print_with_precision(t_formater *fmt, t_printf *pf)
+static int		print_w_pres3(t_formater *fmt, t_printf *pf)
 {
 	int			ret;
 	int			is_nega;
 	int			b_size;
 	int			z_size;
+
+	is_nega = pf->fmt_str[0] == '-' ? 1 : 0;
+	ret = 0;
+	z_size = final_size(fmt->length, ft_strlen(is_nega? pf->fmt_str + 1 :\
+			   	pf->fmt_str));
+	if (ft_strcmp(pf->fmt_str, "0") || \
+		(!ft_strcmp(pf->fmt_str, "0") && fmt->length  > 0))
+		b_size = final_size(fmt->width, z_size + ft_strlen(pf->prefix) + \
+				ft_strlen(is_nega? pf->fmt_str + 1 : pf->fmt_str));
+	else
+		b_size = final_size(fmt->width, z_size + ft_strlen(pf->prefix));
+	if ((!(fmt->flag & F_MINUS) && !(fmt->flag & F_ZERO)) || \
+		   	(fmt->flag & F_ZERO))
+		ret += print_n_char(' ',b_size);
+	ret += ft_putstr(pf->prefix);
+	ret += print_w_pres2(fmt, pf, z_size, b_size);
+	return (ret);
+}
+
+int				print_with_precision(t_formater *fmt, t_printf *pf)
+{
+	int			is_nega;
+	int			ret;
 
 	ret = 0;
 	is_nega = pf->fmt_str[0] == '-' ? 1 : 0;
@@ -40,16 +63,7 @@ int				print_with_precision(t_formater *fmt, t_printf *pf)
 		ret += ft_putchar(' ');
 		fmt->width -= 1;
 	}
-	z_size = final_size(fmt->length, ft_strlen(is_nega? pf->fmt_str + 1 : pf->fmt_str));
-	if (ft_strcmp(pf->fmt_str, "0") || (!ft_strcmp(pf->fmt_str, "0") && fmt->length  > 0))
-		b_size = final_size(fmt->width, z_size + ft_strlen(pf->prefix) + \
-				ft_strlen(is_nega? pf->fmt_str + 1 : pf->fmt_str));
-	else
-		b_size = final_size(fmt->width, z_size + ft_strlen(pf->prefix));
-	if ((!(fmt->flag & F_MINUS) && !(fmt->flag & F_ZERO)) || (fmt->flag & F_ZERO))
-		ret += print_n_char(' ',b_size);
-	ret += ft_putstr(pf->prefix);
-	ret += print_w_pres2(fmt, pf, z_size, b_size);
+	ret += print_w_pres3(fmt, pf);
 	return (ret);
 }
 

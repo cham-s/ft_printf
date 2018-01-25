@@ -1,9 +1,8 @@
 #include "ft_printf.h"
 #include "ftctype.h"
-void		set_type(t_formater *fmt, t_printf *pf)
+
+static void		set_type2(t_formater *fmt, t_printf *pf)
 {
-	if (is_type(*(pf->str)))
-	{
 		if (*(pf->str) == 's')
 			fmt->type = T_S;
 		else if (*(pf->str) == 'S')
@@ -18,14 +17,22 @@ void		set_type(t_formater *fmt, t_printf *pf)
 			fmt->type = T_I;
 		else if (*(pf->str) == 'o')
 			fmt->type = T_O;
-		else if (*(pf->str) == 'O')
-			fmt->type = T_GO;
 		else if (*(pf->str) == 'u')
 			fmt->type = T_U;
 		else if (*(pf->str) == 'U')
 			fmt->type = T_GU;
 		else if (*(pf->str) == 'x')
 			fmt->type = T_X;
+		else
+			return ;
+}
+void		set_type(t_formater *fmt, t_printf *pf)
+{
+	if (is_type(*(pf->str)))
+	{
+		set_type2(fmt, pf);
+		if (*(pf->str) == 'O')
+			fmt->type = T_GO;
 		else if (*(pf->str) == 'X')
 			fmt->type = T_GX;
 		else if (*(pf->str) == 'c')
