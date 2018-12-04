@@ -35,6 +35,7 @@
 # binary name
 libftprintf.a
 printf
+libft/libft.a
 
 .nfs*
 
